@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>夸克</title>
+    <style>
+        /* 简单样式，让页面好看一点 */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
+        }
+        .counter {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px;
+            color: #ff6600;
+        }
+        button {
+            font-size: 24px;
+            padding: 10px 20px;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #cc5500;
+        }
+    </style>
+</head>
+<body>
+    <h1>夸克</h1>
+    <p>点击产出夸克</p>
+
+    <div class="counter" id="Quarks">夸克:0</div>
+    <div class="counter" id="h1_up1s">产量:1</div>
+
+    
+
+    <button onclick="h1_up1_button()">+1 夸克</button>
+    <button id="h1_up2_button" onclick="h1_up2_button()">+1 产量/1级</button>
+
+    <script>
+    let Quark = 0;
+    let h1_up1 = 1;
+
+    function h1_up1_button() {
+        Quark += h1_up1;
+        document.getElementById("Quarks").innerHTML = "夸克:" + Quark;
+    }
+
+    function h1_up2_button() {
+        h1_up1 += 1;
+        document.getElementById("h1_up1s").innerHTML = "产量:" + h1_up1;
+        document.getElementById("h1_up2_button").innerHTML = "+1 产量/" + h1_up1 + "级";
+    }
+</script>
+
+</body>
+</html>
