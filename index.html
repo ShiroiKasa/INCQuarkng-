@@ -2,9 +2,8 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>夸克</title>
+    <title>夸克增量网页重置版</title>
     <style>
-        /* 简单样式，让页面好看一点 */
         body {
             font-family: Arial, sans-serif;
             text-align: center;
@@ -13,8 +12,25 @@
         .counter {
             font-size: 24px;
             font-weight: bold;
-            margin: 20px;
+            margin: 2px;
             color: #ff6600;
+        }
+        #h1_up1s {
+            color: #ff6600;     /* 文字颜色改为深绿色 */
+            display: inline-block;
+            font-size: 20px;
+        }
+        .counter-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px 0;   /* 上下留出间距，左右自动居中 */
+        }
+
+        /* 可以给两个 counter 统一设置宽度，让它们对齐 */
+        .counter, #h1_up1s {
+            min-width: 50px;
+            text-align: center;
         }
         button {
             font-size: 24px;
@@ -25,6 +41,19 @@
             border-radius: 10px;
             cursor: pointer;
         }
+        .button-group {
+            display: flex;
+            flex-direction: column;  /* 垂直排列 */
+            align-items: center;     /* 水平居中 */
+            gap: 15px;               /* 两个按钮之间的间距（可选） */
+            margin-top: 20px;        /* 与上面内容的间距（可选） */
+        }
+        .button-group2 {
+            display: flex;
+            align-items: center;     /* 水平居中 */
+            gap: 15px;               /* 两个按钮之间的间距（可选） */
+            margin-top: 20px;        /* 与上面内容的间距（可选） */
+        }
         button:hover {
             background-color: #cc5500;
         }
@@ -34,28 +63,85 @@
     <h1>夸克</h1>
     <p>点击产出夸克</p>
 
-    <div class="counter" id="Quarks">夸克:0</div>
-    <div class="counter" id="h1_up1s">产量:1</div>
+    <div class="counter-group">
+        <div class="counter" id="Quarks">夸克:0</div>
+        <div class="counter" id="h1_up1s">0/s</div>
+    </div>
 
     
 
-    <button onclick="h1_up1_button()">+1 夸克</button>
-    <button id="h1_up2_button" onclick="h1_up2_button()">+1 产量/1级</button>
+    <div class="button-group">
+        <div class="button-group2">
+            <button id="Quark+" onclick="h1_up1_button()">夸克+1</button>
+            <button id="h1_up1_1_button" onclick="h1_up1_1_button()">+1点击产量0级 费用:1夸克</button>
+        </div>
+        <button id="h1_up2_button" onclick="h1_up2_button()">夸克生成器0级 费用:10夸克</button>
+    </div>
 
     <script>
     let Quark = 0;
-    let h1_up1 = 1;
+    let h1_up1 = 0;
+    let h1_up1_1 = 0;
+
+    let h1_up1_1_cost = h1_up1_1 ** 2 + 1;
+    let h1_up1_cost = (2 ** h1_up1) * 10;
 
     function h1_up1_button() {
-        Quark += h1_up1;
-        document.getElementById("Quarks").innerHTML = "夸克:" + Quark;
+        Quark += 1 + h1_up1_1;
+        document.getElementById("Quarks").innerHTML = "夸克:" + Quark.toFixed(2);
+    }
+
+    function h1_up1_1_button(){
+        h1_up1_1_cost = h1_up1_1 ** 2 + 1;
+
+        if (Quark >= h1_up1_1_cost){
+            Quark -= h1_up1_1_cost;
+            h1_up1_1 += 1;
+            h1_up1_1_cost = (h1_up1_1) ** 2 + 1;
+            document.getElementById("Quarks").innerHTML = "夸克:" + Quark.toFixed(2);
+            document.getElementById("Quark+").innerHTML = "夸克+" + (1 + h1_up1_1);
+            document.getElementById("h1_up1_1_button").innerHTML = "+1点击产量" + h1_up1_1 + "级 费用:" + h1_up1_1_cost + "夸克";
+        }
     }
 
     function h1_up2_button() {
-        h1_up1 += 1;
-        document.getElementById("h1_up1s").innerHTML = "产量:" + h1_up1;
-        document.getElementById("h1_up2_button").innerHTML = "+1 产量/" + h1_up1 + "级";
+        h1_up1_cost = (2 ** h1_up1) * 10;
+        
+        if (Quark >= h1_up1_cost){
+            Quark -= h1_up1_cost;
+            h1_up1 += 1;
+            h1_up1_cost = (2 ** h1_up1) * 10;
+            document.getElementById("Quarks").innerHTML = "夸克:" + Quark.toFixed(2);
+            document.getElementById("h1_up1s").innerHTML = h1_up1 + "/s";
+            document.getElementById("h1_up2_button").innerHTML = "夸克生成器" + h1_up1 + "级 费用:" + h1_up1_cost + "夸克";
+        }
     }
+
+
+    let autoInterval; // 用于存储定时器的 ID
+
+// 启动自动生产（每0.1秒执行一次）
+    function startAutoProduction() {
+        // 先清除已有的定时器，避免重复启动
+        if (autoInterval) clearInterval(autoInterval);
+        
+        autoInterval = setInterval(() => {
+            // 每次增加的数值 = 当前产量 × 0.1
+            let increment = h1_up1 * 0.1;
+            Quark += increment;
+            
+            // 更新显示，保留两位小数
+            document.getElementById("Quarks").innerHTML = "夸克:" + Quark.toFixed(2);
+        }, 100); // 100毫秒 = 0.1秒
+    }
+
+    // 页面加载完成后启动自动生产
+    startAutoProduction();
+
+    // 可选：页面关闭时清除定时器，释放资源
+    window.addEventListener('beforeunload', () => {
+        if (autoInterval) clearInterval(autoInterval);
+    });
 </script>
 
 </body>
