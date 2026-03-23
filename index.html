@@ -16,7 +16,7 @@
             color: #ff6600;
         }
         #h1_up1s {
-            color: #ff6600;     /* 文字颜色改为深绿色 */
+            color: #ff6600;
             display: inline-block;
             font-size: 20px;
         }
@@ -60,85 +60,229 @@
     </style>
 </head>
 <body>
-    <h1>夸克</h1>
-    <p>点击产出夸克</p>
-
-    <div class="counter-group">
-        <div class="counter" id="Quarks">夸克:0</div>
-        <div class="counter" id="h1_up1s">0/s</div>
+    <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
+        <button id="h1_cut" style="background:#ff6600;">夸克</button>
+        <button id="set_cut" style="background:#e9b1ff;">设置</button>
     </div>
 
-    
+    <div id="h1">
+        <h1>夸克</h1>
 
-    <div class="button-group">
-        <div class="button-group2">
-            <button id="Quark+" onclick="h1_up1_button()">夸克+1</button>
-            <button id="h1_up1_1_button" onclick="h1_up1_1_button()">+1点击产量0级 费用:1夸克</button>
+        <div class="counter-group">
+            <div class="counter" id="Quarks">夸克:0</div>
+            <div class="counter" id="h1_up1s">0/s</div>
         </div>
-        <button id="h1_up2_button" onclick="h1_up2_button()">夸克生成器0级 费用:10夸克</button>
+
+
+
+        <div class="button-group">
+            <div class="button-group2">
+                <button id="Quark+" onclick="h1_up1_button()">夸克+1</button>
+                <button id="h1_up1_1_button" onclick="h1_up1_1_button()">+1点击产量0级 费用:1夸克</button>
+            </div>
+            <button id="h1_up2_button" onclick="h1_up2_button()">夸克产量+0 费用:10夸克</button>
+            <button id="h1_up3_button" onclick="h1_up3_button()">夸克产量*1 费用:1000夸克</button>
+        </div>
     </div>
 
-    <script>
-    let Quark = 0;
-    let h1_up1 = 0;
-    let h1_up1_1 = 0;
+    <div id="set" style="display: none;">
+        <h2>设置</h2>
+        <button id="manualSaveBtn" style="background:#e9b1ff;">立即存档</button>
+        <button id="clearSaveBtn" style="background:#e9b1ff;">清空存档</button>
+        <button id="bgColorBtn" style="background:#e9b1ff;">切换背景色</button>
+        <p style="margin-top: 25px; font-size: 14px; color: #666;">版本 1.0.0</p>
+    </div>
 
-    let h1_up1_1_cost = h1_up1_1 ** 2 + 1;
-    let h1_up1_cost = (2 ** h1_up1) * 10;
+    <script src="break_infinity.min.js"></script>
+<script>
+    // 所有数值都使用 Decimal 对象
+    // 背景颜色预设（全局）
+    const bgColors = ["#ffffff", "#1e1e2f", "#f5f0e6", "#d9e8f5"];
+    let bgIndex = 0;  // 当前背景索引，0=白色
 
+    let Quark = new Decimal(0);
+    let h1_up1 = new Decimal(0);      // 自动生成器等级
+    let h1_up1_1 = new Decimal(0);    // 点击产量等级
+    let h1_up3 = new Decimal(0);
+    let Quark_h1_js = new Decimal(0);
+    let Quark_js = Quark_h1_js
+
+    // 辅助函数：将 Decimal 对象格式化为友好的字符串（例如保留两位小数，自动科学计数）
+    function formatDecimal(value) {
+        return value.toFixed(2);  // 对于极大值，toFixed 会返回科学计数法如 "1.23e+100"
+    }
+
+    // ---------- 界面更新函数 ----------
+    function updateUI() {
+        Quark_h1_js = h1_up1.times(0.1).times(h1_up3.plus(1));
+        Quark_js = Quark_h1_js
+
+        document.getElementById("Quarks").innerHTML = "夸克:" + formatDecimal(Quark);
+        document.getElementById("h1_up1s").innerHTML = Quark_js.times(10).toString() + "/s";
+
+        // 点击按钮文字
+        let clickBase = new Decimal(1);
+        let clickBonus = h1_up1_1;
+        let clickTotal = clickBase.plus(clickBonus);
+        document.getElementById("Quark+").innerHTML = "夸克+" + formatDecimal(clickTotal);
+
+        // 点击产量升级按钮（费用 = (等级)^2 + 1）
+        let clickCost = h1_up1_1.pow(2).plus(1);
+        document.getElementById("h1_up1_1_button").innerHTML = "+1点击产量" + h1_up1_1.toString() + "级 费用:" + formatDecimal(clickCost) + "夸克";
+
+        // 自动生成器升级按钮（费用 = 2^等级 × 10）
+        let genCost = Decimal.pow(1.2, h1_up1).times(10);
+        document.getElementById("h1_up2_button").innerHTML = "夸克产量+" + h1_up1.toString() + " 费用:" + formatDecimal(genCost) + "夸克";
+
+        let h1_up3_cost = Decimal.pow(1.5, h1_up3).times(100)
+        document.getElementById("h1_up3_button").innerHTML = "夸克产量*" + h1_up3.plus(1).toString() + " 费用:" + formatDecimal(h1_up3_cost) + "夸克";
+    }
+
+    // ---------- 手动点击 ----------
     function h1_up1_button() {
-        Quark += 1 + h1_up1_1;
-        document.getElementById("Quarks").innerHTML = "夸克:" + Quark.toFixed(2);
+        let gain = new Decimal(1).plus(h1_up1_1);
+        Quark = Quark.plus(gain);
+        updateUI();
     }
 
-    function h1_up1_1_button(){
-        h1_up1_1_cost = h1_up1_1 ** 2 + 1;
-
-        if (Quark >= h1_up1_1_cost){
-            Quark -= h1_up1_1_cost;
-            h1_up1_1 += 1;
-            h1_up1_1_cost = (h1_up1_1) ** 2 + 1;
-            document.getElementById("Quarks").innerHTML = "夸克:" + Quark.toFixed(2);
-            document.getElementById("Quark+").innerHTML = "夸克+" + (1 + h1_up1_1);
-            document.getElementById("h1_up1_1_button").innerHTML = "+1点击产量" + h1_up1_1 + "级 费用:" + h1_up1_1_cost + "夸克";
+    // ---------- 升级点击产量 ----------
+    function h1_up1_1_button() {
+        let cost = h1_up1_1.pow(2).plus(1);
+        if (Quark.gte(cost)) {
+            Quark = Quark.minus(cost);
+            h1_up1_1 = h1_up1_1.plus(1);
+            updateUI();
         }
     }
 
+    // ---------- 升级自动生成器 ----------
     function h1_up2_button() {
-        h1_up1_cost = (2 ** h1_up1) * 10;
-        
-        if (Quark >= h1_up1_cost){
-            Quark -= h1_up1_cost;
-            h1_up1 += 1;
-            h1_up1_cost = (2 ** h1_up1) * 10;
-            document.getElementById("Quarks").innerHTML = "夸克:" + Quark.toFixed(2);
-            document.getElementById("h1_up1s").innerHTML = h1_up1 + "/s";
-            document.getElementById("h1_up2_button").innerHTML = "夸克生成器" + h1_up1 + "级 费用:" + h1_up1_cost + "夸克";
+        let cost = Decimal.pow(1.2, h1_up1).times(10);
+        if (Quark.gte(cost)) {
+            Quark = Quark.minus(cost);
+            h1_up1 = h1_up1.plus(1);
+            updateUI();
+        }
+    }
+    //夸克加成器
+    function h1_up3_button() {
+        let cost = Decimal.pow(1.5, h1_up3).times(100);
+        if (Quark.gte(cost)) {
+            Quark = Quark.minus(cost);
+            h1_up3 = h1_up3.plus(1);
+            updateUI();
         }
     }
 
-
-    let autoInterval; // 用于存储定时器的 ID
-
-// 启动自动生产（每0.1秒执行一次）
+    // ---------- 自动生产 ----------
+    let autoInterval;
     function startAutoProduction() {
-        // 先清除已有的定时器，避免重复启动
         if (autoInterval) clearInterval(autoInterval);
-        
         autoInterval = setInterval(() => {
-            // 每次增加的数值 = 当前产量 × 0.1
-            let increment = h1_up1 * 0.1;
-            Quark += increment;
-            
-            // 更新显示，保留两位小数
-            document.getElementById("Quarks").innerHTML = "夸克:" + Quark.toFixed(2);
-        }, 100); // 100毫秒 = 0.1秒
+            // 每0.1秒增加 h1_up1 * 0.1
+            Quark = Quark.plus(Quark_js);
+            updateUI();
+        }, 100);
     }
 
-    // 页面加载完成后启动自动生产
-    startAutoProduction();
+    //设置相关
+    //存档
+    document.getElementById('manualSaveBtn').addEventListener('click', () => {
+        saveGame();          // 你已有的存档函数
+        alert('已存档');     // 或者显示临时提示
+    });
 
-    // 可选：页面关闭时清除定时器，释放资源
+    //重置
+    function resetGame() {
+    if (confirm('确定清空所有数据吗？')) {
+            localStorage.removeItem('quarkGameSave');  // 与 saveGame 中使用的 key 一致
+            // 重置所有变量
+            Quark = new Decimal(0);
+            h1_up1 = new Decimal(0);
+            h1_up1_1 = new Decimal(0);
+            h1_up3 = new Decimal(0);
+            updateUI();
+            alert('已重置');
+        }
+    }
+
+    document.getElementById('clearSaveBtn').addEventListener('click', resetGame);
+
+    // 根据 bgIndex 设置背景和文字颜色
+    function applyBackground() {
+        document.body.style.backgroundColor = bgColors[bgIndex];
+        if (bgIndex === 1) { // 深色模式
+            document.body.style.color = "#f0f0f0";
+        } else {
+            document.body.style.color = "";
+        }
+    }
+    // 背景颜色切换（定义几种预设色）
+    function switchBackground() {
+        bgIndex = (bgIndex + 1) % bgColors.length;
+        applyBackground();
+    }
+
+// 绑定按钮事件
+    document.getElementById('bgColorBtn').addEventListener('click', switchBackground);
+
+    //界面切换
+    // 获取两个视图容器
+    const gameView = document.getElementById('gameView');
+    const settingsView = document.getElementById('settingsView');
+
+    // 切换函数
+    function h1_cut_hans() {
+        h1.style.display = 'block';
+        set.style.display = 'none';
+    }
+
+    function set_cut_hans() {
+        h1.style.display = 'none';
+        set.style.display = 'block';
+    }
+
+    // 绑定按钮事件
+    document.getElementById('h1_cut').addEventListener('click', h1_cut_hans);
+    document.getElementById('set_cut').addEventListener('click', set_cut_hans);
+
+    // ---------- 存档 ----------
+    function saveGame() {
+        const gameState = {
+            Quark: Quark.toString(),
+            h1_up1: h1_up1.toString(),
+            h1_up1_1: h1_up1_1.toString(),
+            h1_up3: h1_up3.toString(),
+            bgIndex: bgIndex
+        };
+        localStorage.setItem("quarkGameSave", JSON.stringify(gameState));
+        console.log("游戏已自动保存");
+    }
+
+    function loadGame() {
+        const saved = localStorage.getItem("quarkGameSave");
+        if (saved) {
+            const state = JSON.parse(saved);
+            Quark = new Decimal(state.Quark);
+            h1_up1 = new Decimal(state.h1_up1);
+            h1_up1_1 = new Decimal(state.h1_up1_1);
+            h1_up3 = new Decimal(state.h1_up3);
+            bgIndex = state.bgIndex !== undefined ? state.bgIndex : 0;
+            applyBackground();   // 恢复背景色
+            console.log("加载存档成功");
+        } else {
+            console.log("没有找到存档，使用初始值");
+            bgIndex = 0;         // 默认白色
+            applyBackground();
+        }
+        updateUI();
+    }
+
+    // 启动游戏
+    loadGame();
+    startAutoProduction();
+    setInterval(saveGame, 60000);
+
     window.addEventListener('beforeunload', () => {
         if (autoInterval) clearInterval(autoInterval);
     });
