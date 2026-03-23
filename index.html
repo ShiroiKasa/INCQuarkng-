@@ -94,6 +94,14 @@
     </div>
 
     <script src="break_infinity.min.js"></script>
+
+    <script>
+        Decimal.config({
+            EXP_LIMIT: 3,      // 数值 ≥ 10^3 时转为科学记数法
+            NUM_LIMIT: 3
+        });
+    </script>
+    
 <script>
     //所有数值都使用 Decimal 对象
     //背景颜色预设（全局）
@@ -109,7 +117,30 @@
 
     //辅助函数：将 Decimal 对象格式化为友好的字符串（例如保留两位小数，自动科学计数）
     function formatDecimal(value) {
-        return value.toFixed(2);  //对于极大值，toFixed 会返回科学计数法如 "1.23e+100"
+        //确保 value 是 Decimal 对象
+        let v = (value instanceof Decimal) ? value : new Decimal(value);
+        
+        //数值小于 1000 时，直接保留两位小数
+        if (v.lt(1000)) {
+            return v.toFixed(2);
+        }
+
+        //获取科学记数法所需的对数和指数
+        let log10 = v.log10();                     //Decimal 对象
+        let exponent = Decimal.floor(log10);       //指数部分（整数）
+        let mantissa = v.div(Decimal.pow(10, exponent)); //尾数
+
+        //如果指数 ≥ 1000，进入“双层”模式，只显示 e + 指数的科学记数法
+        if (exponent.gte(1000)) {
+            //将指数自身格式化为科学记数法，并去掉加号
+            let expStr = exponent.toExponential(2).replace('+', '');
+            return "e" + expStr;
+        }
+
+        //普通科学记数法（指数 < 1000）
+        let mantissaStr = mantissa.toFixed(2);
+        let expStr = exponent.toString().replace('+', '');
+        return mantissaStr + "e" + expStr;
     }
 
     //界面更新函数
