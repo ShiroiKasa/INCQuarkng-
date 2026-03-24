@@ -1,0 +1,60 @@
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 100px;
+}
+.counter {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 2px;
+    color: #ff6600;
+}
+.counter_stat {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 2px;
+    color: #2e5167;
+}
+#h1_up1s {
+    color: #ff6600;
+    display: inline-block;
+    font-size: 20px;
+}
+.counter-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0;   /* 上下留出间距，左右自动居中 */
+}
+
+/* 可以给两个 counter 统一设置宽度，让它们对齐 */
+.counter, #h1_up1s {
+    min-width: 50px;
+    text-align: center;
+}
+button {
+    font-size: 24px;
+    padding: 10px 20px;
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.button-group {
+    display: flex;
+    flex-direction: column;  /* 垂直排列 */
+    align-items: center;     /* 水平居中 */
+    gap: 15px;               /* 两个按钮之间的间距（可选） */
+    margin-top: 20px;        /* 与上面内容的间距（可选） */
+}
+.button-group2 {
+    display: flex;
+    align-items: center;     /* 水平居中 */
+    gap: 15px;               /* 两个按钮之间的间距（可选） */
+    margin-top: 20px;        /* 与上面内容的间距（可选） */
+}
+button:hover {
+    background-color: #cc5500;
+}
