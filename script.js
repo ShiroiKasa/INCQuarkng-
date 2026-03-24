@@ -8,18 +8,22 @@ let UI_re = "h1";
 let game_time = 0;
 let quark_max = new Decimal(0);
 
-let h1_js_re = 1;
-
 let Quark = new Decimal(0);
 
 let Quark_h1_js = new Decimal(0);
 let Quark_h2_buff = new Decimal(0);
 let Quark_js = Quark_h1_js;
 
+//h1
+let h1_js_re = 1;
+
 let h1_up1 = new Decimal(0);//+1点击产量
 let h1_up1_1 = new Decimal(0);//夸克产量+
 let h1_up3 = new Decimal(0);//夸克产量*
 let h1_re = 0;
+
+//h2
+let h2_ziyuan = new Decimal(0);
 
 //辅助函数：将 Decimal 对象格式化为友好的字符串（例如保留两位小数，自动科学计数）
 function formatDecimal(value) {
@@ -180,6 +184,7 @@ function h1_re_hans(){
 
     h1_re += 1
     h1_js_re = 1;
+    updateUI_h1()
 }
 
 //100时钟
@@ -292,6 +297,7 @@ function saveGame() {
         h1_up1: h1_up1.toString(),
         h1_up1_1: h1_up1_1.toString(),
         h1_up3: h1_up3.toString(),
+        h1_re: h1_re,
 
         h2_ziyuan: h2_ziyuan.toString(),
 
@@ -313,6 +319,7 @@ function loadGame() {
         h1_up1 = state.h1_up1 !== undefined ? new Decimal(state.h1_up1) : new Decimal(0);
         h1_up1_1 = state.h1_up1_1 !== undefined ? new Decimal(state.h1_up1_1) : new Decimal(0);
         h1_up3 = state.h1_up3 !== undefined ? new Decimal(state.h1_up3) : new Decimal(0);
+        h1_re = state.h1_re !== undefined ? state.h1_re : 0;
 
         h2_ziyuan = state.h2_ziyuan !== undefined ? new Decimal(state.h2_ziyuan) : new Decimal(0);
 
