@@ -1,4 +1,3 @@
-
 //所有数值都使用 Decimal 对象
 //背景颜色预设（全局）
 const bgColors = ["#ffffff", "#1e1e2f", "#f5f0e6", "#d9e8f5"];
@@ -12,11 +11,15 @@ let quark_max = new Decimal(0);
 let h1_js_re = 1;
 
 let Quark = new Decimal(0);
+
+let Quark_h1_js = new Decimal(0);
+let Quark_h2_buff = new Decimal(0);
+let Quark_js = Quark_h1_js;
+
 let h1_up1 = new Decimal(0);//+1点击产量
 let h1_up1_1 = new Decimal(0);//夸克产量+
 let h1_up3 = new Decimal(0);//夸克产量*
-let Quark_h1_js = new Decimal(0);
-let Quark_js = Quark_h1_js;
+let h1_re = 0;
 
 //辅助函数：将 Decimal 对象格式化为友好的字符串（例如保留两位小数，自动科学计数）
 function formatDecimal(value) {
@@ -54,12 +57,12 @@ function updateUI_stat(){
 }
 //h1
 function updateUI_h1() {
-    let b1_re = document.getElementById('h1_re');
+    let b1_re = document.getElementById('h1_re_b');
     b1_re.style.visibility = quark_max.gte(1000) ? 'visible' : 'hidden';
     b1_re.style.opacity = Quark.gte(1000) ? '1' : '0.5';
 
     document.getElementById("Quarks").innerHTML = "夸克:" + formatDecimal(Quark);
-    document.getElementById("h1_up1s").innerHTML = Quark_js.times(10).toString() + "/s";
+    document.getElementById("h1_up1s").innerHTML = formatDecimal(Quark_js.times(10)) + "/s";
 
     //点击按钮文字
     let clickBase = new Decimal(1);
@@ -118,7 +121,9 @@ function formatGameTime(totalSeconds) {
 //h1
 function h1_hans(){
     Quark_h1_js = h1_up1.times(0.1).times(h1_up3.plus(1));
-    Quark_js = Quark_h1_js;
+    Quark_h2_buff = new Decimal(((h2_ziyuan.plus(1)).log(10))).plus(1)
+
+    Quark_js = Quark_h1_js.times(Quark_h2_buff);
 }
 
 //夸克+
@@ -159,6 +164,24 @@ function h1_up3_button() {
     }
 }
 
+function h1_re_button(){
+    Quark.gte(1000) && (h2_ziyuan = h2_ziyuan.plus(Quark.log(10)) , h1_re_hans());
+}
+
+function h1_re_hans(){
+    Quark = new Decimal(0);
+
+    Quark_h1_js = new Decimal(0);
+    Quark_js = Quark_h1_js;
+
+    h1_up1 = new Decimal(0);
+    h1_up1_1 = new Decimal(0);
+    h1_up3 = new Decimal(0);
+
+    h1_re += 1
+    h1_js_re = 1;
+}
+
 //100时钟
 let autoInterval;
 function startAutoProduction() {
@@ -170,8 +193,10 @@ function startAutoProduction() {
         Quark = Quark.plus(Quark_js);
 
         //UI刷新
+        updateUI_cut();
         (UI_re === "stat") && (updateUI_stat());//统计
         (UI_re === "h1") && updateUI_h1();//h1
+        (UI_re === "h2") && updateUI_h2();//h2
     }, 100);
 }
 
@@ -214,6 +239,7 @@ document.getElementById('bgColorBtn').addEventListener('click', switchBackground
 //切换函数
 function xs_hans() {
     document.getElementById('h1').style.display = 'none';
+    document.getElementById('h2').style.display = 'none';
     document.getElementById('set').style.display = 'none';
     document.getElementById('stat').style.display = 'none';
 }
@@ -222,6 +248,12 @@ function h1_cut_hans() {
     xs_hans()
     UI_re = "h1"
     document.getElementById('h1').style.display = 'block';
+}
+
+function h2_cut_hans() {
+    xs_hans()
+    UI_re = "h2"
+    document.getElementById('h2').style.display = 'block';
 }
 
 function set_cut_hans() {
@@ -237,7 +269,15 @@ function stat_cut_hans() {
 }
 
 //绑定按钮事件
+document.getElementById('h1_up1_1_button').addEventListener('click', h1_up1_1_button);
+document.getElementById('h1_up2_button').addEventListener('click', h1_up2_button);
+document.getElementById('h1_up3_button').addEventListener('click', h1_up3_button);
+
+document.getElementById('h1_re_b').addEventListener('click', h1_re_button);
+
+
 document.getElementById('h1_cut').addEventListener('click', h1_cut_hans);
+document.getElementById('h2_cut').addEventListener('click', h2_cut_hans);
 document.getElementById('set_cut').addEventListener('click', set_cut_hans);
 document.getElementById('stat_cut').addEventListener('click', stat_cut_hans);
 
@@ -252,6 +292,8 @@ function saveGame() {
         h1_up1: h1_up1.toString(),
         h1_up1_1: h1_up1_1.toString(),
         h1_up3: h1_up3.toString(),
+
+        h2_ziyuan: h2_ziyuan.toString(),
 
         bgIndex: bgIndex
     };
@@ -271,6 +313,8 @@ function loadGame() {
         h1_up1 = state.h1_up1 !== undefined ? new Decimal(state.h1_up1) : new Decimal(0);
         h1_up1_1 = state.h1_up1_1 !== undefined ? new Decimal(state.h1_up1_1) : new Decimal(0);
         h1_up3 = state.h1_up3 !== undefined ? new Decimal(state.h1_up3) : new Decimal(0);
+
+        h2_ziyuan = state.h2_ziyuan !== undefined ? new Decimal(state.h2_ziyuan) : new Decimal(0);
 
         bgIndex = state.bgIndex !== undefined ? state.bgIndex : 0;
         applyBackground();   //恢复背景色

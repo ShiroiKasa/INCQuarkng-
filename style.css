@@ -16,6 +16,12 @@ body {
     margin: 2px;
     color: #2e5167;
 }
+.counter_h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 2px;
+    color: #f78ae5;
+}
 #h1_up1s {
     color: #ff6600;
     display: inline-block;

@@ -9,6 +9,7 @@
 <body>
     <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
         <button id="h1_cut" style="background:#ff6600;">夸克</button>
+        <button id="h2_cut" style="background:#f78ae5;">元素</button>
         <button id="set_cut" style="background:#e9b1ff;">设置</button>
         <button id="stat_cut" style="background:#59849b;">统计</button>
     </div>
@@ -19,16 +20,25 @@
         <div class="counter-group">
             <div class="counter" id="Quarks">夸克:0</div>
             <div class="counter" id="h1_up1s">0/s</div>
-            <button id="h1_re" style="background:#ff6600;">夸克禁闭1000夸克</button>
+            <button id="h1_re_b" style="background:#ff6600;">夸克禁闭1000夸克</button>
         </div>
 
         <div class="button-group">
             <div class="button-group2">
                 <button id="Quark+" onclick="h1_up1_button()">夸克+1</button>
-                <button id="h1_up1_1_button" onclick="h1_up1_1_button()">+1点击产量0级 费用:1夸克</button>
+                <button id="h1_up1_1_button">+1点击产量0级 费用:1夸克</button>
             </div>
-            <button id="h1_up2_button" onclick="h1_up2_button()">夸克产量+0 费用:10夸克</button>
-            <button id="h1_up3_button" onclick="h1_up3_button()">夸克产量*1 费用:1000夸克</button>
+            <button id="h1_up2_button">夸克产量+0 费用:10夸克</button>
+            <button id="h1_up3_button">夸克产量*1 费用:1000夸克</button>
+        </div>
+    </div>
+
+    <div id="h2">
+        <h2>层级:元素(???解锁下一层级)</h2>
+
+        <div class="counter-group">
+            <div class="counter_h2" id="h2_ziyuan_txt">原子:0(对夸克加成:1)</div>
+            <div class="counter_h2" id="h2_ziyuans">0/s</div>
         </div>
     </div>
 
@@ -47,5 +57,7 @@
     </div>
 
     <script src="script.js"></script>
+    <script src="script_cut.js"></script>
+    <script src="script_h2.js"></script>
 </body>
 </html>
