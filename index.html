@@ -33,13 +33,25 @@
         </div>
     </div>
 
-    <div id="h2">
+    <div id="h2" style="display: none;">
         <h2>层级:元素(???解锁下一层级)</h2>
 
         <div class="counter-group">
             <div class="counter_h2" id="h2_ziyuan_txt">原子:0(对夸克加成:1)</div>
             <div class="counter_h2" id="h2_ziyuans">0/s</div>
         </div>
+
+        <div class="button-group">
+            <div class="button-group2">
+                <button style="background:#f78ae5;font-size: 20px;" id="h2_up1">氢</button>
+                <button style="background:#f78ae5;font-size: 20px;" id="h2_up2">氦</button>
+                <button style="background:#f78ae5;font-size: 20px;" id="h2_up3">锂</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cx_xs" style="display: none;">
+
     </div>
 
     <div id="set" style="display: none;">
@@ -47,7 +59,7 @@
         <button id="manualSaveBtn" style="background:#e9b1ff;">立即存档</button>
         <button id="clearSaveBtn" style="background:#e9b1ff;">清空存档</button>
         <button id="bgColorBtn" style="background:#e9b1ff;">切换背景色</button>
-        <p style="margin-top: 25px; font-size: 14px; color: #666;">版本 1.0.0</p>
+        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>ver:web1.1.26_03_25_1</p>
     </div>
 
     <div id="stat" style="display: none;">
@@ -56,8 +68,9 @@
         <div class="counter_stat" id="Quarks_MAX">最大夸克数量:0</div>
     </div>
 
-    <script src="script.js"></script>
-    <script src="script_cut.js"></script>
+    <script src="global_var.js"></script><!-- 变量加载 -->
+    <script src="script.js"></script><!-- 存档和h1加载 -->
+    <script src="script_cut.js"></script><!-- 切换界面加载 -->
     <script src="script_h2.js"></script>
 </body>
 </html>
