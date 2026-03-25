@@ -31,6 +31,7 @@ function formatDecimal(value) {
 function updateUI_stat(){
     document.getElementById("Quarks_MAX").innerHTML = "最大夸克数量:" + formatDecimal(quark_max);
     document.getElementById("Game_time").innerHTML = "游戏时间:" + formatGameTime(game_time);
+    document.getElementById("h1_re_stat").innerHTML = "夸克禁闭次数:" + formatDecimal(h1_re);
 }
 //h1
 function updateUI_h1() {
@@ -69,7 +70,7 @@ function updateUI_h1() {
 //统计
 function stat_hans(){
     game_time += 0.1;
-    Quark.gte(quark_max) && (quark_max = Quark);
+    Quark.gte(quark_max) && (quark_max = Quark , h1_js_re = 1);
 }
 function formatGameTime(totalSeconds) {
     //处理负数情况
@@ -97,10 +98,18 @@ function formatGameTime(totalSeconds) {
 }
 //h1
 function h1_hans(){
-    Quark_h1_js = h1_up1.times(0.1).times(h1_up3.plus(1));
-    Quark_h2_buff = new Decimal(((h2_ziyuan.plus(1)).log(10))).plus(1)
+    //buff判断
+    let h2_up1_buff = new Decimal(1)
+    h2_up1.gte(1) && (h2_up1_buff = h1_re);
+    let h2_up2_buff = new Decimal(1)
+    h2_up2.gte(1) && (h2_up2_buff = quark_max.log(10));
 
-    Quark_js = Quark_h1_js.times(Quark_h2_buff);
+    //正式计算
+    Quark_h1_js = h1_up1.times(0.1).times(h1_up3.plus(1));
+    Quark_h2_buff1 = new Decimal(((h2_ziyuan.plus(1)).log(10))).plus(1);
+    Quark_h2_buff2 = (Quark_h2_buff1.times(h2_up1_buff)).times(h2_up2_buff);
+
+    Quark_js = Quark_h1_js.times(Quark_h2_buff2);
 }
 
 //夸克+
@@ -216,6 +225,7 @@ document.getElementById('bgColorBtn').addEventListener('click', switchBackground
 //界面切换
 //切换函数
 function xs_hans() {
+    document.getElementById('cx_xs').style.display = 'none';
     document.getElementById('h1').style.display = 'none';
     document.getElementById('h2').style.display = 'none';
     document.getElementById('set').style.display = 'none';
@@ -273,8 +283,10 @@ function saveGame() {
         h1_re: h1_re,
 
         h2_ziyuan: h2_ziyuan.toString(),
+        h2_up1: h2_up1.toString(),
+        h2_up2: h2_up2.toString(),
 
-        bgIndex: bgIndex
+        bgIndex: bgIndex,
     };
     localStorage.setItem("quarkGameSave", JSON.stringify(gameState));
     console.log("游戏已自动保存");
@@ -295,6 +307,8 @@ function loadGame() {
         h1_re = state.h1_re !== undefined ? state.h1_re : 0;
 
         h2_ziyuan = state.h2_ziyuan !== undefined ? new Decimal(state.h2_ziyuan) : new Decimal(0);
+        h2_up1 = state.h2_up1 !== undefined ? new Decimal(state.h2_up1) : new Decimal(0);
+        h2_up2 = state.h2_up2 !== undefined ? new Decimal(state.h2_up2) : new Decimal(0);
 
         bgIndex = state.bgIndex !== undefined ? state.bgIndex : 0;
         applyBackground();   //恢复背景色
@@ -304,7 +318,6 @@ function loadGame() {
         bgIndex = 0;         //默认白色
         applyBackground();
     }
-    updateUI_h1();
     h1_js_re = 1
 }
 

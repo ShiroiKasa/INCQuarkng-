@@ -11,7 +11,8 @@ let quark_max = new Decimal(0);
 let Quark = new Decimal(0);
 
 let Quark_h1_js = new Decimal(0);
-let Quark_h2_buff = new Decimal(0);
+let Quark_h2_buff1 = new Decimal(0);
+let Quark_h2_buff2 = new Decimal(0);
 let Quark_js = Quark_h1_js;
 
 //h1
@@ -25,3 +26,7 @@ let h1_re = 0;
 
 //h2
 let h2_ziyuan = new Decimal(0);
+
+let h2_cx = "";
+let h2_up1 = new Decimal(0);
+let h2_up2 = new Decimal(0);

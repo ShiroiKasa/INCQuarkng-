@@ -14,6 +14,11 @@
         <button id="stat_cut" style="background:#59849b;">统计</button>
     </div>
 
+    <div id="cx_xs" style="display: none;">
+        <div style="background:#9769d3;font-size: 30px;" id="cx_bt">标题</div>
+        <div style="background:#9769d3;font-size: 20px;" id="cx_nr">内容</div>
+    </div>
+
     <div id="h1">
         <h2>层级:夸克(1000夸克解锁下一层级)</h2>
         
@@ -43,15 +48,11 @@
 
         <div class="button-group">
             <div class="button-group2">
-                <button style="background:#f78ae5;font-size: 20px;" id="h2_up1">氢</button>
-                <button style="background:#f78ae5;font-size: 20px;" id="h2_up2">氦</button>
-                <button style="background:#f78ae5;font-size: 20px;" id="h2_up3">锂</button>
+                <button style="background:#f78ae5;font-size: 20px;" id="h2_up1_b">氢</button>
+                <button style="background:#f78ae5;font-size: 20px;" id="h2_up2_b">氦</button>
+                <button style="background:#f78ae5;font-size: 20px;display: none;" id="h2_up3_b">锂</button>
             </div>
         </div>
-    </div>
-
-    <div id="cx_xs" style="display: none;">
-
     </div>
 
     <div id="set" style="display: none;">
@@ -59,13 +60,14 @@
         <button id="manualSaveBtn" style="background:#e9b1ff;">立即存档</button>
         <button id="clearSaveBtn" style="background:#e9b1ff;">清空存档</button>
         <button id="bgColorBtn" style="background:#e9b1ff;">切换背景色</button>
-        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>ver:web1.1.26_03_25_1</p>
+        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>ver:web1.1.26_03_25_2</p>
     </div>
 
     <div id="stat" style="display: none;">
         <h2>统计</h2>
         <div class="counter_stat" id="Game_time">游戏时间:0</div>
         <div class="counter_stat" id="Quarks_MAX">最大夸克数量:0</div>
+        <div class="counter_stat" id="h1_re_stat">夸克禁闭次数:0</div>
     </div>
 
     <script src="global_var.js"></script><!-- 变量加载 -->
