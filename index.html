@@ -25,7 +25,7 @@
         <div class="counter-group">
             <div class="counter" id="Quarks">夸克:0</div>
             <div class="counter" id="h1_up1s">0/s</div>
-            <button id="h1_re_b" style="background:#ff6600;">夸克禁闭1000夸克</button>
+            <button id="h1_re_b" style="background:#ff6600;">夸克禁闭|原子+0</button>
         </div>
 
         <div class="button-group">
@@ -33,8 +33,14 @@
                 <button id="Quark+" onclick="h1_up1_button()">夸克+1</button>
                 <button id="h1_up1_1_button">+1点击产量0级 费用:1夸克</button>
             </div>
-            <button id="h1_up2_button">夸克产量+0 费用:10夸克</button>
-            <button id="h1_up3_button">夸克产量*1 费用:1000夸克</button>
+            <div class="button-group2">
+                <button id="h1_up2_button">夸克产量+0 费用:10夸克</button>
+                <button id="h1_up2auto_b" style="display: none;">自动:关</button>
+            </div>
+            <div class="button-group2">
+                <button id="h1_up3_button">夸克产量*1 费用:1000夸克</button>
+                <button id="h1_up3auto_b" style="display: none;">自动:关</button>
+            </div>
         </div>
     </div>
 
@@ -50,7 +56,8 @@
             <div class="button-group2">
                 <button style="background:#f78ae5;font-size: 20px;" id="h2_up1_b">氢</button>
                 <button style="background:#f78ae5;font-size: 20px;" id="h2_up2_b">氦</button>
-                <button style="background:#f78ae5;font-size: 20px;display: none;" id="h2_up3_b">锂</button>
+                <button style="background:#f78ae5;font-size: 20px;" id="h2_up3_b">锂</button>
+                <button style="background:#f78ae5;font-size: 20px;" id="h2_up4_b">铍</button>
             </div>
         </div>
     </div>
@@ -60,7 +67,7 @@
         <button id="manualSaveBtn" style="background:#e9b1ff;">立即存档</button>
         <button id="clearSaveBtn" style="background:#e9b1ff;">清空存档</button>
         <button id="bgColorBtn" style="background:#e9b1ff;">切换背景色</button>
-        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>ver:web1.1.26_03_25_2</p>
+        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>ver:web1.1.26_03_26_1</p>
     </div>
 
     <div id="stat" style="display: none;">
@@ -71,6 +78,7 @@
     </div>
 
     <script src="global_var.js"></script><!-- 变量加载 -->
+    <script src="script_auto.js"></script><!-- 自动化加载 -->
     <script src="script.js"></script><!-- 存档和h1加载 -->
     <script src="script_cut.js"></script><!-- 切换界面加载 -->
     <script src="script_h2.js"></script>

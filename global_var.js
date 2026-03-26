@@ -13,7 +13,11 @@ let Quark = new Decimal(0);
 let Quark_h1_js = new Decimal(0);
 let Quark_h2_buff1 = new Decimal(0);
 let Quark_h2_buff2 = new Decimal(0);
-let Quark_js = Quark_h1_js;
+let Quark_js = new Decimal(0);
+
+//auto
+var h1_up2_auto = 0;
+var h1_up3_auto = 0;
 
 //h1
 let h1_js_re = 1;
@@ -22,11 +26,13 @@ let h1_up1 = new Decimal(0);//+1点击产量
 let h1_up1_1 = new Decimal(0);//夸克产量+
 let h1_up3 = new Decimal(0);//夸克产量*
 
-let h1_re = 0;
+let h1_re = new Decimal(0);
 
 //h2
 let h2_ziyuan = new Decimal(0);
 
-let h2_cx = "";
-let h2_up1 = new Decimal(0);
-let h2_up2 = new Decimal(0);
+var h2_cx = "";
+var h2_up1 = new Decimal(0);
+var h2_up2 = new Decimal(0);
+var h2_up3 = new Decimal(0);
+var h2_up4 = new Decimal(0);
