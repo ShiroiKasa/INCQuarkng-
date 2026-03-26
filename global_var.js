@@ -29,10 +29,24 @@ let h1_up3 = new Decimal(0);//夸克产量*
 let h1_re = new Decimal(0);
 
 //h2
+let h2_js_re = 1;
+
 let h2_ziyuan = new Decimal(0);
+let h2_upe = new Decimal(0);
+let h2_upp = new Decimal(0);
+let h2_upn = new Decimal(0);
+let h2_e_js = new Decimal(0);
+let h2_p_js = new Decimal(0);
+let h2_n_js = new Decimal(0);
+let h2_e = new Decimal(0);
+let h2_p = new Decimal(0);
+let h2_n = new Decimal(0);
 
 var h2_cx = "";
 var h2_up1 = new Decimal(0);
 var h2_up2 = new Decimal(0);
 var h2_up3 = new Decimal(0);
 var h2_up4 = new Decimal(0);
+var h2_up5 = new Decimal(0);
+var h2_up6 = new Decimal(0);
+var h2_up7 = new Decimal(0);

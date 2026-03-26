@@ -34,12 +34,24 @@ function updateUI_stat(){
     document.getElementById("h1_re_stat").innerHTML = "夸克禁闭次数:" + formatDecimal(h1_re);
 }
 //可见性
+//总可见性
 function UIvisible(){
-    let b1_2_auto = document.getElementById('h1_up2auto_b');
-    let b1_3_auto = document.getElementById('h1_up3auto_b');
-    h2_up4.gte(1) && (b1_2_auto.style.display = 'block' , b1_3_auto.style.display = 'block');
+    UIvisible_h2();
+}
+//h2
+function UIvisible_h2(){
+    let b2_2_auto = document.getElementById('h1_up2auto_b');
+    let b2_3_auto = document.getElementById('h1_up3auto_b');
+    h2_up4.gte(1) && (b2_2_auto.style.display = 'block' , b2_3_auto.style.display = 'block');
     document.getElementById("h1_up2auto_b").innerHTML = (h1_up2_auto === 1) ? "自动:开" : "自动:关";
     document.getElementById("h1_up3auto_b").innerHTML = (h1_up3_auto === 1) ? "自动:开" : "自动:关";
+
+    let b2_up5_b = document.getElementById('h2_up5buff_b');
+    let b2_up6_b = document.getElementById('h2_up6buff_b');
+    let b2_up7_b = document.getElementById('h2_up7buff_b');
+    h2_up5.gte(1) && (b2_up5_b.style.display = 'block');
+    h2_up6.gte(1) && (b2_up6_b.style.display = 'block');
+    h2_up7.gte(1) && (b2_up7_b.style.display = 'block');
 }
 //h1
 function updateUI_h1(){
@@ -48,7 +60,7 @@ function updateUI_h1(){
     b1_re.style.opacity = Quark.gte(1000) ? '1' : '0.5';
     let h2_up3_buff = new Decimal(1)
     h2_up3.gte(1) && (h2_up3_buff = new Decimal(quark_max.log(10)));
-    document.getElementById("h1_re_b").innerHTML = Quark.gte(1000) ? "夸克禁闭|原子+" + formatDecimal(h2_up3_buff.times(Quark.log(10))) : "夸克禁闭|原子+0";
+    document.getElementById("h1_re_b").innerHTML = Quark.gte(1000) ? "夸克禁闭|原子+" + formatDecimal(h2_up3_buff.times(Quark.log(10)).times(new Decimal(h2_p.plus(10).log(10)))) : "夸克禁闭|原子+0";
 
     document.getElementById("Quarks").innerHTML = "夸克:" + formatDecimal(Quark);
     document.getElementById("h1_up1s").innerHTML = formatDecimal(Quark_js.times(10)) + "/s";
@@ -78,6 +90,14 @@ function updateUI_h1(){
 }
 
 //计算函数
+//全局增量函数
+function global_inc(){
+    Quark_js.gte(0.1) && (Quark = Quark.plus(Quark_js));
+
+    h2_e_js.gte(0.1) && (h2_e = h2_e.plus(h2_e_js));
+    h2_p_js.gte(0.1) && (h2_p = h2_p.plus(h2_p_js));
+    h2_n_js.gte(0.1) && (h2_n = h2_n.plus(h2_n_js));
+}
 //统计
 function stat_hans(){
     game_time += 0.1;
@@ -114,13 +134,15 @@ function h1_hans(){
     h2_up1.gte(1) && (h2_up1_buff = h1_re);
     let h2_up2_buff = new Decimal(1)
     h2_up2.gte(1) && (h2_up2_buff = quark_max.log(10));
+    let h2_e_buff = new Decimal(1)
+    h2_e.gte(0.1) && (h2_e_buff = (new Decimal(h2_e.plus(10).log(10)).div(10)).plus(1));
 
     //正式计算
     Quark_h1_js = h1_up1.times(0.1).times(h1_up3.plus(1));
     Quark_h2_buff1 = new Decimal(((h2_ziyuan.plus(1)).log(10))).plus(1);
     Quark_h2_buff2 = (Quark_h2_buff1.times(h2_up1_buff)).times(h2_up2_buff);
 
-    Quark_js = Quark_h1_js.times(Quark_h2_buff2);
+    Quark_js = Decimal.pow((Quark_h1_js.times(Quark_h2_buff2)),h2_e_buff);
 }
 
 //夸克+
@@ -164,11 +186,11 @@ function h1_up3_button() {
 function h1_re_button(){
     let h2_up3_buff = new Decimal(1)
     h2_up3.gte(1) && (h2_up3_buff = new Decimal(quark_max.log(10)));
-    Quark.gte(1000) && (h2_ziyuan = h2_ziyuan.plus(h2_up3_buff.times(Quark.log(10))) , h1_re_hans());
+    Quark.gte(1000) && (h2_ziyuan = h2_ziyuan.plus(h2_up3_buff.times(Quark.log(10)).times(new Decimal(h2_p.plus(10).log(10)))) , h1_re_hans());
 }
 
 function h1_re_hans(){
-    Quark = new Decimal(h2_up4 * 10);
+    Quark = h2_up4.times(10);
 
     Quark_h1_js = new Decimal(0);
     Quark_js = Quark_h1_js;
@@ -193,7 +215,8 @@ function startAutoProduction() {
         //计算
         stat_hans();//统计
         (h1_js_re === 1) && (h1_hans(), h1_js_re -= 1);//h1
-        Quark = Quark.plus(Quark_js);
+        (h2_js_re === 1) && (h2_hans(), h2_js_re -= 1);
+        global_inc()//全局增量函数，必须位于计算模块最后（避免依赖问题）
 
         //UI刷新
         updateUI_cut();
@@ -241,6 +264,7 @@ document.getElementById('bgColorBtn').addEventListener('click', switchBackground
 //界面切换
 //切换函数
 function xs_hans() {
+    h2_cx = "";
     document.getElementById('cx_xs').style.display = 'none';
     document.getElementById('h1').style.display = 'none';
     document.getElementById('h2').style.display = 'none';
@@ -302,10 +326,19 @@ function saveGame() {
         h1_re: h1_re.toString(),
 
         h2_ziyuan: h2_ziyuan.toString(),
+        h2_upe: h2_upe.toString(),
+        h2_upp: h2_upp.toString(),
+        h2_upn: h2_upn.toString(),
+        h2_e: h2_e.toString(),
+        h2_p: h2_p.toString(),
+        h2_n: h2_n.toString(),
         h2_up1: h2_up1.toString(),
         h2_up2: h2_up2.toString(),
         h2_up3: h2_up3.toString(),
         h2_up4: h2_up4.toString(),
+        h2_up5: h2_up5.toString(),
+        h2_up6: h2_up6.toString(),
+        h2_up7: h2_up7.toString(),
 
         bgIndex: bgIndex,
     };
@@ -331,10 +364,19 @@ function loadGame() {
         h1_re = state.h1_re !== undefined ? new Decimal(state.h1_re) : new Decimal(0);
 
         h2_ziyuan = state.h2_ziyuan !== undefined ? new Decimal(state.h2_ziyuan) : new Decimal(0);
+        h2_upe = state.h2_upe !== undefined ? new Decimal(state.h2_upe) : new Decimal(0);
+        h2_upp = state.h2_upp !== undefined ? new Decimal(state.h2_upp) : new Decimal(0);
+        h2_upn = state.h2_upn !== undefined ? new Decimal(state.h2_upn) : new Decimal(0);
+        h2_e = state.h2_e !== undefined ? new Decimal(state.h2_e) : new Decimal(0);
+        h2_p = state.h2_p !== undefined ? new Decimal(state.h2_p) : new Decimal(0);
+        h2_n = state.h2_n !== undefined ? new Decimal(state.h2_n) : new Decimal(0);
         h2_up1 = state.h2_up1 !== undefined ? new Decimal(state.h2_up1) : new Decimal(0);
         h2_up2 = state.h2_up2 !== undefined ? new Decimal(state.h2_up2) : new Decimal(0);
         h2_up3 = state.h2_up3 !== undefined ? new Decimal(state.h2_up3) : new Decimal(0);
         h2_up4 = state.h2_up4 !== undefined ? new Decimal(state.h2_up4) : new Decimal(0);
+        h2_up5 = state.h2_up5 !== undefined ? new Decimal(state.h2_up5) : new Decimal(0);
+        h2_up6 = state.h2_up6 !== undefined ? new Decimal(state.h2_up6) : new Decimal(0);
+        h2_up7 = state.h2_up7 !== undefined ? new Decimal(state.h2_up7) : new Decimal(0);
 
         bgIndex = state.bgIndex !== undefined ? state.bgIndex : 0;
         applyBackground();   //恢复背景色
@@ -345,6 +387,7 @@ function loadGame() {
         applyBackground();
     }
     h1_js_re = 1
+    h2_js_re = 1
 }
 
 //启动游戏
