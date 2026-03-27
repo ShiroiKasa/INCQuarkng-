@@ -9,7 +9,8 @@
 <body>
     <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
         <button id="h1_cut" style="background:#ff6600;">夸克</button>
-        <button id="h2_cut" style="background:#f78ae5;">元素</button>
+        <button id="h2_cut" style="background:#f78ae5;display: none;">元素</button>
+        <button id="h3_cut" style="background:#8ad1f7;display: none;">星辰</button>
         <button id="set_cut" style="background:#e9b1ff;">设置</button>
         <button id="stat_cut" style="background:#59849b;">统计</button>
     </div>
@@ -45,11 +46,12 @@
     </div>
 
     <div id="h2" style="display: none;">
-        <h2>层级:元素(???解锁下一层级)</h2>
+        <h2>层级:元素(5e4原子解锁下一层级)</h2>
 
         <div class="counter-group">
             <div class="counter_h2" id="h2_ziyuan_txt">原子:0(对夸克加成:1)</div>
             <div class="counter_h2" id="h2_ziyuans">0/s</div>
+            <button id="h2_re_b" style="background:#f78ae5;">引力激发|引力子+0</button>
         </div>
 
         <div class="button-group">
@@ -71,25 +73,59 @@
         </div>
     </div>
 
+    <div id="h3" style="display: none;">
+        <h2>星辰</h2>
+
+        <div class="counter-group">
+            <div class="counter_h3" id="h3_ziyuan_txt">引力子:0(对夸克加成:1)</div>
+            <div class="counter_h3" id="h3_ziyuans">0/s</div>
+        </div>
+
+        <div class="button-group">
+             <div class="button-group2">
+                <button style="background:#65a6c9;font-size: 18px;" id="h3_mass_b">质量发生器0级 费用:1引力子<br>质量:0.00</button>
+                <button style="background:#65a6c9;font-size: 18px;" id="h3_BH_b">黑洞催化器0级 费用:1引力子<br>黑洞:0.00</button>
+             </div>
+             <div class="button-group2">
+                <button style="background:#65a6c9;font-size: 18px;" id="h3_up3_b">类地行星0级 费用:1黑洞<br>数量:0.00 黑洞产量*1</button>
+                <button style="background:#65a6c9;font-size: 18px;" id="h3_up4_b">类海王星0级 费用:100黑洞<br>数量:0.00 类地行星产量*1</button>
+                <button style="background:#65a6c9;font-size: 18px;" id="h3_up5_b">类木行星0级 费用:1e4黑洞<br>数量:0.00 类海王星产量*1</button>
+             </div>
+             <div class="button-group2">
+                <button style="background:#65a6c9;font-size: 18px;" id="h3_up6_b">M型恒星0级 费用:1e6黑洞<br>数量:0.00 类木行星产量*1</button>
+             </div>
+        </div>
+    </div>
+
     <div id="set" style="display: none;">
         <h2>设置</h2>
         <button id="manualSaveBtn" style="background:#e9b1ff;">立即存档</button>
         <button id="clearSaveBtn" style="background:#e9b1ff;">清空存档</button>
         <button id="bgColorBtn" style="background:#e9b1ff;">切换背景色</button>
-        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>ver:web1.1.26_03_27_1</p>
+        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>ver:web1.1.26_03_27_2</p>
     </div>
 
     <div id="stat" style="display: none;">
         <h2>统计</h2>
-        <div class="counter_stat" id="Game_time">游戏时间:0</div>
-        <div class="counter_stat" id="Quarks_MAX">最大夸克数量:0</div>
-        <div class="counter_stat" id="h1_re_stat">夸克禁闭次数:0</div>
+        <div class="button-group3">
+            <div class="counter_stat" id="Game_time">游戏时间:0</div>
+            <div class="button-group2">
+                <div class="counter_stat" id="Quarks_MAX">最大夸克数量:0</div>
+                <div class="counter_stat" id="h1_re_stat">夸克禁闭次数:0</div>
+            </div>
+            <div class="button-group2">
+                <div class="counter_stat" id="h2_ziyuan_MAX">最大原子数量:0</div>
+                <div class="counter_stat" id="h2_re_stat">引力激发次数:0</div>
+            </div>
+        </div>
     </div>
 
     <script src="global_var.js"></script><!-- 变量加载 -->
     <script src="script_auto.js"></script><!-- 自动化加载 -->
-    <script src="script.js"></script><!-- 存档和h1加载 -->
     <script src="script_cut.js"></script><!-- 切换界面加载 -->
+    <script src="script.js"></script><!-- 存档和h1加载 -->
+    <script src="script_h1.js"></script>
     <script src="script_h2.js"></script>
+    <script src="script_h3.js"></script>
 </body>
 </html>

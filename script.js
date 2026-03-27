@@ -37,57 +37,34 @@ function updateUI_stat(){
 //总可见性
 function UIvisible(){
     UIvisible_h2();
+    UIvisible_h3();
 }
 //h2
 function UIvisible_h2(){
     let b2_2_auto = document.getElementById('h1_up2auto_b');
     let b2_3_auto = document.getElementById('h1_up3auto_b');
-    h2_up4.gte(1) && (b2_2_auto.style.display = 'block' , b2_3_auto.style.display = 'block');
+    if (h2_up4.gte(1)) {
+        b2_2_auto.style.display = 'block';
+        b2_3_auto.style.display = 'block';
+    } else {
+        b2_2_auto.style.display = 'none';
+        b2_3_auto.style.display = 'none';
+    }
     document.getElementById("h1_up2auto_b").innerHTML = (h1_up2_auto === 1) ? "自动:开" : "自动:关";
     document.getElementById("h1_up3auto_b").innerHTML = (h1_up3_auto === 1) ? "自动:开" : "自动:关";
 
     let b2_up5_b = document.getElementById('h2_up5buff_b');
     let b2_up6_b = document.getElementById('h2_up6buff_b');
     let b2_up7_b = document.getElementById('h2_up7buff_b');
-    h2_up5.gte(1) && (b2_up5_b.style.display = 'block');
-    h2_up6.gte(1) && (b2_up6_b.style.display = 'block');
-    h2_up7.gte(1) && (b2_up7_b.style.display = 'block');
+    h2_up5.gte(1) ? b2_up5_b.style.display = 'block' : b2_up5_b.style.display = 'none';
+    h2_up6.gte(1) ? b2_up6_b.style.display = 'block' : b2_up6_b.style.display = 'none';
+    h2_up7.gte(1) ? b2_up7_b.style.display = 'block' : b2_up7_b.style.display = 'none';
 }
-//h1
-function updateUI_h1(){
-    let b1_re = document.getElementById('h1_re_b');
-    b1_re.style.visibility = quark_max.gte(1000) ? 'visible' : 'hidden';
-    b1_re.style.opacity = Quark.gte(1000) ? '1' : '0.5';
-    let h2_up3_buff = new Decimal(1)
-    h2_up3.gte(1) && (h2_up3_buff = new Decimal(quark_max.log(10)));
-    document.getElementById("h1_re_b").innerHTML = Quark.gte(1000) ? "夸克禁闭|原子+" + formatDecimal(h2_up3_buff.times(Quark.log(10)).times(new Decimal(h2_p.plus(10).log(10)))) : "夸克禁闭|原子+0";
+//h3
+function UIvisible_h3(){
 
-    document.getElementById("Quarks").innerHTML = "夸克:" + formatDecimal(Quark);
-    document.getElementById("h1_up1s").innerHTML = formatDecimal(Quark_js.times(10)) + "/s";
-
-    //点击按钮文字
-    let clickBase = new Decimal(1);
-    let clickBonus = h1_up1_1;
-    let clickTotal = clickBase.plus(clickBonus);
-    document.getElementById("Quark+").innerHTML = "夸克+" + formatDecimal(clickTotal);
-
-    //点击产量升级按钮（费用 = (等级)^2 + 1）
-    let b1_1_1 = document.getElementById('h1_up1_1_button');
-    let clickCost = h1_up1_1.pow(2).plus(1);
-    b1_1_1.style.opacity = Quark.gte(clickCost) ? '1' : '0.5';
-    document.getElementById("h1_up1_1_button").innerHTML = "+1点击产量" + h1_up1_1.toString() + "级 费用:" + formatDecimal(clickCost) + "夸克";
-
-    //自动生成器升级按钮（费用 = 2^等级 × 10）
-    let b1_2 = document.getElementById('h1_up2_button');
-    let genCost = Decimal.pow(1.2, h1_up1).times(10);
-    b1_2.style.opacity = Quark.gte(genCost) ? '1' : '0.5';
-    document.getElementById("h1_up2_button").innerHTML = "夸克产量+" + h1_up1.toString() + " 费用:" + formatDecimal(genCost) + "夸克";
-
-    let b1_3 = document.getElementById("h1_up3_button");
-    let h1_up3_cost = Decimal.pow(1.5, h1_up3).times(100);
-    b1_3.style.opacity = Quark.gte(h1_up3_cost) ? '1' : '0.5';
-    document.getElementById("h1_up3_button").innerHTML = "夸克产量*" + h1_up3.plus(1).toString() + " 费用:" + formatDecimal(h1_up3_cost) + "夸克";
 }
+
 
 //计算函数
 //全局增量函数
@@ -102,6 +79,7 @@ function global_inc(){
 function stat_hans(){
     game_time += 0.1;
     Quark.gte(quark_max) && (quark_max = Quark , h1_js_re = 1);
+    h2_ziyuan.gte(h2_ziyuan_max) && (h2_ziyuan_max = h2_ziyuan , h2_js_re = 1);
 }
 function formatGameTime(totalSeconds) {
     //处理负数情况
@@ -127,86 +105,10 @@ function formatGameTime(totalSeconds) {
         return `${secsFormatted}秒`;
     }
 }
-//h1
-function h1_hans(){
-    //buff判断
-    let h2_up1_buff = new Decimal(1)
-    h2_up1.gte(1) && (h2_up1_buff = h1_re);
-    let h2_up2_buff = new Decimal(1)
-    h2_up2.gte(1) && (h2_up2_buff = quark_max.log(10));
-    let h2_e_buff = new Decimal(1)
-    h2_e.gte(0.1) && (h2_e_buff = (new Decimal(h2_e.plus(10).log(10)).div(10)).plus(1));
-
-    //正式计算
-    Quark_h1_js = h1_up1.times(0.1).times(h1_up3.plus(1));
-    Quark_h2_buff1 = new Decimal(((h2_ziyuan.plus(1)).log(10))).plus(1);
-    Quark_h2_buff2 = (Quark_h2_buff1.times(h2_up1_buff)).times(h2_up2_buff);
-
-    Quark_js = Decimal.pow((Quark_h1_js.times(Quark_h2_buff2)),h2_e_buff);
-}
-
-//夸克+
-function h1_up1_button(){
-    let gain = new Decimal(1).plus(h1_up1_1);
-    Quark = Quark.plus(gain);
-    updateUI_h1();
-}
-
-//+1点击产量
-function h1_up1_1_button(){
-    let cost = h1_up1_1.pow(2).plus(1);
-    if (Quark.gte(cost)) {
-        Quark = Quark.minus(cost);
-        h1_up1_1 = h1_up1_1.plus(1);
-        updateUI_h1();
-    }
-}
-
-//夸克产量+
-function h1_up2_button(){
-    let cost = Decimal.pow(1.2, h1_up1).times(10);
-    if (Quark.gte(cost)) {
-        Quark = Quark.minus(cost);
-        h1_up1 = h1_up1.plus(1);
-        updateUI_h1();
-        h1_js_re = 1;
-    }
-}
-//夸克产量*
-function h1_up3_button(){
-    let cost = Decimal.pow(1.5, h1_up3).times(100);
-    if (Quark.gte(cost)) {
-        Quark = Quark.minus(cost);
-        h1_up3 = h1_up3.plus(1);
-        updateUI_h1();
-        h1_js_re = 1;
-    }
-}
-
-function h1_re_button(){
-    let h2_up3_buff = new Decimal(1)
-    h2_up3.gte(1) && (h2_up3_buff = new Decimal(quark_max.log(10)));
-    Quark.gte(1000) && (h2_ziyuan = h2_ziyuan.plus(h2_up3_buff.times(Quark.log(10)).times(new Decimal(h2_p.plus(10).log(10)))) , h1_re_hans());
-}
-
-function h1_re_hans(){
-    Quark = h2_up4.times(10);
-
-    Quark_h1_js = new Decimal(0);
-    Quark_js = Quark_h1_js;
-
-    h1_up1 = new Decimal(0);
-    h1_up1_1 = new Decimal(0);
-    h1_up3 = new Decimal(0);
-
-    h1_re = h1_re.plus(1);
-    h1_js_re = 1;
-    updateUI_h1()
-}
 
 //100时钟
 let autoInterval;
-function startAutoProduction() {
+function startAutoProduction(){
     if (autoInterval) clearInterval(autoInterval);
     autoInterval = setInterval(() => {
         //强制重新计算
@@ -225,10 +127,11 @@ function startAutoProduction() {
         global_inc()//全局增量函数，必须位于计算模块最后（避免依赖问题）
 
         //UI刷新
-        updateUI_cut();
+        updateUI_cut();//界面按钮可见性
         (UI_re === "stat") && (updateUI_stat());//统计
         (UI_re === "h1") && updateUI_h1();//h1
         (UI_re === "h2") && updateUI_h2();//h2
+        (UI_re === "h3") && updateUI_h3();//h3
     }, 100);
 }
 
@@ -240,7 +143,7 @@ document.getElementById('manualSaveBtn').addEventListener('click', () => {
 });
 
 //重置
-function resetGame() {
+function resetGame(){
     if (confirm('确定清空所有数据吗？')) {
         localStorage.removeItem('quarkGameSave');
         location.reload();   // 刷新页面，回到初始状态
@@ -250,7 +153,7 @@ function resetGame() {
 document.getElementById('clearSaveBtn').addEventListener('click', resetGame);
 
 //根据bgIndex设置背景和文字颜色
-function applyBackground() {
+function applyBackground(){
     document.body.style.backgroundColor = bgColors[bgIndex];
     if (bgIndex === 1) { //深色模式
         document.body.style.color = "#f0f0f0";
@@ -259,7 +162,7 @@ function applyBackground() {
     }
 }
 //背景颜色切换（定义几种预设色）
-function switchBackground() {
+function switchBackground(){
     bgIndex = (bgIndex + 1) % bgColors.length;
     applyBackground();
 }
@@ -267,56 +170,9 @@ function switchBackground() {
 //绑定按钮事件
 document.getElementById('bgColorBtn').addEventListener('click', switchBackground);
 
-//界面切换
-//切换函数
-function xs_hans() {
-    h2_cx = "";
-    document.getElementById('cx_xs').style.display = 'none';
-    document.getElementById('h1').style.display = 'none';
-    document.getElementById('h2').style.display = 'none';
-    document.getElementById('set').style.display = 'none';
-    document.getElementById('stat').style.display = 'none';
-}
-
-function h1_cut_hans() {
-    xs_hans()
-    UI_re = "h1"
-    document.getElementById('h1').style.display = 'block';
-}
-
-function h2_cut_hans() {
-    xs_hans()
-    UI_re = "h2"
-    document.getElementById('h2').style.display = 'block';
-}
-
-function set_cut_hans() {
-    xs_hans()
-    UI_re = "set"
-    document.getElementById('set').style.display = 'block';
-}
-
-function stat_cut_hans() {
-    xs_hans()
-    UI_re = "stat"
-    document.getElementById('stat').style.display = 'block';
-}
-
-//绑定按钮事件
-document.getElementById('h1_up1_1_button').addEventListener('click', h1_up1_1_button);
-document.getElementById('h1_up2_button').addEventListener('click', h1_up2_button);
-document.getElementById('h1_up3_button').addEventListener('click', h1_up3_button);
-
-document.getElementById('h1_re_b').addEventListener('click', h1_re_button);
-
-
-document.getElementById('h1_cut').addEventListener('click', h1_cut_hans);
-document.getElementById('h2_cut').addEventListener('click', h2_cut_hans);
-document.getElementById('set_cut').addEventListener('click', set_cut_hans);
-document.getElementById('stat_cut').addEventListener('click', stat_cut_hans);
 
 //存档
-function saveGame() {
+function saveGame(){
     const gameState = {
         Quark: Quark.toString(),
 
@@ -346,6 +202,9 @@ function saveGame() {
         h2_up6: h2_up6.toString(),
         h2_up7: h2_up7.toString(),
         h2_up8: h2_up8.toString(),
+        h2_re: h2_re.toString(),
+
+        h3_ziyuan: h3_ziyuan.toString(),
 
         bgIndex: bgIndex,
     };
@@ -353,7 +212,7 @@ function saveGame() {
     console.log("游戏已自动保存");
 }
 
-function loadGame() {
+function loadGame(){
     const saved = localStorage.getItem("quarkGameSave");
     if (saved) {
         const state = JSON.parse(saved);
@@ -385,6 +244,9 @@ function loadGame() {
         h2_up6 = state.h2_up6 !== undefined ? new Decimal(state.h2_up6) : new Decimal(0);
         h2_up7 = state.h2_up7 !== undefined ? new Decimal(state.h2_up7) : new Decimal(0);
         h2_up8 = state.h2_up8 !== undefined ? new Decimal(state.h2_up8) : new Decimal(0);
+        h2_re = state.h2_re !== undefined ? new Decimal(state.h2_re) : new Decimal(0);
+
+        h3_ziyuan = state.h3_ziyuan !== undefined ? new Decimal(state.h3_ziyuan) : new Decimal(0);
 
         bgIndex = state.bgIndex !== undefined ? state.bgIndex : 0;
         applyBackground();   //恢复背景色

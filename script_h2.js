@@ -1,5 +1,10 @@
 //UI刷新
 function updateUI_h2(){
+    let b2_re = document.getElementById('h2_re_b');
+    b2_re.style.visibility = h2_ziyuan_max.gte(5e4) ? 'visible' : 'hidden';
+    b2_re.style.opacity = h2_ziyuan.gte(5e4) ? '1' : '0.5';
+    document.getElementById("h2_re_b").innerHTML = h2_ziyuan.gte(5e4) ? "引力激发|引力子+" + formatDecimal(new Decimal(h2_ziyuan.log(10))) : "引力激发|引力子+0";
+
     document.getElementById("h2_ziyuan_txt").innerHTML = "原子:" + formatDecimal(h2_ziyuan) + "(对夸克加成:" + formatDecimal(new Decimal(((h2_ziyuan.plus(1)).log(10))).plus(1)) + ")";
 
     let h2_upe_cost = Decimal.pow(2, h2_upe).times(1000)
@@ -8,6 +13,13 @@ function updateUI_h2(){
     document.getElementById("h2_up5buff_b").innerHTML = "电子生成器" + h2_upe + "级 费用:" + formatDecimal(h2_upe_cost) +"原子<br>电子:" + formatDecimal(h2_e) + "+" + formatDecimal(h2_upe.times(h2_n.plus(10).log(10))) + "/s" + " 夸克指数+" + formatDecimal(new Decimal(h2_e.plus(10).log(10)).div(10));
     document.getElementById("h2_up6buff_b").innerHTML = "质子生成器" + h2_upp + "级 费用:" + formatDecimal(h2_upp_cost) +"原子<br>质子:" + formatDecimal(h2_p) + "+" + formatDecimal(h2_upp.times(h2_n.plus(10).log(10))) + "/s" + " 原子产量*" + formatDecimal(new Decimal(h2_p.plus(10).log(10)));
     document.getElementById("h2_up7buff_b").innerHTML = "中子生成器" + h2_upn + "级 费用:" + formatDecimal(h2_upn_cost) +"原子<br>中子:" + formatDecimal(h2_n) + "+" + formatDecimal(h2_n_js.times(10)) + "/s" + " 电子/质子产量*" + formatDecimal(new Decimal(h2_n.plus(10).log(10)));
+    let b2_e_b = document.getElementById('h2_up5buff_b');
+    b2_e_b.style.opacity = h2_ziyuan.gte(h2_upe_cost) ? '1' : '0.5';
+    let b2_p_b = document.getElementById('h2_up6buff_b');
+    b2_p_b.style.opacity = h2_ziyuan.gte(h2_upp_cost) ? '1' : '0.5';
+    let b2_n_b = document.getElementById('h2_up7buff_b');
+    b2_n_b.style.opacity = h2_ziyuan.gte(h2_upn_cost) ? '1' : '0.5';
+    
     let b2_1 = document.getElementById('h2_up1_b');
     b2_1.style.opacity = (h2_up1.eq(1)) ? '1' : (h2_ziyuan.gte(10) ? '0.5' : '0.2');
 
@@ -128,8 +140,45 @@ function h2_up7_button(){
 function h2_up8_button(){
     handleUpgrade('h2_up8', 2e4, '氧', '夸克层级升级不再消耗资源');
 }
+function h2_re_button(){
+    h2_ziyuan.gte(5e4) && (h3_ziyuan = h3_ziyuan.plus(new Decimal(h2_ziyuan.log(10))) , h2_re_hans());
+}
+
+function h2_re_hans(){
+    h1_up2_auto = 0;
+    h1_up3_auto = 0;
+
+    h2_ziyuan = new Decimal(0);
+
+    h2_upe = new Decimal(0);
+    h2_upp = new Decimal(0);
+    h2_upn = new Decimal(0);
+    h2_e_js = new Decimal(0);
+    h2_p_js = new Decimal(0);
+    h2_n_js = new Decimal(0);
+    h2_e = new Decimal(0);
+    h2_p = new Decimal(0);
+    h2_n = new Decimal(0);
+
+    h2_cx = "";
+    h2_up1 = new Decimal(0);
+    h2_up2 = new Decimal(0);
+    h2_up3 = new Decimal(0);
+    h2_up4 = new Decimal(0);
+    h2_up5 = new Decimal(0);
+    h2_up6 = new Decimal(0);
+    h2_up7 = new Decimal(0);
+    h2_up8 = new Decimal(0);
+
+    h2_re = h2_re.plus(1);
+    h2_js_re = 1;
+    updateUI_h2();
+    h1_re_hans();
+}
 
 //绑定按钮事件
+document.getElementById('h2_re_b').addEventListener('click', h2_re_button);
+
 document.getElementById('h2_up5buff_b').addEventListener('click', h2_upe_button);
 document.getElementById('h2_up6buff_b').addEventListener('click', h2_upp_button);
 document.getElementById('h2_up7buff_b').addEventListener('click', h2_upn_button);

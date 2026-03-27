@@ -2,7 +2,7 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    margin-top: 100px;
+    margin-top: 20px;
 }
 .counter {
     font-size: 24px;
@@ -21,6 +21,12 @@ body {
     font-weight: bold;
     margin: 2px;
     color: #f78ae5;
+}
+.counter_h3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 2px;
+    color: #8ad1f7;
 }
 .counter_h2_2 {
     font-size: 14px;
@@ -65,7 +71,11 @@ button {
     display: flex;
     align-items: center;     /* 水平居中 */
     gap: 15px;               /* 两个按钮之间的间距（可选） */
-    margin-top: 20px;        /* 与上面内容的间距（可选） */
+}
+.button-group3 {
+    flex-direction: column;
+    display: flex;
+    align-items: center;     /* 水平居中 */
 }
 button:hover {
     background-color: #cc5500;

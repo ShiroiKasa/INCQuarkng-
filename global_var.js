@@ -33,6 +33,7 @@ let h1_re = new Decimal(0);
 let h2_js_re = 1;
 
 let h2_ziyuan = new Decimal(0);
+let h2_ziyuan_max = new Decimal(0);
 let h2_upe = new Decimal(0);
 let h2_upp = new Decimal(0);
 let h2_upn = new Decimal(0);
@@ -52,3 +53,10 @@ var h2_up5 = new Decimal(0);
 var h2_up6 = new Decimal(0);
 var h2_up7 = new Decimal(0);
 var h2_up8 = new Decimal(0);
+
+let h2_re = new Decimal(0);
+
+//h3
+let h3_js_re = 1;
+
+let h3_ziyuan = new Decimal(0);
