@@ -4,6 +4,7 @@ const bgColors = ["#ffffff", "#1e1e2f", "#f5f0e6", "#d9e8f5"];
 let bgIndex = 0;  //当前背景索引，0=白色
 
 let UI_re = "h1";
+let gl_js_re = 0;
 
 let game_time = 0;
 let quark_max = new Decimal(0);
@@ -22,8 +23,8 @@ var h1_up3_auto = 0;
 //h1
 let h1_js_re = 1;
 
-let h1_up1 = new Decimal(0);//+1点击产量
-let h1_up1_1 = new Decimal(0);//夸克产量+
+let h1_up1 = new Decimal(0);//夸克产量+
+let h1_up1_1 = new Decimal(0);
 let h1_up3 = new Decimal(0);//夸克产量*
 
 let h1_re = new Decimal(0);
@@ -50,3 +51,4 @@ var h2_up4 = new Decimal(0);
 var h2_up5 = new Decimal(0);
 var h2_up6 = new Decimal(0);
 var h2_up7 = new Decimal(0);
+var h2_up8 = new Decimal(0);

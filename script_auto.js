@@ -19,8 +19,16 @@ function h1_up3_auto_cut() {
 }
 //全局自动化
 function global_auto(){
-    (h1_up2_auto === 1) && (h1_up2_button());
-    (h1_up3_auto === 1) && (h1_up3_button());
+    if (h2_up8.gte(1)){
+        let h1_up1_max = Decimal.floor(Quark.div(10).log(1.2)).plus(1);
+        (h1_up2_auto === 1 && h1_up1_max.gt(h1_up1)) && (h1_up1 = h1_up1_max , h1_js_re = 1);
+
+        let h1_up3_max = Decimal.floor(Quark.div(100).log(1.5)).plus(1);
+        (h1_up3_auto === 1 && h1_up3_max.gt(h1_up3)) && (h1_up3 = h1_up3_max , h1_js_re = 1);
+    }else{
+        (h1_up2_auto === 1) && (h1_up2_button());
+        (h1_up3_auto === 1) && (h1_up3_button());
+    }
 }
 
 //绑定按钮事件

@@ -146,14 +146,14 @@ function h1_hans(){
 }
 
 //夸克+
-function h1_up1_button() {
+function h1_up1_button(){
     let gain = new Decimal(1).plus(h1_up1_1);
     Quark = Quark.plus(gain);
     updateUI_h1();
 }
 
 //+1点击产量
-function h1_up1_1_button() {
+function h1_up1_1_button(){
     let cost = h1_up1_1.pow(2).plus(1);
     if (Quark.gte(cost)) {
         Quark = Quark.minus(cost);
@@ -163,7 +163,7 @@ function h1_up1_1_button() {
 }
 
 //夸克产量+
-function h1_up2_button() {
+function h1_up2_button(){
     let cost = Decimal.pow(1.2, h1_up1).times(10);
     if (Quark.gte(cost)) {
         Quark = Quark.minus(cost);
@@ -173,7 +173,7 @@ function h1_up2_button() {
     }
 }
 //夸克产量*
-function h1_up3_button() {
+function h1_up3_button(){
     let cost = Decimal.pow(1.5, h1_up3).times(100);
     if (Quark.gte(cost)) {
         Quark = Quark.minus(cost);
@@ -209,6 +209,12 @@ let autoInterval;
 function startAutoProduction() {
     if (autoInterval) clearInterval(autoInterval);
     autoInterval = setInterval(() => {
+        //强制重新计算
+        function gl_js_hans(){
+            h1_js_re = 1;
+            h2_js_re = 1;
+        }
+        gl_js_re >= 20 ? (gl_js_hans(), gl_js_re = 0) : gl_js_re += 1;
         //自动化
         global_auto()
 
@@ -339,6 +345,7 @@ function saveGame() {
         h2_up5: h2_up5.toString(),
         h2_up6: h2_up6.toString(),
         h2_up7: h2_up7.toString(),
+        h2_up8: h2_up8.toString(),
 
         bgIndex: bgIndex,
     };
@@ -377,6 +384,7 @@ function loadGame() {
         h2_up5 = state.h2_up5 !== undefined ? new Decimal(state.h2_up5) : new Decimal(0);
         h2_up6 = state.h2_up6 !== undefined ? new Decimal(state.h2_up6) : new Decimal(0);
         h2_up7 = state.h2_up7 !== undefined ? new Decimal(state.h2_up7) : new Decimal(0);
+        h2_up8 = state.h2_up8 !== undefined ? new Decimal(state.h2_up8) : new Decimal(0);
 
         bgIndex = state.bgIndex !== undefined ? state.bgIndex : 0;
         applyBackground();   //恢复背景色
