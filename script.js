@@ -32,6 +32,8 @@ function updateUI_stat(){
     document.getElementById("Quarks_MAX").innerHTML = "最大夸克数量:" + formatDecimal(quark_max);
     document.getElementById("Game_time").innerHTML = "游戏时间:" + formatGameTime(game_time);
     document.getElementById("h1_re_stat").innerHTML = "夸克禁闭次数:" + formatDecimal(h1_re);
+    document.getElementById("h2_ziyuan_MAX").innerHTML = "最大原子数量:" + formatDecimal(h2_ziyuan_max);
+    document.getElementById("h2_re_stat").innerHTML = "引力激发次数:" + formatDecimal(h2_re);
 }
 //可见性
 //总可见性
