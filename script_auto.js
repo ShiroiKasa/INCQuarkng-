@@ -25,7 +25,7 @@ function global_auto(){
 
         let h1_up3_max = Decimal.floor(Quark.div(100).log(1.5)).plus(1);
         (h1_up3_auto === 1 && h1_up3_max.gt(h1_up3)) && (h1_up3 = h1_up3_max , h1_js_re = 1);
-    }else{
+    }else if((h2_up4.gte(1))){
         (h1_up2_auto === 1) && (h1_up2_button());
         (h1_up3_auto === 1) && (h1_up3_button());
     }

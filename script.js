@@ -45,10 +45,10 @@ function UIvisible(){
 function UIvisible_h2(){
     let b2_2_auto = document.getElementById('h1_up2auto_b');
     let b2_3_auto = document.getElementById('h1_up3auto_b');
-    if (h2_up4.gte(1)) {
+    if (h2_up4.gte(1)){
         b2_2_auto.style.display = 'block';
         b2_3_auto.style.display = 'block';
-    } else {
+    }else{
         b2_2_auto.style.display = 'none';
         b2_3_auto.style.display = 'none';
     }
@@ -64,7 +64,10 @@ function UIvisible_h2(){
 }
 //h3
 function UIvisible_h3(){
-
+    let b2_9_b = document.getElementById('h2_up9_b');
+    let b2_10_b = document.getElementById('h2_up10_b');
+    h2_re.gte(1) ? b2_9_b.style.display = 'block' : b2_10_b.style.display = 'none';
+    h2_re.gte(1) ? b2_10_b.style.display = 'block' : b2_10_b.style.display = 'none';
 }
 
 
@@ -76,6 +79,7 @@ function global_inc(){
     h2_e_js.gte(0.1) && (h2_e = h2_e.plus(h2_e_js));
     h2_p_js.gte(0.1) && (h2_p = h2_p.plus(h2_p_js));
     h2_n_js.gte(0.1) && (h2_n = h2_n.plus(h2_n_js));
+    (Quark.gte(1000) && h2_up9.gte(1)) && (h2_ziyuan = h2_ziyuan.plus(h2_ziyuan_js));
 }
 //统计
 function stat_hans(){
@@ -204,6 +208,8 @@ function saveGame(){
         h2_up6: h2_up6.toString(),
         h2_up7: h2_up7.toString(),
         h2_up8: h2_up8.toString(),
+        h2_up9: h2_up9.toString(),
+        h2_up10: h2_up10.toString(),
         h2_re: h2_re.toString(),
 
         h3_ziyuan: h3_ziyuan.toString(),
@@ -213,53 +219,74 @@ function saveGame(){
     localStorage.setItem("quarkGameSave", JSON.stringify(gameState));
     console.log("游戏已自动保存");
 }
-
+function sanitizeDecimal(value, defaultValue = 0){
+    // 先确保是 Decimal 对象
+    let dec = value instanceof Decimal ? value : new Decimal(value);
+    
+    // 通过字符串判断 NaN 或 Infinity（因为 toNumber 可能返回特殊值）
+    let str = dec.toString();
+    if (str === "NaN" || str === "Infinity" || str === "-Infinity") {
+        console.warn("检测到无效数值（NaN/Infinity），重置为", defaultValue);
+        return new Decimal(defaultValue);
+    }
+    
+    // 检查是否为负数（-0 是有效的，不需要重置）
+    if (dec.lt(0)) {
+        console.warn("检测到负数，重置为", defaultValue);
+        return new Decimal(defaultValue);
+    }
+    
+    return dec;
+}
 function loadGame(){
     const saved = localStorage.getItem("quarkGameSave");
     if (saved) {
         const state = JSON.parse(saved);
-        Quark = state.Quark !== undefined ? new Decimal(state.Quark) : new Decimal(0);
-
-        quark_max = state.quark_max !== undefined ? new Decimal(state.quark_max) : new Decimal(0);
-        game_time = state.game_time !== undefined ? state.game_time : 0;
-
-        h1_up2_auto = state.h1_up2_auto !== undefined ? state.h1_up2_auto : 0;
-        h1_up3_auto = state.h1_up3_auto !== undefined ? state.h1_up3_auto : 0;
-
-        h1_up1 = state.h1_up1 !== undefined ? new Decimal(state.h1_up1) : new Decimal(0);
-        h1_up1_1 = state.h1_up1_1 !== undefined ? new Decimal(state.h1_up1_1) : new Decimal(0);
-        h1_up3 = state.h1_up3 !== undefined ? new Decimal(state.h1_up3) : new Decimal(0);
-        h1_re = state.h1_re !== undefined ? new Decimal(state.h1_re) : new Decimal(0);
-
-        h2_ziyuan = state.h2_ziyuan !== undefined ? new Decimal(state.h2_ziyuan) : new Decimal(0);
-        h2_upe = state.h2_upe !== undefined ? new Decimal(state.h2_upe) : new Decimal(0);
-        h2_upp = state.h2_upp !== undefined ? new Decimal(state.h2_upp) : new Decimal(0);
-        h2_upn = state.h2_upn !== undefined ? new Decimal(state.h2_upn) : new Decimal(0);
-        h2_e = state.h2_e !== undefined ? new Decimal(state.h2_e) : new Decimal(0);
-        h2_p = state.h2_p !== undefined ? new Decimal(state.h2_p) : new Decimal(0);
-        h2_n = state.h2_n !== undefined ? new Decimal(state.h2_n) : new Decimal(0);
-        h2_up1 = state.h2_up1 !== undefined ? new Decimal(state.h2_up1) : new Decimal(0);
-        h2_up2 = state.h2_up2 !== undefined ? new Decimal(state.h2_up2) : new Decimal(0);
-        h2_up3 = state.h2_up3 !== undefined ? new Decimal(state.h2_up3) : new Decimal(0);
-        h2_up4 = state.h2_up4 !== undefined ? new Decimal(state.h2_up4) : new Decimal(0);
-        h2_up5 = state.h2_up5 !== undefined ? new Decimal(state.h2_up5) : new Decimal(0);
-        h2_up6 = state.h2_up6 !== undefined ? new Decimal(state.h2_up6) : new Decimal(0);
-        h2_up7 = state.h2_up7 !== undefined ? new Decimal(state.h2_up7) : new Decimal(0);
-        h2_up8 = state.h2_up8 !== undefined ? new Decimal(state.h2_up8) : new Decimal(0);
-        h2_re = state.h2_re !== undefined ? new Decimal(state.h2_re) : new Decimal(0);
-
-        h3_ziyuan = state.h3_ziyuan !== undefined ? new Decimal(state.h3_ziyuan) : new Decimal(0);
-
-        bgIndex = state.bgIndex !== undefined ? state.bgIndex : 0;
-        applyBackground();   //恢复背景色
-        console.log("加载存档成功");
+        
+        Quark = sanitizeDecimal(state.Quark);
+        quark_max = sanitizeDecimal(state.quark_max);
+        game_time = state.game_time !== undefined && !isNaN(state.game_time) ? state.game_time : 0;
+        
+        h1_up2_auto = (state.h1_up2_auto === 1) ? 1 : 0;
+        h1_up3_auto = (state.h1_up3_auto === 1) ? 1 : 0;
+        
+        h1_up1 = sanitizeDecimal(state.h1_up1);
+        h1_up1_1 = sanitizeDecimal(state.h1_up1_1);
+        h1_up3 = sanitizeDecimal(state.h1_up3);
+        h1_re = sanitizeDecimal(state.h1_re);
+        
+        h2_ziyuan = sanitizeDecimal(state.h2_ziyuan);
+        h2_upe = sanitizeDecimal(state.h2_upe);
+        h2_upp = sanitizeDecimal(state.h2_upp);
+        h2_upn = sanitizeDecimal(state.h2_upn);
+        h2_e = sanitizeDecimal(state.h2_e);
+        h2_p = sanitizeDecimal(state.h2_p);
+        h2_n = sanitizeDecimal(state.h2_n);
+        h2_up1 = sanitizeDecimal(state.h2_up1);
+        h2_up2 = sanitizeDecimal(state.h2_up2);
+        h2_up3 = sanitizeDecimal(state.h2_up3);
+        h2_up4 = sanitizeDecimal(state.h2_up4);
+        h2_up5 = sanitizeDecimal(state.h2_up5);
+        h2_up6 = sanitizeDecimal(state.h2_up6);
+        h2_up7 = sanitizeDecimal(state.h2_up7);
+        h2_up8 = sanitizeDecimal(state.h2_up8);
+        h2_up9 = sanitizeDecimal(state.h2_up9);
+        h2_up10 = sanitizeDecimal(state.h2_up10);
+        h2_re = sanitizeDecimal(state.h2_re);
+        
+        h3_ziyuan = sanitizeDecimal(state.h3_ziyuan);
+        
+        bgIndex = (state.bgIndex >= 0 && state.bgIndex < bgColors.length) ? state.bgIndex : 0;
+        applyBackground();
+        
+        console.log("加载存档成功，已自动修复无效数值");
     } else {
         console.log("没有找到存档，使用初始值");
-        bgIndex = 0;         //默认白色
+        bgIndex = 0;
         applyBackground();
     }
-    h1_js_re = 1
-    h2_js_re = 1
+    h1_js_re = 1;
+    h2_js_re = 1;
 }
 
 //启动游戏

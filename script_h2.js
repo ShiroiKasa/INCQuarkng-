@@ -6,6 +6,13 @@ function updateUI_h2(){
     document.getElementById("h2_re_b").innerHTML = h2_ziyuan.gte(5e4) ? "引力激发|引力子+" + formatDecimal(new Decimal(h2_ziyuan.log(10))) : "引力激发|引力子+0";
 
     document.getElementById("h2_ziyuan_txt").innerHTML = "原子:" + formatDecimal(h2_ziyuan) + "(对夸克加成:" + formatDecimal(new Decimal(((h2_ziyuan.plus(1)).log(10))).plus(1)) + ")";
+    let h2_up3_buff = new Decimal(1);
+    h2_up3.gte(1) && (h2_up3_buff = new Decimal(quark_max.log(10)));
+    if (Quark.gte(1000) && h2_up9.gte(1)){
+        document.getElementById("h2_ziyuans").innerHTML = formatDecimal(h2_up3_buff.times(Quark.log(10)).times(new Decimal(h2_p.plus(10).log(10))).times(10)) + "/s";
+    }else{
+        document.getElementById("h2_ziyuans").innerHTML = "0/s";
+    }
 
     let h2_upe_cost = Decimal.pow(2, h2_upe).times(1000)
     let h2_upp_cost = Decimal.pow(2, h2_upp).times(1000)
@@ -43,13 +50,21 @@ function updateUI_h2(){
 
     let b2_8 = document.getElementById('h2_up8_b');
     b2_8.style.opacity = (h2_up8.eq(1)) ? '1' : (h2_ziyuan.gte(2e4) ? '0.5' : '0.2');
+
+    let b2_9 = document.getElementById('h2_up9_b');
+    b2_9.style.opacity = (h2_up9.eq(1)) ? '1' : (h3_ziyuan.gte(10) ? '0.5' : '0.2');
+
+    let b2_10 = document.getElementById('h2_up10_b');
+    b2_10.style.opacity = (h2_up10.eq(1)) ? '1' : (h3_ziyuan.gte(50) ? '0.5' : '0.2');
 }
 
 //计算函数
 function h2_hans(){
     h2_e_js = (h2_upe.times(h2_n.plus(10).log(10))).div(10);
     h2_p_js = (h2_upp.times(h2_n.plus(10).log(10))).div(10);
-    h2_n_js = h2_upn.div(10);
+    let h2_up10_buff = new Decimal(1);
+    h2_up10_buff = (h2_up10.gte(1) && h2_ziyuan_max.gte(10)) ? h2_ziyuan_max.log(10) : new Decimal(1);
+    h2_n_js = (h2_upn.times(h2_up10_buff)).div(10);
 }
 
 //购买函数
@@ -59,9 +74,12 @@ function h2_hans(){
  * @param {string} title - 升级名称，用于弹窗按钮显示
  * @param {string} description - 升级描述
  * @param {number} maxLevel - 最大购买次数，默认 1（一次性升级）
+ * @param {string} resourceName - 消耗资源的显示名称，默认 "原子"
+ * @param {string} resourceVar - 消耗资源的全局变量名，默认 "h2_ziyuan"
  */
-function handleUpgrade(upgradeVarName, price, title, description, maxLevel = 1) {
+function handleUpgrade(upgradeVarName, price, title, description, maxLevel = 1, resourceName = "原子", resourceVar = "h2_ziyuan") {
     const upgradeVar = window[upgradeVarName];
+    const resource = window[resourceVar];
 
     //已满级 → 显示“已购买”并终止，不进入二次确认
     if (upgradeVar && upgradeVar.gte(maxLevel)) {
@@ -74,13 +92,13 @@ function handleUpgrade(upgradeVarName, price, title, description, maxLevel = 1) 
     //未满级，显示确认弹窗
     document.getElementById('cx_xs').style.display = 'block';
     document.getElementById("cx_bt").innerHTML = `${title}(点击两次购买)`;
-    document.getElementById("cx_nr").innerHTML = `${description}\n费用:${formatDecimal(price)}原子`;
+    document.getElementById("cx_nr").innerHTML = `${description}\n费用:${formatDecimal(price)}${resourceName}`;
 
     //二次确认
     if (h2_cx === upgradeVarName) {
-        if (h2_ziyuan.gte(price)) {
+        if (resource.gte(price)) {
             window[upgradeVarName] = upgradeVar.plus(1);
-            h2_ziyuan = h2_ziyuan.minus(price);
+            window[resourceVar] = resource.minus(price);
             updateUI_h2();
             UIvisible_h2();
         }
@@ -140,14 +158,17 @@ function h2_up7_button(){
 function h2_up8_button(){
     handleUpgrade('h2_up8', 2e4, '氧', '夸克层级升级不再消耗资源');
 }
+function h2_up9_button(){
+    handleUpgrade('h2_up9', 10, '氟', '无需夸克禁闭也可以获得原子', 1, '引力子', 'h3_ziyuan');
+}
+function h2_up10_button(){
+    handleUpgrade('h2_up10', 50, '氖', '最大原子数量加成电子获取/公式*lg(最大原子数量)', 1, '引力子', 'h3_ziyuan');
+}
 function h2_re_button(){
     h2_ziyuan.gte(5e4) && (h3_ziyuan = h3_ziyuan.plus(new Decimal(h2_ziyuan.log(10))) , h2_re_hans());
 }
 
 function h2_re_hans(){
-    h1_up2_auto = 0;
-    h1_up3_auto = 0;
-
     h2_ziyuan = new Decimal(0);
 
     h2_upe = new Decimal(0);
@@ -191,3 +212,5 @@ document.getElementById('h2_up5_b').addEventListener('click', h2_up5_button);
 document.getElementById('h2_up6_b').addEventListener('click', h2_up6_button);
 document.getElementById('h2_up7_b').addEventListener('click', h2_up7_button);
 document.getElementById('h2_up8_b').addEventListener('click', h2_up8_button);
+document.getElementById('h2_up9_b').addEventListener('click', h2_up9_button);
+document.getElementById('h2_up10_b').addEventListener('click', h2_up10_button);
