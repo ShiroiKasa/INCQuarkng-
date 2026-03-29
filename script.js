@@ -80,6 +80,7 @@ function global_inc(){
     h2_p_js.gte(0.1) && (h2_p = h2_p.plus(h2_p_js));
     h2_n_js.gte(0.1) && (h2_n = h2_n.plus(h2_n_js));
     (Quark.gte(1000) && h2_up9.gte(1)) && (h2_ziyuan = h2_ziyuan.plus(h2_ziyuan_js));
+    h3_mass_js.gte(0.1) && (h3_mass = h3_mass.plus(h3_mass_js));
 }
 //统计
 function stat_hans(){
@@ -121,8 +122,9 @@ function startAutoProduction(){
         function gl_js_hans(){
             h1_js_re = 1;
             h2_js_re = 1;
+            h3_js_re = 1;
         }
-        gl_js_re >= 20 ? (gl_js_hans(), gl_js_re = 0) : gl_js_re += 1;
+        gl_js_re >= 10 ? (gl_js_hans(), gl_js_re = 0) : gl_js_re += 1;
         //自动化
         global_auto()
 
@@ -130,6 +132,7 @@ function startAutoProduction(){
         stat_hans();//统计
         (h1_js_re === 1) && (h1_hans(), h1_js_re -= 1);//h1
         (h2_js_re === 1) && (h2_hans(), h2_js_re -= 1);
+        (h3_js_re === 1) && (h3_hans(), h3_js_re -= 1);
         global_inc()//全局增量函数，必须位于计算模块最后（避免依赖问题）
 
         //UI刷新
@@ -213,6 +216,8 @@ function saveGame(){
         h2_re: h2_re.toString(),
 
         h3_ziyuan: h3_ziyuan.toString(),
+        h3_mass: h3_mass.toString(),
+        h3_up1: h3_up1.toString(),
 
         bgIndex: bgIndex,
     };
@@ -275,6 +280,9 @@ function loadGame(){
         h2_re = sanitizeDecimal(state.h2_re);
         
         h3_ziyuan = sanitizeDecimal(state.h3_ziyuan);
+        h3_mass = sanitizeDecimal(state.h3_mass);
+        h3_up1 = sanitizeDecimal(state.h3_up1);
+
         
         bgIndex = (state.bgIndex >= 0 && state.bgIndex < bgColors.length) ? state.bgIndex : 0;
         applyBackground();

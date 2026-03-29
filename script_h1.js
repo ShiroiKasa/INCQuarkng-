@@ -49,8 +49,10 @@ function h1_hans(){
     Quark_h2_buff1 = new Decimal(((h2_ziyuan.plus(1)).log(10))).plus(1);
     Quark_h2_buff2 = (Quark_h2_buff1.times(h2_up1_buff)).times(h2_up2_buff);
     let Quark_h3_buff1 = new Decimal(((h3_ziyuan.plus(1)).log(9))).plus(1);
+    let Quark_h3_buff2 = new Decimal(h3_mass.plus(666).div(666));
+    let Quark_h3_buff = new Decimal(Quark_h3_buff1.times(Quark_h3_buff2));
 
-    let Quark_js1 = (Decimal.pow((Quark_h1_js.times(Quark_h2_buff2)),h2_e_buff)).times(Quark_h3_buff1);
+    let Quark_js1 = (Decimal.pow((Quark_h1_js.times(Quark_h2_buff2)),h2_e_buff)).times(Quark_h3_buff);
 
     Quark_js = Quark_js1;
 
