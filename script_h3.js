@@ -6,14 +6,21 @@ function updateUI_h3(){
     b3_1_b.style.opacity = h3_ziyuan.gte(h3_up1_cost) ? '1' : '0.5';
     document.getElementById("h3_mass_b").innerHTML = "质量发生器" + h3_up1 + "级 费用:" + formatDecimal(h3_up1_cost) +"引力子<br>质量:" + formatDecimal(h3_mass) + "+" + formatDecimal(h3_mass_js.times(10)) + "/s";
 
-    document.getElementById("h3_txt1").innerHTML = "质量加成:<br>夸克产量*" + formatDecimal(new Decimal(h3_mass.plus(666).div(666)));
+    if (h3_mass.gte(1e4)){
+        document.getElementById("h3_txt1").innerHTML = "质量加成:<br>夸克产量*" + formatDecimal(new Decimal(h3_mass.plus(666).div(666))) + "<br>质子产量*" + formatDecimal(new Decimal(h3_mass.log(11)));
+    }else{
+        document.getElementById("h3_txt1").innerHTML = "质量加成:<br>夸克产量*" + formatDecimal(new Decimal(h3_mass.plus(666).div(666)));
+    }
 
     let h3_up2_cost = Decimal.pow(3, h3_up2)
     let b3_2_b = document.getElementById('h3_BH_b');
     b3_2_b.style.opacity = h3_ziyuan.gte(h3_up2_cost) ? '1' : '0.5';
     document.getElementById("h3_BH_b").innerHTML = "黑洞催化器" + h3_up2 + "级 费用:" + formatDecimal(h3_up2_cost) +"引力子<br>黑洞:" + formatDecimal(h3_BH) + "+" + formatDecimal(h3_BH_js.times(10)) + "/s";
-
-    document.getElementById("h3_txt2").innerHTML = "黑洞加成:<br>电子产量*" + formatDecimal(new Decimal(h3_BH.plus(2333).div(2333)));
+    if (h3_BH.gte(1e4)){
+        document.getElementById("h3_txt2").innerHTML = "黑洞加成:<br>中子产量*" + formatDecimal(new Decimal(h3_BH.plus(2333).div(2333))) + "<br>电子产量*" + formatDecimal(new Decimal(h3_BH.log(10)));
+    }else{
+        document.getElementById("h3_txt2").innerHTML = "黑洞加成:<br>中子产量*" + formatDecimal(new Decimal(h3_BH.plus(2333).div(2333)));
+    }
 }
 
 function h3_hans(){

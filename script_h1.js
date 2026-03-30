@@ -6,7 +6,7 @@ function updateUI_h1(){
     b1_re.style.opacity = Quark.gte(1000) ? '1' : '0.5';
     let h2_up3_buff = new Decimal(1)
     h2_up3.gte(1) && (h2_up3_buff = new Decimal(quark_max.log(10)));
-    document.getElementById("h1_re_b").innerHTML = Quark.gte(1000) ? "夸克禁闭|原子+" + formatDecimal(h2_up3_buff.times(Quark.log(10)).times(new Decimal(h2_p.plus(10).log(10)))) : "夸克禁闭|原子+0";
+    document.getElementById("h1_re_b").innerHTML = Quark.gte(1000) ? "夸克禁闭|原子+" + formatDecimal(h2_ziyuan_js) : "夸克禁闭|原子+0";
 
     document.getElementById("Quarks").innerHTML = "夸克:" + formatDecimal(Quark);
     document.getElementById("h1_up1s").innerHTML = formatDecimal(Quark_js.times(10)) + "/s";
@@ -59,6 +59,8 @@ function h1_hans(){
     //原子自动获取
     let h2_up3_buff = new Decimal(1);
     h2_up3.gte(1) && (h2_up3_buff = new Decimal(quark_max.log(10)));
+    let h2_up11_buff = new Decimal(1);
+    h2_up11.gte(1) && (h2_up11_buff = new Decimal(h2_re.pow(0.5)));
     if (Quark.gte(1000)){
         h2_ziyuan_js = h2_up3_buff.times(Quark.log(10)).times(new Decimal(h2_p.plus(10).log(10)))
     }else{

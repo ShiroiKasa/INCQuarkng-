@@ -66,8 +66,10 @@ function UIvisible_h2(){
 function UIvisible_h3(){
     let b2_9_b = document.getElementById('h2_up9_b');
     let b2_10_b = document.getElementById('h2_up10_b');
+    let b2_11_b = document.getElementById('h2_up11_b');
     h2_re.gte(1) ? b2_9_b.style.display = 'block' : b2_10_b.style.display = 'none';
     h2_re.gte(1) ? b2_10_b.style.display = 'block' : b2_10_b.style.display = 'none';
+    h2_re.gte(1) ? b2_11_b.style.display = 'block' : b2_11_b.style.display = 'none';
 }
 
 
@@ -125,7 +127,7 @@ function startAutoProduction(){
             h2_js_re = 1;
             h3_js_re = 1;
         }
-        gl_js_re >= 10 ? (gl_js_hans(), gl_js_re = 0) : gl_js_re += 1;
+        gl_js_re >= 6 ? (gl_js_hans(), gl_js_re = 0) : gl_js_re += 1;
         //自动化
         global_auto()
 
@@ -198,6 +200,7 @@ function saveGame(){
         h1_re: h1_re.toString(),
 
         h2_ziyuan: h2_ziyuan.toString(),
+        h2_ziyuan_max: h2_ziyuan_max.toString(),
         h2_upe: h2_upe.toString(),
         h2_upp: h2_upp.toString(),
         h2_upn: h2_upn.toString(),
@@ -214,9 +217,11 @@ function saveGame(){
         h2_up8: h2_up8.toString(),
         h2_up9: h2_up9.toString(),
         h2_up10: h2_up10.toString(),
+        h2_up11: h2_up11.toString(),
         h2_re: h2_re.toString(),
 
         h3_ziyuan: h3_ziyuan.toString(),
+        h3_ziyuan_max: h3_ziyuan_max.toString(),
         h3_mass: h3_mass.toString(),
         h3_BH: h3_BH.toString(),
         h3_up1: h3_up1.toString(),
@@ -264,6 +269,7 @@ function loadGame(){
         h1_re = sanitizeDecimal(state.h1_re);
         
         h2_ziyuan = sanitizeDecimal(state.h2_ziyuan);
+        h2_ziyuan_max = sanitizeDecimal(state.h2_ziyuan_max);
         h2_upe = sanitizeDecimal(state.h2_upe);
         h2_upp = sanitizeDecimal(state.h2_upp);
         h2_upn = sanitizeDecimal(state.h2_upn);
@@ -280,9 +286,11 @@ function loadGame(){
         h2_up8 = sanitizeDecimal(state.h2_up8);
         h2_up9 = sanitizeDecimal(state.h2_up9);
         h2_up10 = sanitizeDecimal(state.h2_up10);
+        h2_up11 = sanitizeDecimal(state.h2_up11);
         h2_re = sanitizeDecimal(state.h2_re);
         
         h3_ziyuan = sanitizeDecimal(state.h3_ziyuan);
+        h3_ziyuan_max = sanitizeDecimal(state.h3_ziyuan_max);
         h3_mass = sanitizeDecimal(state.h3_mass);
         h3_BH = sanitizeDecimal(state.h3_BH);
         h3_up1 = sanitizeDecimal(state.h3_up1);

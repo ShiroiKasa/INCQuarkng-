@@ -9,7 +9,7 @@ function updateUI_h2(){
     let h2_up3_buff = new Decimal(1);
     h2_up3.gte(1) && (h2_up3_buff = new Decimal(quark_max.log(10)));
     if (Quark.gte(1000) && h2_up9.gte(1)){
-        document.getElementById("h2_ziyuans").innerHTML = formatDecimal(h2_up3_buff.times(Quark.log(10)).times(new Decimal(h2_p.plus(10).log(10))).times(10)) + "/s";
+        document.getElementById("h2_ziyuans").innerHTML = formatDecimal(h2_ziyuan_js.times(10)) + "/s";
     }else{
         document.getElementById("h2_ziyuans").innerHTML = "0/s";
     }
@@ -17,8 +17,8 @@ function updateUI_h2(){
     let h2_upe_cost = Decimal.pow(2, h2_upe).times(1000)
     let h2_upp_cost = Decimal.pow(2, h2_upp).times(1000)
     let h2_upn_cost = Decimal.pow(2, h2_upn).times(1000)
-    document.getElementById("h2_up5buff_b").innerHTML = "电子生成器" + h2_upe + "级 费用:" + formatDecimal(h2_upe_cost) +"原子<br>电子:" + formatDecimal(h2_e) + "+" + formatDecimal(h2_upe.times(h2_n.plus(10).log(10))) + "/s" + " 夸克指数+" + formatDecimal(new Decimal(h2_e.plus(10).log(10)).div(10));
-    document.getElementById("h2_up6buff_b").innerHTML = "质子生成器" + h2_upp + "级 费用:" + formatDecimal(h2_upp_cost) +"原子<br>质子:" + formatDecimal(h2_p) + "+" + formatDecimal(h2_upp.times(h2_n.plus(10).log(10))) + "/s" + " 原子产量*" + formatDecimal(new Decimal(h2_p.plus(10).log(10)));
+    document.getElementById("h2_up5buff_b").innerHTML = "电子生成器" + h2_upe + "级 费用:" + formatDecimal(h2_upe_cost) +"原子<br>电子:" + formatDecimal(h2_e) + "+" + formatDecimal(h2_e_js.times(10)) + "/s" + " 夸克指数+" + formatDecimal(new Decimal(h2_e.plus(10).log(10)).div(10));
+    document.getElementById("h2_up6buff_b").innerHTML = "质子生成器" + h2_upp + "级 费用:" + formatDecimal(h2_upp_cost) +"原子<br>质子:" + formatDecimal(h2_p) + "+" + formatDecimal(h2_p_js.times(10)) + "/s" + " 原子产量*" + formatDecimal(new Decimal(h2_p.plus(10).log(10)));
     document.getElementById("h2_up7buff_b").innerHTML = "中子生成器" + h2_upn + "级 费用:" + formatDecimal(h2_upn_cost) +"原子<br>中子:" + formatDecimal(h2_n) + "+" + formatDecimal(h2_n_js.times(10)) + "/s" + " 电子/质子产量*" + formatDecimal(new Decimal(h2_n.plus(10).log(10)));
     let b2_e_b = document.getElementById('h2_up5buff_b');
     b2_e_b.style.opacity = h2_ziyuan.gte(h2_upe_cost) ? '1' : '0.5';
@@ -56,14 +56,24 @@ function updateUI_h2(){
 
     let b2_10 = document.getElementById('h2_up10_b');
     b2_10.style.opacity = (h2_up10.eq(1)) ? '1' : (h3_ziyuan.gte(50) ? '0.5' : '0.2');
+
+    let b2_11 = document.getElementById('h2_up11_b');
+    b2_11.style.opacity = (h2_up11.eq(1)) ? '1' : (h3_ziyuan.gte(100) ? '0.5' : '0.2');
 }
 
 //计算函数
 function h2_hans(){
-    h2_e_js = (h2_upe.times(h2_n.plus(10).log(10))).div(10);
-    h2_p_js = (h2_upp.times(h2_n.plus(10).log(10))).div(10);
+    let h3_BH_buff2 = new Decimal(1);
+    h3_BH_buff2 = (h3_BH.gte(1e4)) ? new Decimal(h3_BH.log(10)) : new Decimal(1);
+    h2_e_js = (h2_upe.times(h2_n.plus(10).log(10))).times(h3_BH_buff2).div(10);
+
+    let h3_mass_buff = new Decimal(1);
+    h3_mass_buff = (h3_mass.gte(1e4)) ? new Decimal(h3_mass.log(9)) : new Decimal(1);
+    h2_p_js = (h2_upp.times(h2_n.plus(10).log(10))).times(h3_mass_buff).div(10);
     let h2_up10_buff = new Decimal(1);
+
     h2_up10_buff = (h2_up10.gte(1) && h2_ziyuan_max.gte(10)) ? h2_ziyuan_max.log(10) : new Decimal(1);
+    let h3_BH_buff = new Decimal(1);
     h3_BH_buff = (h3_BH.gte(1)) ? new Decimal(h3_BH.plus(2333).div(2333)) : new Decimal(1);
     h2_n_js = (h2_upn.times(h2_up10_buff).times(h3_BH_buff)).div(10);
 }
@@ -163,8 +173,12 @@ function h2_up9_button(){
     handleUpgrade('h2_up9', 10, '氟', '无需夸克禁闭也可以获得原子', 1, '引力子', 'h3_ziyuan');
 }
 function h2_up10_button(){
-    handleUpgrade('h2_up10', 50, '氖', '最大原子数量加成电子获取/公式*lg(最大原子数量)', 1, '引力子', 'h3_ziyuan');
+    handleUpgrade('h2_up10', 50, '氖', '最大原子数量加成中子获取/公式*lg(最大原子数量)', 1, '引力子', 'h3_ziyuan');
 }
+function h2_up11_button(){
+    handleUpgrade('h2_up11', 100, '钠', '引力激发次数加成原子获取/公式*(引力激发次数)^0.5', 1, '引力子', 'h3_ziyuan');
+}
+
 function h2_re_button(){
     h2_ziyuan.gte(5e4) && (h3_ziyuan = h3_ziyuan.plus(new Decimal(h2_ziyuan.log(10))) , h2_re_hans());
 }
@@ -215,3 +229,4 @@ document.getElementById('h2_up7_b').addEventListener('click', h2_up7_button);
 document.getElementById('h2_up8_b').addEventListener('click', h2_up8_button);
 document.getElementById('h2_up9_b').addEventListener('click', h2_up9_button);
 document.getElementById('h2_up10_b').addEventListener('click', h2_up10_button);
+document.getElementById('h2_up11_b').addEventListener('click', h2_up11_button);
