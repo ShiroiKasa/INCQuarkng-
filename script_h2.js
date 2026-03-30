@@ -64,7 +64,8 @@ function h2_hans(){
     h2_p_js = (h2_upp.times(h2_n.plus(10).log(10))).div(10);
     let h2_up10_buff = new Decimal(1);
     h2_up10_buff = (h2_up10.gte(1) && h2_ziyuan_max.gte(10)) ? h2_ziyuan_max.log(10) : new Decimal(1);
-    h2_n_js = (h2_upn.times(h2_up10_buff)).div(10);
+    h3_BH_buff = (h3_BH.gte(1)) ? new Decimal(h3_BH.plus(2333).div(2333)) : new Decimal(1);
+    h2_n_js = (h2_upn.times(h2_up10_buff).times(h3_BH_buff)).div(10);
 }
 
 //购买函数

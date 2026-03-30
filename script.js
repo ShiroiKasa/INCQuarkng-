@@ -81,6 +81,7 @@ function global_inc(){
     h2_n_js.gte(0.1) && (h2_n = h2_n.plus(h2_n_js));
     (Quark.gte(1000) && h2_up9.gte(1)) && (h2_ziyuan = h2_ziyuan.plus(h2_ziyuan_js));
     h3_mass_js.gte(0.1) && (h3_mass = h3_mass.plus(h3_mass_js));
+    h3_BH_js.gte(0.1) && (h3_BH = h3_BH.plus(h3_BH_js));
 }
 //统计
 function stat_hans(){
@@ -217,7 +218,9 @@ function saveGame(){
 
         h3_ziyuan: h3_ziyuan.toString(),
         h3_mass: h3_mass.toString(),
+        h3_BH: h3_BH.toString(),
         h3_up1: h3_up1.toString(),
+        h3_up2: h3_up2.toString(),
 
         bgIndex: bgIndex,
     };
@@ -281,7 +284,9 @@ function loadGame(){
         
         h3_ziyuan = sanitizeDecimal(state.h3_ziyuan);
         h3_mass = sanitizeDecimal(state.h3_mass);
+        h3_BH = sanitizeDecimal(state.h3_BH);
         h3_up1 = sanitizeDecimal(state.h3_up1);
+        h3_up2 = sanitizeDecimal(state.h3_up2);
 
         
         bgIndex = (state.bgIndex >= 0 && state.bgIndex < bgColors.length) ? state.bgIndex : 0;

@@ -66,5 +66,8 @@ let h3_js_re = 1;
 var h3_ziyuan = new Decimal(0);
 let h3_mass = new Decimal(0);
 let h3_mass_js = new Decimal(0);
+let h3_BH = new Decimal(0);
+let h3_BH_js = new Decimal(0);
 
 let h3_up1 = new Decimal(0);
+let h3_up2 = new Decimal(0);
