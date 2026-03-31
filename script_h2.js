@@ -3,7 +3,7 @@ function updateUI_h2(){
     let b2_re = document.getElementById('h2_re_b');
     b2_re.style.visibility = h2_ziyuan_max.gte(5e4) ? 'visible' : 'hidden';
     b2_re.style.opacity = h2_ziyuan.gte(5e4) ? '1' : '0.5';
-    document.getElementById("h2_re_b").innerHTML = h2_ziyuan.gte(5e4) ? "引力激发|引力子+" + formatDecimal(new Decimal(h2_ziyuan.log(10))) : "引力激发|引力子+0";
+    document.getElementById("h2_re_b").innerHTML = h2_ziyuan.gte(5e4) ? "引力激发|引力子+" + formatDecimal(h3_ziyuan_js) : "引力激发|引力子+0";
 
     document.getElementById("h2_ziyuan_txt").innerHTML = "原子:" + formatDecimal(h2_ziyuan) + "(对夸克加成:" + formatDecimal(new Decimal(((h2_ziyuan.plus(1)).log(10))).plus(1)) + ")";
     let h2_up3_buff = new Decimal(1);
@@ -59,6 +59,9 @@ function updateUI_h2(){
 
     let b2_11 = document.getElementById('h2_up11_b');
     b2_11.style.opacity = (h2_up11.eq(1)) ? '1' : (h3_ziyuan.gte(100) ? '0.5' : '0.2');
+
+    let b2_12 = document.getElementById('h2_up12_b');
+    b2_12.style.opacity = (h2_up12.eq(1)) ? '1' : (h3_ziyuan.gte(200) ? '0.5' : '0.2');
 }
 
 //计算函数
@@ -76,6 +79,10 @@ function h2_hans(){
     let h3_BH_buff = new Decimal(1);
     h3_BH_buff = (h3_BH.gte(1)) ? new Decimal(h3_BH.plus(2333).div(2333)) : new Decimal(1);
     h2_n_js = (h2_upn.times(h2_up10_buff).times(h3_BH_buff)).div(10);
+
+    let h2_up12_buff = new Decimal(1);
+    h2_up12.gte(1) && (h2_up12_buff = new Decimal(quark_max.log(10)));
+    h3_ziyuan_js = new Decimal(h2_ziyuan.log(10)).times(h2_up12_buff);
 }
 
 //购买函数
@@ -178,9 +185,12 @@ function h2_up10_button(){
 function h2_up11_button(){
     handleUpgrade('h2_up11', 100, '钠', '引力激发次数加成原子获取/公式*(引力激发次数)^0.5', 1, '引力子', 'h3_ziyuan');
 }
+function h2_up12_button(){
+    handleUpgrade('h2_up12', 200, '镁', '最大夸克数量加成引力子获取/公式*lg(最大夸克数量)', 1, '引力子', 'h3_ziyuan');
+}
 
 function h2_re_button(){
-    h2_ziyuan.gte(5e4) && (h3_ziyuan = h3_ziyuan.plus(new Decimal(h2_ziyuan.log(10))) , h2_re_hans());
+    h2_ziyuan.gte(5e4) && (h3_ziyuan = h3_ziyuan.plus(h3_ziyuan_js) , h2_re_hans());
 }
 
 function h2_re_hans(){
@@ -230,3 +240,4 @@ document.getElementById('h2_up8_b').addEventListener('click', h2_up8_button);
 document.getElementById('h2_up9_b').addEventListener('click', h2_up9_button);
 document.getElementById('h2_up10_b').addEventListener('click', h2_up10_button);
 document.getElementById('h2_up11_b').addEventListener('click', h2_up11_button);
+document.getElementById('h2_up12_b').addEventListener('click', h2_up12_button);

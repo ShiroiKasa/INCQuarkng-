@@ -58,6 +58,7 @@ var h2_up8 = new Decimal(0);
 var h2_up9 = new Decimal(0);
 var h2_up10 = new Decimal(0);
 var h2_up11 = new Decimal(0);
+var h2_up12 = new Decimal(0);
 
 let h2_re = new Decimal(0);
 
@@ -65,6 +66,7 @@ let h2_re = new Decimal(0);
 let h3_js_re = 1;
 
 var h3_ziyuan = new Decimal(0);
+let h3_ziyuan_js = new Decimal(0);
 var h3_ziyuan_max = new Decimal(0);
 let h3_mass = new Decimal(0);
 let h3_mass_js = new Decimal(0);

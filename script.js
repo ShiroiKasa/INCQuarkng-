@@ -67,9 +67,11 @@ function UIvisible_h3(){
     let b2_9_b = document.getElementById('h2_up9_b');
     let b2_10_b = document.getElementById('h2_up10_b');
     let b2_11_b = document.getElementById('h2_up11_b');
+    let b2_12_b = document.getElementById('h2_up12_b');
     h2_re.gte(1) ? b2_9_b.style.display = 'block' : b2_10_b.style.display = 'none';
     h2_re.gte(1) ? b2_10_b.style.display = 'block' : b2_10_b.style.display = 'none';
     h2_re.gte(1) ? b2_11_b.style.display = 'block' : b2_11_b.style.display = 'none';
+    h2_re.gte(1) ? b2_12_b.style.display = 'block' : b2_12_b.style.display = 'none';
 }
 
 
@@ -218,6 +220,7 @@ function saveGame(){
         h2_up9: h2_up9.toString(),
         h2_up10: h2_up10.toString(),
         h2_up11: h2_up11.toString(),
+        h2_up12: h2_up12.toString(),
         h2_re: h2_re.toString(),
 
         h3_ziyuan: h3_ziyuan.toString(),
@@ -287,6 +290,7 @@ function loadGame(){
         h2_up9 = sanitizeDecimal(state.h2_up9);
         h2_up10 = sanitizeDecimal(state.h2_up10);
         h2_up11 = sanitizeDecimal(state.h2_up11);
+        h2_up12 = sanitizeDecimal(state.h2_up12);
         h2_re = sanitizeDecimal(state.h2_re);
         
         h3_ziyuan = sanitizeDecimal(state.h3_ziyuan);
