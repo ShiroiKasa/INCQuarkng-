@@ -21,11 +21,19 @@ function updateUI_h3(){
     }else{
         document.getElementById("h3_txt2").innerHTML = "黑洞加成:<br>中子产量*" + formatDecimal(new Decimal(h3_BH.plus(2333).div(2333)));
     }
+
+    let h3_up3_cost = Decimal.pow(3.33, h3_up3);
+    let b3_3_b = document.getElementById('h3_up3_b');
+    b3_3_b.style.opacity = h3_BH.gte(h3_up3_cost) ? '1' : '0.5';
+    document.getElementById("h3_up3_b").innerHTML = "类地行星" + h3_up3 + "级 费用:" + formatDecimal(h3_up3_cost) +"黑洞<br>数量:" + formatDecimal(h3_up3q) + "+" + formatDecimal(h3_up3q_js.times(10)) + "/s 黑洞产量*" + formatDecimal(new Decimal(h3_up3q.plus(11).log(11)));
 }
 
 function h3_hans(){
     h3_mass_js = Decimal.pow(2, h3_up1).minus(1).minus(h3_BH_js);
-    h3_BH_js = Decimal.min(Decimal.pow(1.2, h3_up2).minus(1),h3_mass.div(100));
+    let h3_up3_buff = new Decimal(1);
+    h3_up3q.gte(1) && (h3_up3_buff = new Decimal(h3_up3q.plus(11).log(11)));
+    h3_BH_js = Decimal.min(Decimal.pow(1.2, h3_up2).minus(1).times(h3_up3_buff),h3_mass.div(100));
+    h3_up3q_js = Decimal.pow(1.2, h3_up3).minus(1);
 }
 
 function h3_up1_button(){
@@ -46,6 +54,16 @@ function h3_up2_button(){
         updateUI_h3();
     }
 }
+function h3_up3_button(){
+    let cost = Decimal.pow(3.33, h3_up3);
+    if (h3_BH.gte(cost)){
+        h3_BH = h3_BH.minus(cost);
+        h3_up3 = h3_up3.plus(1);
+        h3_js_re = 1;
+        updateUI_h3();
+    }
+}
 
 document.getElementById('h3_mass_b').addEventListener('click', h3_up1_button);
 document.getElementById('h3_BH_b').addEventListener('click', h3_up2_button);
+document.getElementById('h3_up3_b').addEventListener('click', h3_up3_button);
