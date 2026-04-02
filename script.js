@@ -87,6 +87,7 @@ function global_inc(){
     h3_mass_js.gte(0.1) && (h3_mass = h3_mass.plus(h3_mass_js));
     h3_BH_js.gte(0.1) && (h3_BH = h3_BH.plus(h3_BH_js));
     h3_up3q_js.gte(0.1) && (h3_up3q = h3_up3q.plus(h3_up3q_js));
+    h3_up4q_js.gte(0.1) && (h3_up4q = h3_up4q.plus(h3_up4q_js));
 }
 //统计
 function stat_hans(){
@@ -232,7 +233,9 @@ function saveGame(){
         h3_up2: h3_up2.toString(),
         h3_up3: h3_up3.toString(),
         h3_up3q: h3_up3q.toString(),
-
+        h3_up4: h3_up4.toString(),
+        h3_up4q: h3_up4q.toString(),
+        
         bgIndex: bgIndex,
     };
     localStorage.setItem("quarkGameSave", JSON.stringify(gameState));
@@ -304,6 +307,8 @@ function loadGame(){
         h3_up2 = sanitizeDecimal(state.h3_up2);
         h3_up3 = sanitizeDecimal(state.h3_up3);
         h3_up3q = sanitizeDecimal(state.h3_up3q);
+        h3_up4 = sanitizeDecimal(state.h3_up4);
+        h3_up4q = sanitizeDecimal(state.h3_up4q);
 
         
         bgIndex = (state.bgIndex >= 0 && state.bgIndex < bgColors.length) ? state.bgIndex : 0;
