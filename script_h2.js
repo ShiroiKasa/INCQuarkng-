@@ -62,6 +62,9 @@ function updateUI_h2(){
 
     let b2_12 = document.getElementById('h2_up12_b');
     b2_12.style.opacity = (h2_up12.eq(1)) ? '1' : (h3_ziyuan.gte(200) ? '0.5' : '0.2');
+
+    let b2_13 = document.getElementById('h2_up13_b');
+    b2_13.style.opacity = (h2_up13.eq(1)) ? '1' : (h3_ziyuan.gte(500) ? '0.5' : '0.2');
 }
 
 //计算函数
@@ -124,7 +127,29 @@ function handleUpgrade(upgradeVarName, price, title, description, maxLevel = 1, 
         h2_cx = upgradeVarName;
     }
 }
-
+/**
+ * 自动购买一次性升级（如氢、氦、锂...）
+ * @param {string} upgradeVarName - 升级变量名（如 'h2_up1'）
+ * @param {Decimal} price - 价格（Decimal 对象或数字）
+ * @param {string} resourceVarName - 消耗的资源变量名（如 'h2_ziyuan'）
+ * @param {number|Decimal} maxLevel - 最大等级，默认 1（一次性）
+ */
+function autoPurchaseOneTime(upgradeVarName, price, resourceVarName, maxLevel = 1) {
+    const upgrade = window[upgradeVarName];
+    const resource = window[resourceVarName];
+    
+    //未满级 且 资源足够
+    if (upgrade.lt(maxLevel) && resource.gte(price)) {
+        window[upgradeVarName] = upgrade.plus(1);
+        window[resourceVarName] = resource.minus(price);
+        updateUI_h2();
+        UIvisible_h2();
+        if (typeof updateUI_h2 === 'function') updateUI_h2();
+        if (typeof h2_js_re !== 'undefined') h2_js_re = 1;
+        return true;
+    }
+    return false;
+}
 function h2_upe_button(){
     let cost = Decimal.pow(2, h2_upe).times(1000)
     if (h2_ziyuan.gte(cost)){
@@ -188,6 +213,9 @@ function h2_up11_button(){
 function h2_up12_button(){
     handleUpgrade('h2_up12', 200, '镁', '最大夸克数量加成引力子获取/公式*lg(最大夸克数量)', 1, '引力子', 'h3_ziyuan');
 }
+function h2_up13_button(){
+    handleUpgrade('h2_up13', 500, '铝', '解锁星辰层级升级自动化且铍初始等级变为1', 1, '引力子', 'h3_ziyuan');
+}
 
 function h2_re_button(){
     h2_ziyuan.gte(5e4) && (h3_ziyuan = h3_ziyuan.plus(h3_ziyuan_js) , h2_re_hans());
@@ -210,7 +238,7 @@ function h2_re_hans(){
     h2_up1 = new Decimal(0);
     h2_up2 = new Decimal(0);
     h2_up3 = new Decimal(0);
-    h2_up4 = new Decimal(0);
+    h2_up4 = new Decimal(h2_up13);
     h2_up5 = new Decimal(0);
     h2_up6 = new Decimal(0);
     h2_up7 = new Decimal(0);
@@ -241,3 +269,4 @@ document.getElementById('h2_up9_b').addEventListener('click', h2_up9_button);
 document.getElementById('h2_up10_b').addEventListener('click', h2_up10_button);
 document.getElementById('h2_up11_b').addEventListener('click', h2_up11_button);
 document.getElementById('h2_up12_b').addEventListener('click', h2_up12_button);
+document.getElementById('h2_up13_b').addEventListener('click', h2_up13_button);

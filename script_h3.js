@@ -30,7 +30,12 @@ function updateUI_h3(){
     let h3_up4_cost = Decimal.pow(3.99, h3_up4);
     let b3_4_b = document.getElementById('h3_up4_b');
     b3_4_b.style.opacity = h3_BH.gte(h3_up4_cost) ? '1' : '0.5';
-    document.getElementById("h3_up4_b").innerHTML = "类海王星" + h3_up4 + "级 费用:" + formatDecimal(h3_up4_cost) +"黑洞<br>数量:" + formatDecimal(h3_up4q) + "+" + formatDecimal(h3_up4q_js.times(10)) + "/s 类地行星产量*" + formatDecimal(new Decimal(h3_up4q.plus(10).log(10)));
+    document.getElementById("h3_up4_b").innerHTML = "类海王星" + h3_up4 + "级 费用:" + formatDecimal(h3_up4_cost) +"黑洞<br>数量:" + formatDecimal(h3_up4q) + "+" + formatDecimal(h3_up4q_js.times(10)) + "/s 类地行星、黑洞产量*" + formatDecimal(new Decimal(h3_up4q.plus(10).log(10)));
+
+    let h3_up5_cost = Decimal.pow(5.33, h3_up5);
+    let b3_5_b = document.getElementById('h3_up5_b');
+    b3_5_b.style.opacity = h3_BH.gte(h3_up5_cost) ? '1' : '0.5';
+    document.getElementById("h3_up5_b").innerHTML = "类木行星" + h3_up4 + "级 费用:" + formatDecimal(h3_up5_cost) +"黑洞<br>数量:" + formatDecimal(h3_up5q) + "+" + formatDecimal(h3_up5q_js.times(10)) + "/s 类海王星、黑洞产量*" + formatDecimal(new Decimal(h3_up5q.plus(9).log(9)));
 
 }
 
@@ -38,13 +43,20 @@ function h3_hans(){
     h3_mass_js = Decimal.pow(2, h3_up1).minus(1).minus(h3_BH_js);
     let h3_up3_buff = new Decimal(1);
     h3_up3q.gte(1) && (h3_up3_buff = new Decimal(h3_up3q.plus(11).log(11)));
-    h3_BH_js = Decimal.min(Decimal.pow(1.2, h3_up2).minus(1).times(h3_up3_buff),h3_mass.div(100));
-
     let h3_up4_buff = new Decimal(1);
     h3_up4q.gte(1) && (h3_up4_buff = new Decimal(h3_up4q.plus(10).log(10)));
+    let h3_up5_buff = new Decimal(1);
+    h3_up5q.gte(1) && (h3_up5_buff = new Decimal(h3_up5q.plus(9).log(9)));
+    let h3_up_BHbuff = new Decimal(1);
+    h3_up_BHbuff = h3_up3_buff.times(h3_up4_buff).times(h3_up5_buff)
+
+    h3_BH_js = Decimal.min(Decimal.pow(1.2, h3_up2).minus(1).times(h3_up_BHbuff),h3_mass.div(100));
+
     h3_up3q_js = Decimal.pow(1.2, h3_up3).minus(1).times(h3_up4_buff);
 
-    h3_up4q_js = Decimal.pow(1.3, h3_up4).minus(1);
+    h3_up4q_js = Decimal.pow(1.3, h3_up4).minus(1).times(h3_up5_buff);
+
+    h3_up5q_js = Decimal.pow(1.4, h3_up5).minus(1);
 }
 
 function h3_up1_button(){
@@ -83,8 +95,18 @@ function h3_up4_button(){
         updateUI_h3();
     }
 }
+function h3_up5_button(){
+    let cost = Decimal.pow(5.33, h3_up5);
+    if (h3_BH.gte(cost)){
+        h3_BH = h3_BH.minus(cost);
+        h3_up5 = h3_up5.plus(1);
+        h3_js_re = 1;
+        updateUI_h3();
+    }
+}
 
 document.getElementById('h3_mass_b').addEventListener('click', h3_up1_button);
 document.getElementById('h3_BH_b').addEventListener('click', h3_up2_button);
 document.getElementById('h3_up3_b').addEventListener('click', h3_up3_button);
 document.getElementById('h3_up4_b').addEventListener('click', h3_up4_button);
+document.getElementById('h3_up5_b').addEventListener('click', h3_up5_button);

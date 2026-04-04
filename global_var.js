@@ -1,6 +1,6 @@
 //所有数值都使用 Decimal 对象
 //背景颜色预设（全局）
-const bgColors = ["#ffffff", "#1e1e2f", "#f5f0e6", "#d9e8f5"];
+const bgColors = ["#ffffff", "#1e1e2f", "#f5f0e6", "#d9e8f5","#000000"];
 let bgIndex = 0;  //当前背景索引，0=白色
 
 let UI_re = "h1";
@@ -19,6 +19,8 @@ let Quark_js = new Decimal(0);
 //auto
 var h1_up2_auto = 0;
 var h1_up3_auto = 0;
+var h3_up1_auto = 0;
+var h3_up2_auto = 0;
 
 //h1
 let h1_js_re = 1;
@@ -59,6 +61,8 @@ var h2_up9 = new Decimal(0);
 var h2_up10 = new Decimal(0);
 var h2_up11 = new Decimal(0);
 var h2_up12 = new Decimal(0);
+var h2_up13 = new Decimal(0);
+var h2_up14 = new Decimal(0);
 
 let h2_re = new Decimal(0);
 
@@ -76,8 +80,11 @@ let h3_up3q = new Decimal(0);
 let h3_up3q_js = new Decimal(0);
 let h3_up4q = new Decimal(0);
 let h3_up4q_js = new Decimal(0);
+let h3_up5q = new Decimal(0);
+let h3_up5q_js = new Decimal(0);
 
 let h3_up1 = new Decimal(0);
 let h3_up2 = new Decimal(0);
 let h3_up3 = new Decimal(0);
 let h3_up4 = new Decimal(0);
+let h3_up5 = new Decimal(0);
