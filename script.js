@@ -73,6 +73,18 @@ function UIvisible_h2(){
     h2_up5.gte(1) ? b2_up5_b.style.display = 'block' : b2_up5_b.style.display = 'none';
     h2_up6.gte(1) ? b2_up6_b.style.display = 'block' : b2_up6_b.style.display = 'none';
     h2_up7.gte(1) ? b2_up7_b.style.display = 'block' : b2_up7_b.style.display = 'none';
+
+    let h1_up4_b = document.getElementById('h1_up4_button');
+    let b2_4_auto = document.getElementById('h1_up4auto_b');
+    if (h2_up15.gte(1)){
+        h1_up4_b.style.display = 'block';
+        b2_4_auto.style.display = 'block';
+    }else{
+        h1_up4_b.style.display = 'none';
+        b2_4_auto.style.display = 'none';
+    }
+    document.getElementById("h1_up4auto_b").innerHTML = (h1_up4_auto === 1) ? "自动:开" : "自动:关";
+    
 }
 //h3
 function UIvisible_h3(){
@@ -81,11 +93,17 @@ function UIvisible_h3(){
     let b2_11_b = document.getElementById('h2_up11_b');
     let b2_12_b = document.getElementById('h2_up12_b');
     let b2_13_b = document.getElementById('h2_up13_b');
+    let b2_14_b = document.getElementById('h2_up14_b');
+    let b2_15_b = document.getElementById('h2_up15_b');
+    let b2_16_b = document.getElementById('h2_up16_b');
     h2_re.gte(1) ? b2_9_b.style.display = 'block' : b2_10_b.style.display = 'none';
     h2_re.gte(1) ? b2_10_b.style.display = 'block' : b2_10_b.style.display = 'none';
     h2_re.gte(1) ? b2_11_b.style.display = 'block' : b2_11_b.style.display = 'none';
     h2_re.gte(1) ? b2_12_b.style.display = 'block' : b2_12_b.style.display = 'none';
     h2_re.gte(1) ? b2_13_b.style.display = 'block' : b2_13_b.style.display = 'none';
+    h2_re.gte(1) ? b2_14_b.style.display = 'block' : b2_14_b.style.display = 'none';
+    h2_re.gte(1) ? b2_15_b.style.display = 'block' : b2_15_b.style.display = 'none';
+    h2_re.gte(1) ? b2_16_b.style.display = 'block' : b2_16_b.style.display = 'none';
 }
 
 
@@ -212,12 +230,14 @@ function saveGame(){
 
         h1_up2_auto: h1_up2_auto,
         h1_up3_auto: h1_up3_auto,
+        h1_up4_auto: h1_up4_auto,
         h3_up1_auto: h1_up2_auto,
         h3_up2_auto: h1_up3_auto,
 
         h1_up1: h1_up1.toString(),
         h1_up1_1: h1_up1_1.toString(),
         h1_up3: h1_up3.toString(),
+        h1_up4: h1_up4.toString(),
         h1_re: h1_re.toString(),
 
         h2_ziyuan: h2_ziyuan.toString(),
@@ -241,6 +261,9 @@ function saveGame(){
         h2_up11: h2_up11.toString(),
         h2_up12: h2_up12.toString(),
         h2_up13: h2_up13.toString(),
+        h2_up14: h2_up14.toString(),
+        h2_up15: h2_up15.toString(),
+        h2_up16: h2_up16.toString(),
         h2_re: h2_re.toString(),
 
         h3_ziyuan: h3_ziyuan.toString(),
@@ -291,12 +314,14 @@ function loadGame(){
         
         h1_up2_auto = (state.h1_up2_auto === 1) ? 1 : 0;
         h1_up3_auto = (state.h1_up3_auto === 1) ? 1 : 0;
+        h1_up4_auto = (state.h1_up4_auto === 1) ? 1 : 0;
         h3_up1_auto = (state.h3_up1_auto === 1) ? 1 : 0;
         h3_up2_auto = (state.h3_up2_auto === 1) ? 1 : 0;
         
         h1_up1 = sanitizeDecimal(state.h1_up1);
         h1_up1_1 = sanitizeDecimal(state.h1_up1_1);
         h1_up3 = sanitizeDecimal(state.h1_up3);
+        h1_up4 = sanitizeDecimal(state.h1_up4);
         h1_re = sanitizeDecimal(state.h1_re);
         
         h2_ziyuan = sanitizeDecimal(state.h2_ziyuan);
@@ -320,6 +345,9 @@ function loadGame(){
         h2_up11 = sanitizeDecimal(state.h2_up11);
         h2_up12 = sanitizeDecimal(state.h2_up12);
         h2_up13 = sanitizeDecimal(state.h2_up13);
+        h2_up14 = sanitizeDecimal(state.h2_up14);
+        h2_up15 = sanitizeDecimal(state.h2_up15);
+        h2_up16 = sanitizeDecimal(state.h2_up16);
         h2_re = sanitizeDecimal(state.h2_re);
         
         h3_ziyuan = sanitizeDecimal(state.h3_ziyuan);

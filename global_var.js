@@ -19,6 +19,8 @@ let Quark_js = new Decimal(0);
 //auto
 var h1_up2_auto = 0;
 var h1_up3_auto = 0;
+var h1_up4_auto = 0;
+
 var h3_up1_auto = 0;
 var h3_up2_auto = 0;
 
@@ -28,6 +30,7 @@ let h1_js_re = 1;
 let h1_up1 = new Decimal(0);//夸克产量+
 let h1_up1_1 = new Decimal(0);
 let h1_up3 = new Decimal(0);//夸克产量*
+let h1_up4 = new Decimal(0);//夸克产量^
 
 let h1_re = new Decimal(0);
 
@@ -63,6 +66,8 @@ var h2_up11 = new Decimal(0);
 var h2_up12 = new Decimal(0);
 var h2_up13 = new Decimal(0);
 var h2_up14 = new Decimal(0);
+var h2_up15 = new Decimal(0);
+var h2_up16 = new Decimal(0);
 
 let h2_re = new Decimal(0);
 

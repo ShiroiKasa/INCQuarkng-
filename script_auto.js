@@ -12,6 +12,9 @@ function h1_up2_auto_cut(){
 function h1_up3_auto_cut(){
     toggleAuto('h1_up3_auto', 'h1_up3auto_b');
 }
+function h1_up4_auto_cut(){
+    toggleAuto('h1_up4_auto', 'h1_up4auto_b');
+}
 function h3_up1_auto_cut(){
     toggleAuto('h3_up1_auto', 'h3_upauto_b',"生成器自动:开","生成器自动:关");
 }
@@ -26,13 +29,28 @@ function global_auto(){
 
         let h1_up3_max = Decimal.floor(Quark.div(100).log(1.5)).plus(1);
         (h1_up3_auto === 1 && h1_up3_max.gt(h1_up3)) && (h1_up3 = h1_up3_max , h1_js_re = 1);
+
+        let h1_up4_max = Decimal.floor(new Decimal(Quark.log(1e3)).log(1.2)).plus(1);
+        (h1_up4_auto === 1 && h1_up4_max.gt(h1_up4)) && (h1_up4 = h1_up4_max , h1_js_re = 1);
     }else if((h2_up4.gte(1))){
         (h1_up2_auto === 1) && (h1_up2_button());
         (h1_up3_auto === 1) && (h1_up3_button());
+        (h1_up4_auto === 1) && (h1_up4_button());
     }
 
     if (h2_up13.gte(1)){
-        (h3_up1_auto === 1) && (h2_upe_button(),h2_upp_button(),h2_upn_button());
+        if (h2_up16.gte(1)){
+            let h2_upe_max = Decimal.floor(h2_ziyuan.div(1000).log(2)).plus(1);
+            (h3_up1_auto === 1 && h2_upe_max.gt(h2_upe)) && (h2_upe = h2_upe_max , h2_js_re = 1);
+
+            let h2_upp_max = Decimal.floor(h2_ziyuan.div(1000).log(2)).plus(1);
+            (h3_up1_auto === 1 && h2_upp_max.gt(h2_upp)) && (h2_upp = h2_upp_max , h2_js_re = 1);
+
+            let h2_upn_max = Decimal.floor(h2_ziyuan.div(1000).log(2)).plus(1);
+            (h3_up1_auto === 1 && h2_upn_max.gt(h2_upn)) && (h2_upn = h2_upn_max , h2_js_re = 1);
+        }else{
+            (h3_up1_auto === 1) && (h2_upe_button(),h2_upp_button(),h2_upn_button());
+        }
         if (h3_up2_auto === 1){
              autoPurchaseOneTime('h2_up1', new Decimal(10), 'h2_ziyuan');
              autoPurchaseOneTime('h2_up2', new Decimal(50), 'h2_ziyuan');
@@ -49,5 +67,6 @@ function global_auto(){
 //绑定按钮事件
 document.getElementById('h1_up2auto_b').addEventListener('click', h1_up2_auto_cut);
 document.getElementById('h1_up3auto_b').addEventListener('click', h1_up3_auto_cut);
+document.getElementById('h1_up4auto_b').addEventListener('click', h1_up4_auto_cut);
 document.getElementById('h3_upauto_b').addEventListener('click', h3_up1_auto_cut);
 document.getElementById('h3_up1_8auto_b').addEventListener('click', h3_up2_auto_cut);

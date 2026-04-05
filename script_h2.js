@@ -65,6 +65,15 @@ function updateUI_h2(){
 
     let b2_13 = document.getElementById('h2_up13_b');
     b2_13.style.opacity = (h2_up13.eq(1)) ? '1' : (h3_ziyuan.gte(500) ? '0.5' : '0.2');
+
+    let b2_14 = document.getElementById('h2_up14_b');
+    b2_14.style.opacity = (h2_up14.eq(1)) ? '1' : (h3_ziyuan.gte(1000) ? '0.5' : '0.2');
+
+    let b2_15 = document.getElementById('h2_up15_b');
+    b2_15.style.opacity = (h2_up15.eq(1)) ? '1' : (h3_ziyuan.gte(3000) ? '0.5' : '0.2');
+
+    let b2_16 = document.getElementById('h2_up16_b');
+    b2_16.style.opacity = (h2_up16.eq(1)) ? '1' : (h3_ziyuan.gte(1e4) ? '0.5' : '0.2');
 }
 
 //计算函数
@@ -216,6 +225,15 @@ function h2_up12_button(){
 function h2_up13_button(){
     handleUpgrade('h2_up13', 500, '铝', '解锁星辰层级升级自动化且铍初始等级变为1', 1, '引力子', 'h3_ziyuan');
 }
+function h2_up14_button(){
+    handleUpgrade('h2_up14', 1000, '硅', '质量加成质量获取/公式*log<sub>3</sub>(质量)', 1, '引力子', 'h3_ziyuan');
+}
+function h2_up15_button(){
+    handleUpgrade('h2_up15', 3000, '磷', '夸克层级解锁夸克指数+', 1, '引力子', 'h3_ziyuan');
+}
+function h2_up16_button(){
+    handleUpgrade('h2_up16', 1e4, '硫', '星辰层级生成器升级不再消耗资源', 1, '引力子', 'h3_ziyuan');
+}
 
 function h2_re_button(){
     h2_ziyuan.gte(5e4) && (h3_ziyuan = h3_ziyuan.plus(h3_ziyuan_js) , h2_re_hans());
@@ -270,3 +288,6 @@ document.getElementById('h2_up10_b').addEventListener('click', h2_up10_button);
 document.getElementById('h2_up11_b').addEventListener('click', h2_up11_button);
 document.getElementById('h2_up12_b').addEventListener('click', h2_up12_button);
 document.getElementById('h2_up13_b').addEventListener('click', h2_up13_button);
+document.getElementById('h2_up14_b').addEventListener('click', h2_up14_button);
+document.getElementById('h2_up15_b').addEventListener('click', h2_up15_button);
+document.getElementById('h2_up16_b').addEventListener('click', h2_up16_button);

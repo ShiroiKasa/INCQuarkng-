@@ -33,6 +33,11 @@ function updateUI_h1(){
     let h1_up3_cost = Decimal.pow(1.5, h1_up3).times(100);
     b1_3.style.opacity = Quark.gte(h1_up3_cost) ? '1' : '0.5';
     document.getElementById("h1_up3_button").innerHTML = "夸克产量*" + h1_up3.plus(1).toString() + " 费用:" + formatDecimal(h1_up3_cost) + "夸克";
+
+    let b1_4 = document.getElementById("h1_up4_button");
+    let h1_up4_cost = Decimal.pow(1e3, Decimal.pow(1.2, h1_up4));
+    b1_4.style.opacity = Quark.gte(h1_up4_cost) ? '1' : '0.5';
+    document.getElementById("h1_up4_button").innerHTML = "夸克产量^" + formatDecimal(h1_up4.div(10).plus(1)) + " 费用:" + formatDecimal(h1_up4_cost) + "夸克";
 }
 //h1
 function h1_hans(){
@@ -45,7 +50,7 @@ function h1_hans(){
     h2_e.gte(0.1) && (h2_e_buff = (new Decimal(h2_e.plus(10).log(10)).div(10)).plus(1));
 
     //正式计算
-    Quark_h1_js = h1_up1.times(0.1).times(h1_up3.plus(1));
+    Quark_h1_js = Decimal.pow(h1_up1.times(0.1).times(h1_up3.plus(1)),h1_up4.div(10).plus(1));
     Quark_h2_buff1 = new Decimal(((h2_ziyuan.plus(1)).log(10))).plus(1);
     Quark_h2_buff2 = (Quark_h2_buff1.times(h2_up1_buff)).times(h2_up2_buff);
     let Quark_h3_buff1 = new Decimal(((h3_ziyuan.plus(1)).log(9))).plus(1);
@@ -106,6 +111,17 @@ function h1_up3_button(){
     }
 }
 
+//夸克产量^
+function h1_up4_button(){
+    let cost = Decimal.pow(1e3, Decimal.pow(1.2, h1_up4));
+    if (Quark.gte(cost)) {
+        Quark = Quark.minus(cost);
+        h1_up4 = h1_up4.plus(1);
+        updateUI_h1();
+        h1_js_re = 1;
+    }
+}
+
 function h1_re_button(){
     let h2_up3_buff = new Decimal(1)
     h2_up3.gte(1) && (h2_up3_buff = new Decimal(quark_max.log(10)));
@@ -121,6 +137,7 @@ function h1_re_hans(){
     h1_up1 = new Decimal(0);
     h1_up1_1 = new Decimal(0);
     h1_up3 = new Decimal(0);
+    h1_up4 = new Decimal(0);
 
     h1_re = h1_re.plus(1);
     h1_js_re = 1;
@@ -131,5 +148,6 @@ function h1_re_hans(){
 document.getElementById('h1_up1_1_button').addEventListener('click', h1_up1_1_button);
 document.getElementById('h1_up2_button').addEventListener('click', h1_up2_button);
 document.getElementById('h1_up3_button').addEventListener('click', h1_up3_button);
+document.getElementById('h1_up4_button').addEventListener('click', h1_up4_button);
 
 document.getElementById('h1_re_b').addEventListener('click', h1_re_button);

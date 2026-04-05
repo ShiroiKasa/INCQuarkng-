@@ -40,7 +40,10 @@ function updateUI_h3(){
 }
 
 function h3_hans(){
-    h3_mass_js = Decimal.pow(2, h3_up1).minus(1).minus(h3_BH_js);
+    let h2_up14_buff = new Decimal(1);
+    h2_up14.gte(1) && (h2_up14_buff = new Decimal(h3_mass.plus(3).log(3)));
+    h3_mass_js = Decimal.pow(2, h3_up1).times(h2_up14_buff).minus(1).minus(h3_BH_js);
+
     let h3_up3_buff = new Decimal(1);
     h3_up3q.gte(1) && (h3_up3_buff = new Decimal(h3_up3q.plus(11).log(11)));
     let h3_up4_buff = new Decimal(1);
