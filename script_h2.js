@@ -74,6 +74,9 @@ function updateUI_h2(){
 
     let b2_16 = document.getElementById('h2_up16_b');
     b2_16.style.opacity = (h2_up16.eq(1)) ? '1' : (h3_ziyuan.gte(1e4) ? '0.5' : '0.2');
+
+    let b2_17 = document.getElementById('h2_up17_b');
+    b2_17.style.opacity = (h2_up17.eq(1)) ? '1' : (h3_ziyuan.gte(2e4) ? '0.5' : '0.2');
 }
 
 //计算函数
@@ -236,6 +239,9 @@ function h2_up15_button(){
 function h2_up16_button(){
     handleUpgrade('h2_up16', 1e4, '硫', '星辰层级生成器升级不再消耗资源', 1, '引力子', 'h3_ziyuan');
 }
+function h2_up17_button(){
+    handleUpgrade('h2_up17', 2e4, '氯', '夸克数量加成夸克获取/公式*log<sub>1.2</sub>(夸克)', 1, '引力子', 'h3_ziyuan');
+}
 
 function h2_re_button(){
     h2_ziyuan.gte(5e4) && (h3_ziyuan = h3_ziyuan.plus(h3_ziyuan_js) , h2_re_hans());
@@ -293,3 +299,4 @@ document.getElementById('h2_up13_b').addEventListener('click', h2_up13_button);
 document.getElementById('h2_up14_b').addEventListener('click', h2_up14_button);
 document.getElementById('h2_up15_b').addEventListener('click', h2_up15_button);
 document.getElementById('h2_up16_b').addEventListener('click', h2_up16_button);
+document.getElementById('h2_up17_b').addEventListener('click', h2_up17_button);

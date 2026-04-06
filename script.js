@@ -96,6 +96,7 @@ function UIvisible_h3(){
     let b2_14_b = document.getElementById('h2_up14_b');
     let b2_15_b = document.getElementById('h2_up15_b');
     let b2_16_b = document.getElementById('h2_up16_b');
+    let b2_17_b = document.getElementById('h2_up17_b');
     h2_re.gte(1) ? b2_9_b.style.display = 'block' : b2_10_b.style.display = 'none';
     h2_re.gte(1) ? b2_10_b.style.display = 'block' : b2_10_b.style.display = 'none';
     h2_re.gte(1) ? b2_11_b.style.display = 'block' : b2_11_b.style.display = 'none';
@@ -104,6 +105,7 @@ function UIvisible_h3(){
     h2_re.gte(1) ? b2_14_b.style.display = 'block' : b2_14_b.style.display = 'none';
     h2_re.gte(1) ? b2_15_b.style.display = 'block' : b2_15_b.style.display = 'none';
     h2_re.gte(1) ? b2_16_b.style.display = 'block' : b2_16_b.style.display = 'none';
+    h2_re.gte(1) ? b2_17_b.style.display = 'block' : b2_17_b.style.display = 'none';
 }
 
 
@@ -265,6 +267,7 @@ function saveGame(){
         h2_up14: h2_up14.toString(),
         h2_up15: h2_up15.toString(),
         h2_up16: h2_up16.toString(),
+        h2_up17: h2_up17.toString(),
         h2_re: h2_re.toString(),
 
         h3_ziyuan: h3_ziyuan.toString(),
@@ -351,6 +354,7 @@ function loadGame(){
         h2_up14 = sanitizeDecimal(state.h2_up14);
         h2_up15 = sanitizeDecimal(state.h2_up15);
         h2_up16 = sanitizeDecimal(state.h2_up16);
+        h2_up17 = sanitizeDecimal(state.h2_up17);
         h2_re = sanitizeDecimal(state.h2_re);
         
         h3_ziyuan = sanitizeDecimal(state.h3_ziyuan);
