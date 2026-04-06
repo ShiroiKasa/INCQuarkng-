@@ -88,8 +88,13 @@ let h3_up4q_js = new Decimal(0);
 let h3_up5q = new Decimal(0);
 let h3_up5q_js = new Decimal(0);
 
+let h3_up6q = new Decimal(0);
+let h3_up6q_js = new Decimal(0);
+
 let h3_up1 = new Decimal(0);
 let h3_up2 = new Decimal(0);
 let h3_up3 = new Decimal(0);
 let h3_up4 = new Decimal(0);
 let h3_up5 = new Decimal(0);
+
+let h3_up6 = new Decimal(0);

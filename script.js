@@ -121,6 +121,7 @@ function global_inc(){
     h3_up3q_js.gte(0.1) && (h3_up3q = h3_up3q.plus(h3_up3q_js));
     h3_up4q_js.gte(0.1) && (h3_up4q = h3_up4q.plus(h3_up4q_js));
     h3_up5q_js.gte(0.1) && (h3_up5q = h3_up5q.plus(h3_up5q_js));
+    h3_up6q_js.gte(0.1) && (h3_up6q = h3_up6q.plus(h3_up6q_js));
 }
 //统计
 function stat_hans(){
@@ -278,6 +279,8 @@ function saveGame(){
         h3_up4q: h3_up4q.toString(),
         h3_up5: h3_up5.toString(),
         h3_up5q: h3_up5q.toString(),
+        h3_up6: h3_up6.toString(),
+        h3_up6q: h3_up6q.toString(),
         
         bgIndex: bgIndex,
     };
@@ -362,6 +365,8 @@ function loadGame(){
         h3_up4q = sanitizeDecimal(state.h3_up4q);
         h3_up5 = sanitizeDecimal(state.h3_up5);
         h3_up5q = sanitizeDecimal(state.h3_up5q);
+        h3_up6 = sanitizeDecimal(state.h3_up6);
+        h3_up6q = sanitizeDecimal(state.h3_up6q);
 
         
         bgIndex = (state.bgIndex >= 0 && state.bgIndex < bgColors.length) ? state.bgIndex : 0;
