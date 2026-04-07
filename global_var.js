@@ -16,6 +16,10 @@ let Quark_h2_buff1 = new Decimal(0);
 let Quark_h2_buff2 = new Decimal(0);
 let Quark_js = new Decimal(0);
 
+//藏品
+let cp_ds = 0;
+let cp_ds_cs = 0;
+
 //auto
 var h1_up2_auto = 0;
 var h1_up3_auto = 0;

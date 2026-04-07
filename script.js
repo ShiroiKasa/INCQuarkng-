@@ -176,11 +176,13 @@ function startAutoProduction(){
         (h1_js_re === 1) && (h1_hans(), h1_js_re -= 1);//h1
         (h2_js_re === 1) && (h2_hans(), h2_js_re -= 1);
         (h3_js_re === 1) && (h3_hans(), h3_js_re -= 1);
+        cp_ds_sj()//藏品
         global_inc()//全局增量函数，必须位于计算模块最后（避免依赖问题）
 
         //UI刷新
         updateUI_cut();//界面按钮可见性
-        (UI_re === "stat") && (updateUI_stat());//统计
+        (UI_re === "stat") && updateUI_stat();//统计
+        (UI_re === "cp") && updateUI_cp();
         (UI_re === "h1") && updateUI_h1();//h1
         (UI_re === "h2") && updateUI_h2();//h2
         (UI_re === "h3") && updateUI_h3();//h3
@@ -207,7 +209,7 @@ document.getElementById('clearSaveBtn').addEventListener('click', resetGame);
 //根据bgIndex设置背景和文字颜色
 function applyBackground(){
     document.body.style.backgroundColor = bgColors[bgIndex];
-    if (bgIndex === 1) { //深色模式
+    if (bgIndex === 1 || bgIndex === 4) { //深色模式
         document.body.style.color = "#f0f0f0";
     } else {
         document.body.style.color = "";
@@ -230,6 +232,9 @@ function saveGame(){
 
         quark_max: quark_max.toString(),
         game_time: game_time,
+
+        cp_ds: cp_ds,
+        cp_ds_cs: cp_ds_cs,
 
         h1_up2_auto: h1_up2_auto,
         h1_up3_auto: h1_up3_auto,
@@ -317,6 +322,9 @@ function loadGame(){
         Quark = sanitizeDecimal(state.Quark);
         quark_max = sanitizeDecimal(state.quark_max);
         game_time = state.game_time !== undefined && !isNaN(state.game_time) ? state.game_time : 0;
+
+        cp_ds = state.cp_ds !== undefined && !isNaN(state.cp_ds) ? state.cp_ds : 0;
+        cp_ds_cs = state.cp_ds_cs !== undefined && !isNaN(state.cp_ds_cs) ? state.cp_ds_cs : 0;
         
         h1_up2_auto = (state.h1_up2_auto === 1) ? 1 : 0;
         h1_up3_auto = (state.h1_up3_auto === 1) ? 1 : 0;

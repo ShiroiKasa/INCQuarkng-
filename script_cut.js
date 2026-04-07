@@ -14,6 +14,7 @@ function xs_hans(){
     document.getElementById('h1').style.display = 'none';
     document.getElementById('h2').style.display = 'none';
     document.getElementById('h3').style.display = 'none';
+    document.getElementById('cp').style.display = 'none';
     document.getElementById('set').style.display = 'none';
     document.getElementById('stat').style.display = 'none';
 }
@@ -36,6 +37,12 @@ function h3_cut_hans() {
     document.getElementById('h3').style.display = 'block';
 }
 
+function cp_cut_hans(){
+    xs_hans()
+    UI_re = "cp"
+    document.getElementById('cp').style.display = 'block';
+}
+
 function set_cut_hans(){
     xs_hans()
     UI_re = "set"
@@ -52,5 +59,6 @@ function stat_cut_hans(){
 document.getElementById('h1_cut').addEventListener('click', h1_cut_hans);
 document.getElementById('h2_cut').addEventListener('click', h2_cut_hans);
 document.getElementById('h3_cut').addEventListener('click', h3_cut_hans);
+document.getElementById('cp_cut').addEventListener('click', cp_cut_hans);
 document.getElementById('set_cut').addEventListener('click', set_cut_hans);
 document.getElementById('stat_cut').addEventListener('click', stat_cut_hans);

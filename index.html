@@ -11,6 +11,7 @@
         <button id="h1_cut" style="background:#ff6600;">夸克</button>
         <button id="h2_cut" style="background:#f78ae5;display: none;">元素</button>
         <button id="h3_cut" style="background:#8ad1f7;display: none;">星辰</button>
+        <button id="cp_cut" style="background:#ffa807;">藏品</button>
         <button id="set_cut" style="background:#e9b1ff;">设置</button>
         <button id="stat_cut" style="background:#59849b;">统计</button>
     </div>
@@ -120,12 +121,18 @@
         </div>
     </div>
 
+    <div id="cp" style="display: none;">
+        <h2>藏品</h2>
+
+        <div class="counter" id="cp_ds_txt" style="color:#ffa807;">藏品点数:0</div>
+    </div>
+
     <div id="set" style="display: none;">
         <h2>设置</h2>
         <button id="manualSaveBtn" style="background:#e9b1ff;">立即存档</button>
         <button id="clearSaveBtn" style="background:#e9b1ff;">清空存档</button>
         <button id="bgColorBtn" style="background:#e9b1ff;">切换背景色</button>
-        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>v2.2(web2.2.26_04_06_2)</p>
+        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>v2.2(web2.2.26_04_07_1)</p>
     </div>
 
     <div id="stat" style="display: none;">
@@ -146,7 +153,8 @@
     <script src="global_var.js"></script><!-- 变量加载 -->
     <script src="script_auto.js"></script><!-- 自动化加载 -->
     <script src="script_cut.js"></script><!-- 切换界面加载 -->
-    <script src="script.js"></script><!-- 存档和h1加载 -->
+    <script src="script.js"></script><!-- 存档加载 -->
+    <script src="script_cp.js"></script>
     <script src="script_h1.js"></script>
     <script src="script_h2.js"></script>
     <script src="script_h3.js"></script>
