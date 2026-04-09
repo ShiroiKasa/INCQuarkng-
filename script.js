@@ -235,6 +235,9 @@ function saveGame(){
 
         cp_ds: cp_ds,
         cp_ds_cs: cp_ds_cs,
+        cp_up1: cp_up1,
+        cp_up2: cp_up2,
+        cp_up3: cp_up3,
 
         h1_up2_auto: h1_up2_auto,
         h1_up3_auto: h1_up3_auto,
@@ -325,6 +328,9 @@ function loadGame(){
 
         cp_ds = state.cp_ds !== undefined && !isNaN(state.cp_ds) ? state.cp_ds : 0;
         cp_ds_cs = state.cp_ds_cs !== undefined && !isNaN(state.cp_ds_cs) ? state.cp_ds_cs : 0;
+        cp_up1 = state.cp_up1 !== undefined && !isNaN(state.cp_up1) ? state.cp_up1 : 0;
+        cp_up2 = state.cp_up2 !== undefined && !isNaN(state.cp_up2) ? state.cp_up2 : 0;
+        cp_up3 = state.cp_up3 !== undefined && !isNaN(state.cp_up3) ? state.cp_up3 : 0;
         
         h1_up2_auto = (state.h1_up2_auto === 1) ? 1 : 0;
         h1_up3_auto = (state.h1_up3_auto === 1) ? 1 : 0;

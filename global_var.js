@@ -20,6 +20,9 @@ let Quark_js = new Decimal(0);
 let cp_ds = 0;
 let cp_ds_cs = 0;
 
+let cp_up1 = 0;
+let cp_up2 = 0;
+let cp_up3 = 0;
 //auto
 var h1_up2_auto = 0;
 var h1_up3_auto = 0;
