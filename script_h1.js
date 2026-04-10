@@ -62,7 +62,9 @@ function h1_hans(){
     let Quark_h3_buff2 = new Decimal(h3_mass.plus(666).div(666));
     let Quark_h3_buff = new Decimal(Quark_h3_buff1.times(Quark_h3_buff2));
 
-    let Quark_js1 = (Decimal.pow((Quark_h1_js.times(Quark_h2_buff2)),h2_e_buff)).times(Quark_h3_buff);
+    let Quark_h4_buff = new Decimal(((h4_ziyuan.plus(1)).log(8))).plus(1);
+
+    let Quark_js1 = (Decimal.pow((Quark_h1_js.times(Quark_h2_buff2)),h2_e_buff)).times(Quark_h3_buff).times(Quark_h4_buff);
     let Quark_js2 = Quark_js1.times(cp_up1_buff);
 
     Quark_js = Quark_js2;
@@ -133,7 +135,7 @@ function h1_up4_button(){
 function h1_re_button(){
     let h2_up3_buff = new Decimal(1)
     h2_up3.gte(1) && (h2_up3_buff = new Decimal(quark_max.log(10)));
-    Quark.gte(1000) && (h2_ziyuan = h2_ziyuan.plus(h2_up3_buff.times(Quark.log(10)).times(new Decimal(h2_p.plus(10).log(10)))) , h1_re_hans());
+    Quark.gte(1000) && (h2_ziyuan = h2_ziyuan.plus(h2_ziyuan_js) , h1_re_hans());
 }
 
 function h1_re_hans(){

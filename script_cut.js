@@ -4,6 +4,8 @@ function updateUI_cut(){
     b2_cut.style.display = h1_re > 0 ? 'block' : 'none';
     let b3_cut = document.getElementById('h3_cut');
     b3_cut.style.display = h2_re > 0 ? 'block' : 'none';
+    let b4_cut = document.getElementById('h4_cut');
+    b4_cut.style.display = h3_re > 0 ? 'block' : 'none';
 }
 
 //界面切换
@@ -14,6 +16,7 @@ function xs_hans(){
     document.getElementById('h1').style.display = 'none';
     document.getElementById('h2').style.display = 'none';
     document.getElementById('h3').style.display = 'none';
+    document.getElementById('h4').style.display = 'none';
     document.getElementById('cp').style.display = 'none';
     document.getElementById('set').style.display = 'none';
     document.getElementById('stat').style.display = 'none';
@@ -31,10 +34,16 @@ function h2_cut_hans(){
     document.getElementById('h2').style.display = 'block';
 }
 
-function h3_cut_hans() {
+function h3_cut_hans(){
     xs_hans()
     UI_re = "h3"
     document.getElementById('h3').style.display = 'block';
+}
+
+function h4_cut_hans(){
+    xs_hans()
+    UI_re = "h4"
+    document.getElementById('h4').style.display = 'block';
 }
 
 function cp_cut_hans(){
@@ -59,6 +68,7 @@ function stat_cut_hans(){
 document.getElementById('h1_cut').addEventListener('click', h1_cut_hans);
 document.getElementById('h2_cut').addEventListener('click', h2_cut_hans);
 document.getElementById('h3_cut').addEventListener('click', h3_cut_hans);
+document.getElementById('h4_cut').addEventListener('click', h4_cut_hans);
 document.getElementById('cp_cut').addEventListener('click', cp_cut_hans);
 document.getElementById('set_cut').addEventListener('click', set_cut_hans);
 document.getElementById('stat_cut').addEventListener('click', stat_cut_hans);

@@ -106,3 +106,12 @@ let h3_up4 = new Decimal(0);
 let h3_up5 = new Decimal(0);
 
 let h3_up6 = new Decimal(0);
+
+let h3_re = new Decimal(0);
+
+//h4
+let h4_js_re = 1;
+
+let h4_ziyuan = new Decimal(0);
+let h4_ziyuan_js = new Decimal(0);
+let h4_ziyuan_max = new Decimal(0);

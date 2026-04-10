@@ -238,7 +238,7 @@ function h2_up15_button(){
     handleUpgrade('h2_up15', 3000, '磷', '夸克层级解锁夸克指数+', 1, '引力子', 'h3_ziyuan');
 }
 function h2_up16_button(){
-    handleUpgrade('h2_up16', 1e4, '硫', '星辰层级生成器升级不再消耗资源', 1, '引力子', 'h3_ziyuan');
+    handleUpgrade('h2_up16', 1e4, '硫', '元素层级生成器升级不再消耗资源', 1, '引力子', 'h3_ziyuan');
 }
 function h2_up17_button(){
     handleUpgrade('h2_up17', 2e4, '氯', '夸克数量加成夸克获取/公式*log<sub>1.2</sub>(夸克)', 1, '引力子', 'h3_ziyuan');

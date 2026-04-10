@@ -1,6 +1,11 @@
 function updateUI_h3(){
     document.getElementById("h3_ziyuan_txt").innerHTML = "引力子:" + formatDecimal(h3_ziyuan) + "(对夸克加成:" + formatDecimal(new Decimal(((h3_ziyuan.plus(1)).log(9))).plus(1)) + ")";
 
+    let b3_re = document.getElementById('h3_re_b');
+    b3_re.style.visibility = h3_BH.gte(1e6) ? 'visible' : 'hidden';
+    b3_re.style.opacity = h3_BH.gte(1e6) ? '1' : '0.5';
+    document.getElementById("h3_re_b").innerHTML = h3_BH.gte(1e6) ? "黑洞蒸发|暗物质+" + formatDecimal(h4_ziyuan_js) : "黑洞蒸发|暗物质+0";
+
     let h3_up1_cost = Decimal.pow(2.33, h3_up1)
     let b3_1_b = document.getElementById('h3_mass_b');
     b3_1_b.style.opacity = h3_ziyuan.gte(h3_up1_cost) ? '1' : '0.5';
@@ -69,6 +74,8 @@ function h3_hans(){
     h3_up5q_js = Decimal.pow(1.4, h3_up5).minus(1).times(h3_up6_buff);
 
     h3_up6q_js = Decimal.pow(1.5, h3_up6).minus(1);
+
+    h4_ziyuan_js = new Decimal(h3_BH.log(10))
 }
 
 function h3_up1_button(){
@@ -126,9 +133,43 @@ function h3_up6_button(){
     }
 }
 
+function h3_re_button(){
+    h3_BH.gte(1e6) && (h4_ziyuan = h4_ziyuan.plus(h4_ziyuan_js) , h3_re_hans());
+}
+
+function h3_re_hans(){
+    h3_ziyuan = new Decimal(0);
+
+    h3_mass = new Decimal(0);
+    h3_BH = new Decimal(0);
+
+    h3_up1 = new Decimal(0);
+    h3_up2 = new Decimal(0);
+    h3_up3 = new Decimal(0);
+    h3_up4 = new Decimal(0);
+    h3_up5 = new Decimal(0);
+    h3_up6 = new Decimal(0);
+
+    h2_up9 = new Decimal(0);
+    h2_up10 = new Decimal(0);
+    h2_up11 = new Decimal(0);
+    h2_up12 = new Decimal(0);
+    h2_up14 = new Decimal(0);
+    h2_up15 = new Decimal(0);
+    h2_up16 = new Decimal(0);
+    h2_up17 = new Decimal(0);
+
+    h3_re = h3_re.plus(1);
+    h3_js_re = 1;
+    updateUI_h3();
+    h2_re_hans();
+}
+
 document.getElementById('h3_mass_b').addEventListener('click', h3_up1_button);
 document.getElementById('h3_BH_b').addEventListener('click', h3_up2_button);
 document.getElementById('h3_up3_b').addEventListener('click', h3_up3_button);
 document.getElementById('h3_up4_b').addEventListener('click', h3_up4_button);
 document.getElementById('h3_up5_b').addEventListener('click', h3_up5_button);
 document.getElementById('h3_up6_b').addEventListener('click', h3_up6_button);
+
+document.getElementById('h3_re_b').addEventListener('click', h3_re_button);

@@ -34,12 +34,15 @@ function updateUI_stat(){
     document.getElementById("h1_re_stat").innerHTML = "夸克禁闭次数:" + formatDecimal(h1_re);
     document.getElementById("h2_ziyuan_MAX").innerHTML = "最大原子数量:" + formatDecimal(h2_ziyuan_max);
     document.getElementById("h2_re_stat").innerHTML = "引力激发次数:" + formatDecimal(h2_re);
+    document.getElementById("h3_ziyuan_MAX").innerHTML = "最大引力子数量:" + formatDecimal(h3_ziyuan_max);
+    document.getElementById("h3_re_stat").innerHTML = "黑洞蒸发次数:" + formatDecimal(h3_re);
 }
 //可见性
 //总可见性
 function UIvisible(){
     UIvisible_h2();
     UIvisible_h3();
+    UIvisible_h4();
 }
 //h2
 function UIvisible_h2(){
@@ -108,6 +111,10 @@ function UIvisible_h3(){
     h2_re.gte(1) ? b2_17_b.style.display = 'block' : b2_17_b.style.display = 'none';
 }
 
+//h4
+function UIvisible_h4(){
+
+}
 
 //计算函数
 //全局增量函数
@@ -130,6 +137,8 @@ function stat_hans(){
     game_time += 0.1;
     Quark.gte(quark_max) && (quark_max = Quark , h1_js_re = 1);
     h2_ziyuan.gte(h2_ziyuan_max) && (h2_ziyuan_max = h2_ziyuan , h2_js_re = 1);
+    h3_ziyuan.gte(h3_ziyuan_max) && (h3_ziyuan_max = h3_ziyuan , h3_js_re = 1);
+    h4_ziyuan.gte(h4_ziyuan_max) && (h4_ziyuan_max = h4_ziyuan , h4_js_re = 1);
 }
 function formatGameTime(totalSeconds) {
     //处理负数情况
@@ -166,6 +175,7 @@ function startAutoProduction(){
             h1_js_re = 1;
             h2_js_re = 1;
             h3_js_re = 1;
+            h4_js_re = 1;
         }
         gl_js_re >= 6 ? (gl_js_hans(), gl_js_re = 0) : gl_js_re += 1;
         //自动化
@@ -176,6 +186,7 @@ function startAutoProduction(){
         (h1_js_re === 1) && (h1_hans(), h1_js_re -= 1);//h1
         (h2_js_re === 1) && (h2_hans(), h2_js_re -= 1);
         (h3_js_re === 1) && (h3_hans(), h3_js_re -= 1);
+        (h4_js_re === 1) && (h4_hans(), h4_js_re -= 1);
         cp_ds_sj()//藏品
         global_inc()//全局增量函数，必须位于计算模块最后（避免依赖问题）
 
@@ -186,6 +197,7 @@ function startAutoProduction(){
         (UI_re === "h1") && updateUI_h1();//h1
         (UI_re === "h2") && updateUI_h2();//h2
         (UI_re === "h3") && updateUI_h3();//h3
+        (UI_re === "h4") && updateUI_h4();//h4
     }, 100);
 }
 
@@ -292,6 +304,10 @@ function saveGame(){
         h3_up5q: h3_up5q.toString(),
         h3_up6: h3_up6.toString(),
         h3_up6q: h3_up6q.toString(),
+        h3_re: h3_re.toString(),
+
+        h4_ziyuan: h4_ziyuan.toString(),
+        h4_ziyuan_max: h4_ziyuan_max.toString(),
         
         bgIndex: bgIndex,
     };
@@ -385,6 +401,10 @@ function loadGame(){
         h3_up5q = sanitizeDecimal(state.h3_up5q);
         h3_up6 = sanitizeDecimal(state.h3_up6);
         h3_up6q = sanitizeDecimal(state.h3_up6q);
+        h3_re = sanitizeDecimal(state.h3_re);
+
+        h4_ziyuan = sanitizeDecimal(state.h4_ziyuan);
+        h4_ziyuan_max = sanitizeDecimal(state.h4_ziyuan_max);
 
         
         bgIndex = (state.bgIndex >= 0 && state.bgIndex < bgColors.length) ? state.bgIndex : 0;
@@ -398,6 +418,8 @@ function loadGame(){
     }
     h1_js_re = 1;
     h2_js_re = 1;
+    h3_js_re = 1;
+    h4_js_re = 1;
 }
 
 //启动游戏
