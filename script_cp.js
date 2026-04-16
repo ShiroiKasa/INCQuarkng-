@@ -27,6 +27,12 @@ function updateUI_cp(){
     cp_3_b.style.opacity = (cp_ds >= cp_up3_cost) ? '1' : '0.5';
     h2_re.gte(1) ? cp_3_b.style.display = 'block' : cp_3_b.style.display = 'none';
     document.getElementById("cp_up3_b").innerHTML = "引力子*" + (cp_up3 + 1) + " 点数需达到:" + formatDecimal(cp_up3_cost);
+
+    let cp_up4_cost = Math.pow(1.5,cp_up4);
+    let cp_4_b = document.getElementById('cp_up4_b');
+    cp_4_b.style.opacity = (cp_ds >= cp_up4_cost) ? '1' : '0.5';
+    h3_re.gte(1) ? cp_4_b.style.display = 'block' : cp_4_b.style.display = 'none';
+    document.getElementById("cp_up4_b").innerHTML = "暗物质*" + (cp_up4 + 1) + " 点数需达到:" + formatDecimal(cp_up4_cost);
 }
 
 function cp_up1_button(){
@@ -50,7 +56,15 @@ function cp_up3_button(){
         updateUI_cp();
     }
 }
+function cp_up4_button(){
+    let cost = Math.pow(1.5,cp_up4);
+    if (cp_ds >= cost){
+        cp_up4 += 1;
+        updateUI_cp();
+    }
+}
 
 document.getElementById('cp_up1_b').addEventListener('click', cp_up1_button);
 document.getElementById('cp_up2_b').addEventListener('click', cp_up2_button);
 document.getElementById('cp_up3_b').addEventListener('click', cp_up3_button);
+document.getElementById('cp_up4_b').addEventListener('click', cp_up4_button);

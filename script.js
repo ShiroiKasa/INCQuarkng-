@@ -131,6 +131,10 @@ function global_inc(){
     h3_up4q_js.gte(0.1) && (h3_up4q = h3_up4q.plus(h3_up4q_js));
     h3_up5q_js.gte(0.1) && (h3_up5q = h3_up5q.plus(h3_up5q_js));
     h3_up6q_js.gte(0.1) && (h3_up6q = h3_up6q.plus(h3_up6q_js));
+
+    h4_up1_js.gte(0.1) && (h4_up1q = h4_up1q.plus(h4_up1_js));
+    h4_up2_js.gte(0.1) && (h4_up2q = h4_up2q.plus(h4_up2_js));
+    h4_up3_js.gte(0.1) && (h4_up3q = h4_up3q.plus(h4_up3_js));
 }
 //统计
 function stat_hans(){
@@ -250,6 +254,7 @@ function saveGame(){
         cp_up1: cp_up1,
         cp_up2: cp_up2,
         cp_up3: cp_up3,
+        cp_up4: cp_up4,
 
         h1_up2_auto: h1_up2_auto,
         h1_up3_auto: h1_up3_auto,
@@ -308,6 +313,16 @@ function saveGame(){
 
         h4_ziyuan: h4_ziyuan.toString(),
         h4_ziyuan_max: h4_ziyuan_max.toString(),
+        h4_N: h4_N.toString(),
+        h4_DMH: h4_DMH.toString(),
+        h4_GN: h4_GN.toString(),
+
+        h4_up1: h4_up1.toString(),
+        h4_up1q: h4_up1q.toString(),
+        h4_up2: h4_up2.toString(),
+        h4_up2q: h4_up2q.toString(),
+        h4_up3: h4_up3.toString(),
+        h4_up3q: h4_up3q.toString(),
         
         bgIndex: bgIndex,
     };
@@ -347,6 +362,7 @@ function loadGame(){
         cp_up1 = state.cp_up1 !== undefined && !isNaN(state.cp_up1) ? state.cp_up1 : 0;
         cp_up2 = state.cp_up2 !== undefined && !isNaN(state.cp_up2) ? state.cp_up2 : 0;
         cp_up3 = state.cp_up3 !== undefined && !isNaN(state.cp_up3) ? state.cp_up3 : 0;
+        cp_up4 = state.cp_up4 !== undefined && !isNaN(state.cp_up4) ? state.cp_up4 : 0;
         
         h1_up2_auto = (state.h1_up2_auto === 1) ? 1 : 0;
         h1_up3_auto = (state.h1_up3_auto === 1) ? 1 : 0;
@@ -405,6 +421,15 @@ function loadGame(){
 
         h4_ziyuan = sanitizeDecimal(state.h4_ziyuan);
         h4_ziyuan_max = sanitizeDecimal(state.h4_ziyuan_max);
+        h4_N = sanitizeDecimal(state.h4_N);
+        h4_DMH = sanitizeDecimal(state.h4_DMH);
+        h4_GN = sanitizeDecimal(state.h4_GN);
+        h4_up1 = sanitizeDecimal(state.h4_up1);
+        h4_up1q = sanitizeDecimal(state.h4_up1q);
+        h4_up2 = sanitizeDecimal(state.h4_up2);
+        h4_up2q = sanitizeDecimal(state.h4_up2q);
+        h4_up3 = sanitizeDecimal(state.h4_up3);
+        h4_up3q = sanitizeDecimal(state.h4_up3q);
 
         
         bgIndex = (state.bgIndex >= 0 && state.bgIndex < bgColors.length) ? state.bgIndex : 0;

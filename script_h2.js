@@ -100,7 +100,12 @@ function h2_hans(){
     h2_up12.gte(1) && (h2_up12_buff = new Decimal(quark_max.log(10)));
     let h3_up6_buff = new Decimal(1);
     h3_up6q.gte(1) && (h3_up6_buff = new Decimal(h3_up6q.plus(8).log(8)));
-    h3_ziyuan_js = new Decimal(h2_ziyuan.log(10)).times(h2_up12_buff).times(h3_up6_buff).times(cp_up3_buff);
+
+    if (h2_ziyuan.gt(5e4)){
+        h3_ziyuan_js = new Decimal(h2_ziyuan.log(10)).times(h2_up12_buff).times(h3_up6_buff).times(cp_up3_buff);
+    } else {
+        h3_ziyuan_js = new Decimal(0);
+    }
 }
 
 //购买函数

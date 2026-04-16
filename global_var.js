@@ -115,3 +115,17 @@ let h4_js_re = 1;
 let h4_ziyuan = new Decimal(0);
 let h4_ziyuan_js = new Decimal(0);
 let h4_ziyuan_max = new Decimal(0);
+
+let h4_N = new Decimal(0);
+let h4_DMH = new Decimal(0);
+let h4_GN = new Decimal(0);
+
+let h4_up1 = new Decimal(0);
+let h4_up1q = new Decimal(0);
+let h4_up1_js = new Decimal(0);
+let h4_up2 = new Decimal(0);
+let h4_up2q = new Decimal(0);
+let h4_up2_js = new Decimal(0);
+let h4_up3 = new Decimal(0);
+let h4_up3q = new Decimal(0);
+let h4_up3_js = new Decimal(0);

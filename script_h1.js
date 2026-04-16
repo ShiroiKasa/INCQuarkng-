@@ -62,7 +62,9 @@ function h1_hans(){
     let Quark_h3_buff2 = new Decimal(h3_mass.plus(666).div(666));
     let Quark_h3_buff = new Decimal(Quark_h3_buff1.times(Quark_h3_buff2));
 
-    let Quark_h4_buff = new Decimal(((h4_ziyuan.plus(1)).log(8))).plus(1);
+    let Quark_h4_buff1 = new Decimal(((h4_ziyuan.plus(1)).log(8))).plus(1);
+    let Quark_h4_buff2 = h4_up1q.plus(1);
+    let Quark_h4_buff = Quark_h4_buff1.times(Quark_h4_buff2);
 
     let Quark_js1 = (Decimal.pow((Quark_h1_js.times(Quark_h2_buff2)),h2_e_buff)).times(Quark_h3_buff).times(Quark_h4_buff);
     let Quark_js2 = Quark_js1.times(cp_up1_buff);
@@ -76,8 +78,12 @@ function h1_hans(){
     h2_up3.gte(1) && (h2_up3_buff = new Decimal(quark_max.log(10)));
     let h2_up11_buff = new Decimal(1);
     h2_up11.gte(1) && (h2_up11_buff = new Decimal(h2_re.pow(0.5)));
+
+    let h4_up2_buff = new Decimal(1);
+    h4_up2q.gte(1) && (h4_up2_buff = h4_up2q);
+
     if (Quark.gte(1000)){
-        h2_ziyuan_js = h2_up3_buff.times(Quark.log(10)).times(new Decimal(h2_p.plus(10).log(10))).times(cp_up2_buff);
+        h2_ziyuan_js = h2_up3_buff.times(Quark.log(10)).times(new Decimal(h2_p.plus(10).log(10))).times(cp_up2_buff).times(h4_up2_buff);
     }else{
         h2_ziyuan_js = new Decimal(0);
     }

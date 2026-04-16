@@ -52,7 +52,9 @@ function updateUI_h3(){
 function h3_hans(){
     let h2_up14_buff = new Decimal(1);
     h2_up14.gte(1) && (h2_up14_buff = new Decimal(h3_mass.plus(3).log(3)));
-    h3_mass_js = Decimal.pow(2, h3_up1).times(h2_up14_buff).minus(1).minus(h3_BH_js);
+    let h4_up3_buff = new Decimal(1);
+    h4_up3q.gte(1) && (h4_up3_buff = h4_up3q);
+    h3_mass_js = Decimal.pow(2, h3_up1).times(h2_up14_buff).times(h4_up3_buff).minus(1).minus(h3_BH_js);
 
     let h3_up3_buff = new Decimal(1);
     h3_up3q.gte(1) && (h3_up3_buff = new Decimal(h3_up3q.plus(11).log(11)));
@@ -75,7 +77,7 @@ function h3_hans(){
 
     h3_up6q_js = Decimal.pow(1.5, h3_up6).minus(1);
 
-    h4_ziyuan_js = new Decimal(h3_BH.log(10))
+    h4_ziyuan_js = new Decimal(h3_BH.log(10)).times((cp_up4 + 1));
 }
 
 function h3_up1_button(){
