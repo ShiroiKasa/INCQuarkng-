@@ -146,9 +146,8 @@ function h3_re_hans(){
     h3_BH = new Decimal(0);
 
     h3_up1 = new Decimal(0);
-    h3_up1q = new Decimal(0);
     h3_up2 = new Decimal(0);
-    h3_up2q = new Decimal(0);
+    
     h3_up3 = new Decimal(0);
     h3_up3q = new Decimal(0);
     h3_up4 = new Decimal(0);
