@@ -54,7 +54,7 @@ function h3_hans(){
     h2_up14.gte(1) && (h2_up14_buff = new Decimal(h3_mass.plus(3).log(3)));
     let h4_up3_buff = new Decimal(1);
     h4_up3q.gte(1) && (h4_up3_buff = h4_up3q);
-    h3_mass_js = Decimal.pow(2, h3_up1).times(h2_up14_buff).times(h4_up3_buff).minus(1).minus(h3_BH_js);
+    h3_mass_js = Decimal.pow(2, h3_up1).times(h2_up14_buff).minus(1).minus(h3_BH_js).times(h4_up3_buff);
 
     let h3_up3_buff = new Decimal(1);
     h3_up3q.gte(1) && (h3_up3_buff = new Decimal(h3_up3q.plus(11).log(11)));
@@ -147,7 +147,7 @@ function h3_re_hans(){
 
     h3_up1 = new Decimal(0);
     h3_up2 = new Decimal(0);
-    
+
     h3_up3 = new Decimal(0);
     h3_up3q = new Decimal(0);
     h3_up4 = new Decimal(0);
