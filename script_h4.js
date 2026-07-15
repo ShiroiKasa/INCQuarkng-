@@ -19,25 +19,25 @@ function updateUI_h4(){
     let h4_up1_cots = new Decimal.pow(2,h4_up1);
     let b4_up1_b = document.getElementById('h4_up1');
     b4_up1_b.style.opacity = (h4_N.gte(h4_up1_cots) && h4_DMH.gte(h4_up1_cots) && h4_GN.gte(h4_up1_cots)) ? '1' : '0.5';
-    document.getElementById("h4_up1").innerHTML = "不规则星系" + formatDecimal(h4_up1) + " 数量:" + formatDecimal(h4_up1q) + "+" + formatDecimal(h4_up1_js.times(10)) + "/s 费用:" + formatDecimal(h4_up1_cots) + "<br>星系组分 对夸克加成:" + formatDecimal(h4_up1q.plus(1));
+    document.getElementById("h4_up1").innerHTML = "不规则星系" + formatDecimal(h4_up1) + " 数量:" + formatDecimal(h4_up1q) + "+" + formatDecimal(h4_up1_js) + "/s 费用:" + formatDecimal(h4_up1_cots) + "<br>星系组分 对夸克加成:" + formatDecimal(h4_up1q.plus(1));
 
     let h4_up2_cots = new Decimal.pow(3,h4_up2).plus(2);
     let b4_up2_b = document.getElementById('h4_up2');
     b4_up2_b.style.opacity = (h4_N.gte(h4_up2_cots) && h4_DMH.gte(h4_up2_cots) && h4_GN.gte(h4_up2_cots)) ? '1' : '0.5';
-    document.getElementById("h4_up2").innerHTML = "矮星系" + formatDecimal(h4_up2) + " 数量:" + formatDecimal(h4_up2q) + "+" + formatDecimal(h4_up2_js.times(10)) + "/s 费用:" + formatDecimal(h4_up2_cots) + "<br>星系组分 对原子加成:" + formatDecimal(h4_up2q.plus(1));
+    document.getElementById("h4_up2").innerHTML = "矮星系" + formatDecimal(h4_up2) + " 数量:" + formatDecimal(h4_up2q) + "+" + formatDecimal(h4_up2_js) + "/s 费用:" + formatDecimal(h4_up2_cots) + "<br>星系组分 对原子加成:" + formatDecimal(h4_up2q.plus(1));
 
     let h4_up3_cots = new Decimal.pow(4,h4_up3).plus(10);
     let b4_up3_b = document.getElementById('h4_up3');
     b4_up3_b.style.opacity = (h4_N.gte(h4_up3_cots) && h4_DMH.gte(h4_up3_cots) && h4_GN.gte(h4_up3_cots)) ? '1' : '0.5';
-    document.getElementById("h4_up3").innerHTML = "旋涡星系" + formatDecimal(h4_up3) + " 数量:" + formatDecimal(h4_up3q) + "+" + formatDecimal(h4_up3_js.times(10)) + "/s 费用:" + formatDecimal(h4_up3_cots) + "<br>星系组分 对质量加成:" + formatDecimal(h4_up3q.plus(1));
+    document.getElementById("h4_up3").innerHTML = "旋涡星系" + formatDecimal(h4_up3) + " 数量:" + formatDecimal(h4_up3q) + "+" + formatDecimal(h4_up3_js) + "/s 费用:" + formatDecimal(h4_up3_cots) + "<br>星系组分 对质量加成:" + formatDecimal(h4_up3q.plus(1));
 }
 
 function h4_hans(){
-    h4_up1_js = new Decimal.pow(1.05,h4_up1).minus(1).times(h4_up2q.plus(1));
+    h4_up1_js = new Decimal.pow(1.05,h4_up1).minus(1).times(10).times(h4_up2q.plus(1));
 
-    h4_up2_js = new Decimal.pow(1.1,h4_up2).minus(1).times(h4_up3q.plus(1));
+    h4_up2_js = new Decimal.pow(1.1,h4_up2).minus(1).times(10).times(h4_up3q.plus(1));
 
-    h4_up3_js = new Decimal.pow(1.15,h4_up3).minus(1);
+    h4_up3_js = new Decimal.pow(1.15,h4_up3).minus(1).times(10);
 }
 
 function h4_N_button(){

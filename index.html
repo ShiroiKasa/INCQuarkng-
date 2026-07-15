@@ -64,6 +64,7 @@
             <div class="button-group2">
                 <button id="h3_upauto_b" style="display: none;background:#f78ae5;">生成器自动:关</button>
                 <button id="h3_up1_8auto_b" style="display: none;background:#f78ae5;">氢~氧自动:关</button>
+                <button id="h3_up9_17auto_b" style="display: none;background:#f78ae5;">氟~氯自动:关</button>
             </div>
             <div class="button-group2">
                 <button style="background:#f78ae5;font-size: 18px;display: none;" id="h2_up5buff_b">电子生成器0级 费用:1e3原子<br>电子:0.00 夸克指数+0.00</button>
@@ -90,6 +91,14 @@
                 <button style="background:#65a6c9;font-size: 20px;display: none;" id="h2_up15_b">磷</button>
                 <button style="background:#65a6c9;font-size: 20px;display: none;" id="h2_up16_b">硫</button>
                 <button style="background:#65a6c9;font-size: 20px;display: none;" id="h2_up17_b">氯</button>
+                <button style="background:#2db3fb;font-size: 20px;display: none;" id="h2_up18_b">氩</button>
+                <button style="background:#2db3fb;font-size: 20px;display: none;" id="h2_up19_b">钾</button>
+                <button style="background:#2db3fb;font-size: 20px;display: none;" id="h2_up20_b">钙</button>
+            </div>
+            <div class="button-group2">
+                <button style="background:#2db3fb;font-size: 20px;display: none;" id="h2_up21_b">钪</button>
+                <button style="background:#2db3fb;font-size: 20px;display: none;" id="h2_up22_b">钛</button>
+                <button style="background:#2db3fb;font-size: 20px;display: none;" id="h2_up23_b">钒</button>
             </div>
         </div>
     </div>
@@ -104,22 +113,27 @@
         </div>
 
         <div class="button-group">
-             <div class="button-group2">
+            <div class="button-group2">
+                <button id="h3_up_all_auto_b" style="display: none;background:#65a6c9;">自动:关</button>
+            </div>
+            <div class="button-group2">
                 <button style="background:#65a6c9;font-size: 18px;" id="h3_mass_b">质量发生器0级 费用:1引力子<br>质量:0.00</button>
                 <button style="background:#65a6c9;font-size: 18px;" id="h3_BH_b">黑洞催化器0级 费用:1引力子<br>黑洞:0.00</button>
-             </div>
-             <div class="button-group2">
+            </div>
+            <div class="button-group2">
                 <button style="background:#65a6c9;font-size: 18px;" id="h3_up3_b">类地行星0级 费用:1黑洞<br>数量:0.00 黑洞产量*1</button>
                 <button style="background:#65a6c9;font-size: 18px;" id="h3_up4_b">类海王星0级 费用:100黑洞<br>数量:0.00 类地行星产量*1</button>
                 <button style="background:#65a6c9;font-size: 18px;" id="h3_up5_b">类木行星0级 费用:1e4黑洞<br>数量:0.00 类海王星产量*1</button>
-             </div>
-             <div class="button-group2">
-                <button style="background:#65a6c9;font-size: 18px;" id="h3_up6_b">M型恒星0级 费用:1e6黑洞<br>数量:0.00 类木行星产量*1</button>
-             </div>
-             <div class="button-group3">
+            </div>
+            <div class="button-group2">
+                <button style="background:#65a6c9;font-size: 18px;" id="h3_up6_b">M型恒星0级 费用:1e6黑洞<br>数量:0.00 行星产量*1</button>
+                <button style="background:#65a6c9;font-size: 18px;display: none;" id="h3_up7_b">K型恒星0级 费用:1e7黑洞<br>数量:0.00 M型恒星产量*1</button>
+                <button style="background:#65a6c9;font-size: 18px;display: none;" id="h3_up8_b">G型恒星0级 费用:1e8黑洞<br>数量:0.00 K型恒星星产量*1</button>
+            </div>
+            <div class="button-group3">
                 <div class="counter_h3" style="font-size: 20px;" id="h3_txt1">质量加成:<br>夸克产量*1</div>
                 <div class="counter_h3" style="font-size: 20px;" id="h3_txt2">黑洞加成:<br>电子产量*1</div>
-             </div>
+            </div>
         </div>
     </div>
 
@@ -166,7 +180,10 @@
         <button id="manualSaveBtn" style="background:#e9b1ff;">立即存档</button>
         <button id="clearSaveBtn" style="background:#e9b1ff;">清空存档</button>
         <button id="bgColorBtn" style="background:#e9b1ff;">切换背景色</button>
-        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>v3.2(web3.2.26_04_16_2)</p>
+        <button id="exportSaveBtn" style="background:#e9b1ff;">导出存档</button>
+        <button id="importSaveBtn" style="background:#e9b1ff;">导入存档</button>
+        <input type="file" id="fileInput" accept=".json,.txt" style="display:none;">
+        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>v3.3(web3.3.26_07_15_1)</p>
     </div>
 
     <div id="stat" style="display: none;">

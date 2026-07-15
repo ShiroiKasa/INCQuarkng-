@@ -4,7 +4,7 @@ function cp_ds_sj(){
         cp_ds += 1;
         cp_ds_cs = 0;
     }else{
-        cp_ds_cs += 1;
+        cp_ds_cs += 0.1;
     }
 }
 

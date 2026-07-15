@@ -23,6 +23,7 @@ let cp_ds_cs = 0;
 let cp_up1 = 0;
 let cp_up2 = 0;
 let cp_up3 = 0;
+let cp_up4 = 0;
 //auto
 var h1_up2_auto = 0;
 var h1_up3_auto = 0;
@@ -30,6 +31,9 @@ var h1_up4_auto = 0;
 
 var h3_up1_auto = 0;
 var h3_up2_auto = 0;
+
+var h3_up3_auto = 0;
+var h3_up4_auto = 0;
 
 //h1
 let h1_js_re = 1;
@@ -77,6 +81,14 @@ var h2_up15 = new Decimal(0);
 var h2_up16 = new Decimal(0);
 var h2_up17 = new Decimal(0);
 
+var h2_up18 = new Decimal(0);
+var h2_up19 = new Decimal(0);
+var h2_up20 = new Decimal(0);
+var h2_up21 = new Decimal(0);
+var h2_up22 = new Decimal(0);
+var h2_up23 = new Decimal(0);
+var h2_up24 = new Decimal(0);
+
 let h2_re = new Decimal(0);
 
 //h3
@@ -98,6 +110,10 @@ let h3_up5q_js = new Decimal(0);
 
 let h3_up6q = new Decimal(0);
 let h3_up6q_js = new Decimal(0);
+let h3_up7q = new Decimal(0);
+let h3_up7q_js = new Decimal(0);
+let h3_up8q = new Decimal(0);
+let h3_up8q_js = new Decimal(0);
 
 let h3_up1 = new Decimal(0);
 let h3_up2 = new Decimal(0);
@@ -106,13 +122,15 @@ let h3_up4 = new Decimal(0);
 let h3_up5 = new Decimal(0);
 
 let h3_up6 = new Decimal(0);
+let h3_up7 = new Decimal(0);
+let h3_up8 = new Decimal(0);
 
 let h3_re = new Decimal(0);
 
 //h4
 let h4_js_re = 1;
 
-let h4_ziyuan = new Decimal(0);
+var h4_ziyuan = new Decimal(0);
 let h4_ziyuan_js = new Decimal(0);
 let h4_ziyuan_max = new Decimal(0);
 

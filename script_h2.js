@@ -17,9 +17,9 @@ function updateUI_h2(){
     let h2_upe_cost = Decimal.pow(2, h2_upe).times(1000)
     let h2_upp_cost = Decimal.pow(2, h2_upp).times(1000)
     let h2_upn_cost = Decimal.pow(2, h2_upn).times(1000)
-    document.getElementById("h2_up5buff_b").innerHTML = "电子生成器" + h2_upe + "级 费用:" + formatDecimal(h2_upe_cost) +"原子<br>电子:" + formatDecimal(h2_e) + "+" + formatDecimal(h2_e_js.times(10)) + "/s" + " 夸克指数+" + formatDecimal(new Decimal(h2_e.plus(10).log(10)).div(10));
-    document.getElementById("h2_up6buff_b").innerHTML = "质子生成器" + h2_upp + "级 费用:" + formatDecimal(h2_upp_cost) +"原子<br>质子:" + formatDecimal(h2_p) + "+" + formatDecimal(h2_p_js.times(10)) + "/s" + " 原子产量*" + formatDecimal(new Decimal(h2_p.plus(10).log(10)));
-    document.getElementById("h2_up7buff_b").innerHTML = "中子生成器" + h2_upn + "级 费用:" + formatDecimal(h2_upn_cost) +"原子<br>中子:" + formatDecimal(h2_n) + "+" + formatDecimal(h2_n_js.times(10)) + "/s" + " 电子/质子产量*" + formatDecimal(new Decimal(h2_n.plus(10).log(10)));
+    document.getElementById("h2_up5buff_b").innerHTML = "电子生成器" + h2_upe + "级 费用:" + formatDecimal(h2_upe_cost) +"原子<br>电子:" + formatDecimal(h2_e) + "+" + formatDecimal(h2_e_js) + "/s" + " 夸克指数+" + formatDecimal(new Decimal(h2_e.plus(10).log(10)).div(10));
+    document.getElementById("h2_up6buff_b").innerHTML = "质子生成器" + h2_upp + "级 费用:" + formatDecimal(h2_upp_cost) +"原子<br>质子:" + formatDecimal(h2_p) + "+" + formatDecimal(h2_p_js) + "/s" + " 原子产量*" + formatDecimal(new Decimal(h2_p.plus(10).log(10)));
+    document.getElementById("h2_up7buff_b").innerHTML = "中子生成器" + h2_upn + "级 费用:" + formatDecimal(h2_upn_cost) +"原子<br>中子:" + formatDecimal(h2_n) + "+" + formatDecimal(h2_n_js) + "/s" + " 电子/质子产量*" + formatDecimal(new Decimal(h2_n.plus(10).log(10)));
     let b2_e_b = document.getElementById('h2_up5buff_b');
     b2_e_b.style.opacity = h2_ziyuan.gte(h2_upe_cost) ? '1' : '0.5';
     let b2_p_b = document.getElementById('h2_up6buff_b');
@@ -77,23 +77,41 @@ function updateUI_h2(){
 
     let b2_17 = document.getElementById('h2_up17_b');
     b2_17.style.opacity = (h2_up17.eq(1)) ? '1' : (h3_ziyuan.gte(2e4) ? '0.5' : '0.2');
+
+    let b2_18 = document.getElementById('h2_up18_b');
+    b2_18.style.opacity = (h2_up18.eq(1)) ? '1' : (h4_ziyuan.gte(1) ? '0.5' : '0.2');
+
+    let b2_19 = document.getElementById('h2_up19_b');
+    b2_19.style.opacity = (h2_up19.eq(1)) ? '1' : (h4_ziyuan.gte(10) ? '0.5' : '0.2');
+
+    let b2_20 = document.getElementById('h2_up20_b');
+    b2_20.style.opacity = (h2_up20.eq(1)) ? '1' : (h4_ziyuan.gte(500) ? '0.5' : '0.2');
+
+    let b2_21 = document.getElementById('h2_up21_b');
+    b2_21.style.opacity = (h2_up21.eq(1)) ? '1' : (h4_ziyuan.gte(1000) ? '0.5' : '0.2');
+
+    let b2_22 = document.getElementById('h2_up22_b');
+    b2_22.style.opacity = (h2_up22.eq(1)) ? '1' : (h4_ziyuan.gte(3000) ? '0.5' : '0.2');
+
+    let b2_23 = document.getElementById('h2_up23_b');
+    b2_23.style.opacity = (h2_up23.eq(1)) ? '1' : (h4_ziyuan.gte(1e4) ? '0.5' : '0.2');
 }
 
 //计算函数
 function h2_hans(){
     let h3_BH_buff2 = new Decimal(1);
     h3_BH_buff2 = (h3_BH.gte(1e4)) ? new Decimal(h3_BH.log(10)) : new Decimal(1);
-    h2_e_js = (h2_upe.times(h2_n.plus(10).log(10))).times(h3_BH_buff2).div(10);
+    h2_e_js = (h2_upe.times(h2_n.plus(10).log(10))).times(h3_BH_buff2);
 
     let h3_mass_buff = new Decimal(1);
     h3_mass_buff = (h3_mass.gte(1e4)) ? new Decimal(h3_mass.log(9)) : new Decimal(1);
-    h2_p_js = (h2_upp.times(h2_n.plus(10).log(10))).times(h3_mass_buff).div(10);
+    h2_p_js = (h2_upp.times(h2_n.plus(10).log(10))).times(h3_mass_buff);
     let h2_up10_buff = new Decimal(1);
 
     h2_up10_buff = (h2_up10.gte(1) && h2_ziyuan_max.gte(10)) ? h2_ziyuan_max.log(10) : new Decimal(1);
     let h3_BH_buff = new Decimal(1);
     h3_BH_buff = (h3_BH.gte(1)) ? new Decimal(h3_BH.plus(2333).div(2333)) : new Decimal(1);
-    h2_n_js = (h2_upn.times(h2_up10_buff).times(h3_BH_buff)).div(10);
+    h2_n_js = (h2_upn.times(h2_up10_buff).times(h3_BH_buff));
 
     let cp_up3_buff = cp_up3 + 1;
     let h2_up12_buff = new Decimal(1);
@@ -234,19 +252,38 @@ function h2_up12_button(){
     handleUpgrade('h2_up12', 200, '镁', '最大夸克数量加成引力子获取/公式*lg(最大夸克数量)', 1, '引力子', 'h3_ziyuan');
 }
 function h2_up13_button(){
-    handleUpgrade('h2_up13', 500, '铝', '解锁星辰层级升级自动化且铍初始等级变为1', 1, '引力子', 'h3_ziyuan');
+    handleUpgrade('h2_up13', 500, '铝', '解锁元素层级生成器、氢~氧升级自动化且铍初始等级变为1', 1, '引力子', 'h3_ziyuan');
 }
 function h2_up14_button(){
     handleUpgrade('h2_up14', 1000, '硅', '质量加成质量获取/公式*log<sub>3</sub>(质量)', 1, '引力子', 'h3_ziyuan');
 }
 function h2_up15_button(){
-    handleUpgrade('h2_up15', 3000, '磷', '夸克层级解锁夸克指数+', 1, '引力子', 'h3_ziyuan');
+    handleUpgrade('h2_up15', 3000, '磷', '夸克层级解锁夸克产量^', 1, '引力子', 'h3_ziyuan');
 }
 function h2_up16_button(){
     handleUpgrade('h2_up16', 1e4, '硫', '元素层级生成器升级不再消耗资源', 1, '引力子', 'h3_ziyuan');
 }
 function h2_up17_button(){
     handleUpgrade('h2_up17', 2e4, '氯', '夸克数量加成夸克获取/公式*log<sub>1.2</sub>(夸克)', 1, '引力子', 'h3_ziyuan');
+}
+function h2_up18_button(){
+    handleUpgrade('h2_up18', 1, '氩', '无需引力激发也可以获得引力子', 1, '暗物质', 'h4_ziyuan');
+}
+function h2_up19_button(){
+    handleUpgrade('h2_up19', 10, '钾', '黑洞蒸发次数加成暗物质获取/公式*黑洞蒸发次数', 1, '暗物质', 'h4_ziyuan');
+}
+function h2_up20_button(){
+    handleUpgrade('h2_up20', 500, '钙', '星辰层级解锁K型、G型恒星', 1, '暗物质', 'h4_ziyuan');
+    UIvisible_h4();
+}
+function h2_up21_button(){
+    handleUpgrade('h2_up21', 1000, '钪', '暗物质加成夸克获取/公式*暗物质<sup>3</sup>', 1, '暗物质', 'h4_ziyuan');
+}
+function h2_up22_button(){
+    handleUpgrade('h2_up22', 3000, '钛', '解锁星辰层级自动化且自动升级不消耗资源', 1, '暗物质', 'h4_ziyuan');
+}
+function h2_up23_button(){
+    handleUpgrade('h2_up23', 1e4, '钒', '解锁解锁元素层级氟~氯升级自动化且自动升级不消耗资源', 1, '暗物质', 'h4_ziyuan');
 }
 
 function h2_re_button(){
@@ -306,3 +343,9 @@ document.getElementById('h2_up14_b').addEventListener('click', h2_up14_button);
 document.getElementById('h2_up15_b').addEventListener('click', h2_up15_button);
 document.getElementById('h2_up16_b').addEventListener('click', h2_up16_button);
 document.getElementById('h2_up17_b').addEventListener('click', h2_up17_button);
+document.getElementById('h2_up18_b').addEventListener('click', h2_up18_button);
+document.getElementById('h2_up19_b').addEventListener('click', h2_up19_button);
+document.getElementById('h2_up20_b').addEventListener('click', h2_up20_button);
+document.getElementById('h2_up21_b').addEventListener('click', h2_up21_button);
+document.getElementById('h2_up22_b').addEventListener('click', h2_up22_button);
+document.getElementById('h2_up23_b').addEventListener('click', h2_up23_button);
