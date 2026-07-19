@@ -12,6 +12,7 @@
         <button id="h2_cut" style="background:#f78ae5;display: none;">元素</button>
         <button id="h3_cut" style="background:#8ad1f7;display: none;">星辰</button>
         <button id="h4_cut" style="background:#2db3fb;display: none;">结构</button>
+        <button id="SK_cut" style="background:#4e28a7;display: none;">蚀刻</button>
         <button id="cp_cut" style="background:#ffa807;">藏品</button>
         <button id="set_cut" style="background:#e9b1ff;">设置</button>
         <button id="stat_cut" style="background:#59849b;">统计</button>
@@ -99,6 +100,11 @@
                 <button style="background:#2db3fb;font-size: 20px;display: none;" id="h2_up21_b">钪</button>
                 <button style="background:#2db3fb;font-size: 20px;display: none;" id="h2_up22_b">钛</button>
                 <button style="background:#2db3fb;font-size: 20px;display: none;" id="h2_up23_b">钒</button>
+                <button style="background:#ff6600;font-size: 20px;display: none;" id="h2_up24_b">铬</button>
+                <button style="background:#ff6600;font-size: 20px;display: none;" id="h2_up25_b">锰</button>
+                <button style="background:#ff6600;font-size: 20px;display: none;" id="h2_up26_b">铁</button>
+                <button style="background:#ff6600;font-size: 20px;display: none;" id="h2_up27_b">钴</button>
+                <button style="background:#ff6600;font-size: 20px;display: none;" id="h2_up28_b">镍</button>
             </div>
         </div>
     </div>
@@ -138,7 +144,7 @@
     </div>
 
     <div id="h4" style="display: none;">
-        <h2>结构</h2>
+        <h2>层级:结构(42星系组分解锁下一层级,未更新)</h2>
             
         <div class="counter-group">
             <div class="counter_h4" id="h4_ziyuan_txt">暗物质:0(对夸克加成:1)</div>
@@ -158,6 +164,17 @@
                 <button style="background:#2db3fb;font-size: 20px;" id="h4_up3">旋涡星系 数量:0 费用:1星系组分</button>
             </div>
         </div>
+    </div>
+
+    <div id="SK" style="display: none;">
+        <h2>蚀刻</h2>
+
+        <div class="button-group">
+            <div class="button-group2">
+                <button id="SK_1" style="color:#ff6600;">蚀刻·夸克<br><br>立即进行一次黑洞蒸发重置<br>夸克产量^0.3<br>蚀刻中的最大夸克数量:0<br>对夸克产量加成(蚀刻时不生效):*1<br><br>开始蚀刻</button>
+            </div>
+        </div>
+
     </div>
 
     <div id="cp" style="display: none;">
@@ -183,7 +200,7 @@
         <button id="exportSaveBtn" style="background:#e9b1ff;">导出存档</button>
         <button id="importSaveBtn" style="background:#e9b1ff;">导入存档</button>
         <input type="file" id="fileInput" accept=".json,.txt" style="display:none;">
-        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>v3.3(web3.3.26_07_15_1)</p>
+        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>v3.4(web3.4.26_07_19_1)</p>
     </div>
 
     <div id="stat" style="display: none;">
@@ -208,6 +225,7 @@
     <script src="global_var.js"></script><!-- 变量加载 -->
     <script src="script_auto.js"></script><!-- 自动化加载 -->
     <script src="script_cut.js"></script><!-- 切换界面加载 -->
+    <script src="SK.js"></script><!-- 蚀刻界面加载 -->
     <script src="script.js"></script><!-- 存档加载 -->
     <script src="script_cp.js"></script>
     <script src="script_h1.js"></script>

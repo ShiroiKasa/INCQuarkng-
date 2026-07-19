@@ -59,7 +59,11 @@ function h1_hans(){
 
     //正式计算
     Quark_h1_js = Decimal.pow(h1_up1.times(h1_up3.plus(1)),h1_up4.div(10).plus(1));
-    Quark_h2_buff1 = new Decimal(((h2_ziyuan.plus(1)).log(10))).plus(1);
+    if (h2_up26.eq(1)){
+        Quark_h2_buff1 = new Decimal(((h2_ziyuan.plus(1)).log(1.0001))).plus(1);
+    }else{
+        Quark_h2_buff1 = new Decimal(((h2_ziyuan.plus(1)).log(10))).plus(1);
+    };
     Quark_h2_buff2 = (Quark_h2_buff1.times(h2_up1_buff)).times(h2_up2_buff).times(h2_up17_buff).times(h2_up21_buff);
     let Quark_h3_buff1 = new Decimal(((h3_ziyuan.plus(1)).log(9))).plus(1);
     let Quark_h3_buff2 = new Decimal(h3_mass.plus(666).div(666));
@@ -74,6 +78,12 @@ function h1_hans(){
 
     Quark_js = Quark_js2;
 
+    if (sk_1_ing === 1){
+        Quark_js = Decimal.pow(Quark_js,0.3);
+    }else{
+        Quark_js = Quark_js.times(sk_1_buff1);
+    };
+
     //原子自动获取
     let cp_up2_buff = cp_up2 + 1;
 
@@ -86,7 +96,11 @@ function h1_hans(){
     h4_up2q.gte(1) && (h4_up2_buff = h4_up2q);
 
     if (Quark.gte(1000)){
-        h2_ziyuan_js = h2_up3_buff.times(Quark.log(10)).times(new Decimal(h2_p.plus(10).log(10))).times(cp_up2_buff).times(h4_up2_buff);
+        let Quark_h2_ziyuan = Quark.log(10);
+        if (h2_up25.eq(1)){
+            Quark_h2_ziyuan = Decimal.pow(Quark_js,0.12);
+        };
+        h2_ziyuan_js = h2_up3_buff.times(Quark_h2_ziyuan).times(new Decimal(h2_p.plus(10).log(10))).times(cp_up2_buff).times(h4_up2_buff);
     }else{
         h2_ziyuan_js = new Decimal(0);
     }

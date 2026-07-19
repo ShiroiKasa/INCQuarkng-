@@ -38,6 +38,7 @@ function jiemian_re(){
     (UI_re === "h2") && updateUI_h2();//h2
     (UI_re === "h3") && updateUI_h3();//h3
     (UI_re === "h4") && updateUI_h4();//h4
+    (UI_re === "SK") && updateUI_SK();//h4
 }
 //stat
 function updateUI_stat(){
@@ -145,12 +146,22 @@ function UIvisible_h4(){
     let b2_21_b = document.getElementById('h2_up21_b');
     let b2_22_b = document.getElementById('h2_up22_b');
     let b2_23_b = document.getElementById('h2_up23_b');
+    let b2_24_b = document.getElementById('h2_up24_b');
+    let b2_25_b = document.getElementById('h2_up25_b');
+    let b2_26_b = document.getElementById('h2_up26_b');
+    let b2_27_b = document.getElementById('h2_up27_b');
+    let b2_28_b = document.getElementById('h2_up28_b');
     h3_re.gte(1) ? b2_18_b.style.display = 'block' : b2_18_b.style.display = 'none';
     h3_re.gte(1) ? b2_19_b.style.display = 'block' : b2_19_b.style.display = 'none';
     h3_re.gte(1) ? b2_20_b.style.display = 'block' : b2_20_b.style.display = 'none';
     h3_re.gte(1) ? b2_21_b.style.display = 'block' : b2_21_b.style.display = 'none';
     h3_re.gte(1) ? b2_22_b.style.display = 'block' : b2_22_b.style.display = 'none';
     h3_re.gte(1) ? b2_23_b.style.display = 'block' : b2_23_b.style.display = 'none';
+    h3_re.gte(1) ? b2_24_b.style.display = 'block' : b2_24_b.style.display = 'none';
+    h3_re.gte(1) ? b2_25_b.style.display = 'block' : b2_25_b.style.display = 'none';
+    h3_re.gte(1) ? b2_26_b.style.display = 'block' : b2_26_b.style.display = 'none';
+    h3_re.gte(1) ? b2_27_b.style.display = 'block' : b2_27_b.style.display = 'none';
+    h3_re.gte(1) ? b2_28_b.style.display = 'block' : b2_28_b.style.display = 'none';
 
     let b3_7_b = document.getElementById('h3_up7_b');
     let b3_8_b = document.getElementById('h3_up8_b');
@@ -228,10 +239,11 @@ function startAutoProduction(){
         const now = performance.now();
         let dt = (now - lastCalcTime) / 1000;
         lastCalcTime = now;
-        dt = Math.min(dt, 0.1); // 限制最大值，防止跳跃
+        dt = Math.min(dt, 300); // 限制最大值，防止跳跃
 
         // 强制重新计算
         function gl_js_hans(){
+            SK_hans();
             h1_js_re = 1;
             h2_js_re = 1;
             h3_js_re = 1;
@@ -247,6 +259,7 @@ function startAutoProduction(){
 
         // 计算
         stat_hans(dt);        // 传入 dt
+        (sk_ing === 1) && (SK_hans());
         (h1_js_re === 1) && (h1_hans(), h1_js_re -= 1);
         (h2_js_re === 1) && (h2_hans(), h2_js_re -= 1);
         (h3_js_re === 1) && (h3_hans(), h3_js_re -= 1);
@@ -389,6 +402,10 @@ function getGameState() {
         h3_up3_auto: h3_up3_auto,
         h3_up4_auto: h3_up4_auto,
 
+        sk_ing: sk_ing,
+        sk_1_ing: sk_1_ing,
+        sk_1_MAX: sk_1_MAX.toString(),
+
         h1_up1: h1_up1.toString(),
         h1_up1_1: h1_up1_1.toString(),
         h1_up3: h1_up3.toString(),
@@ -426,6 +443,11 @@ function getGameState() {
         h2_up21: h2_up21.toString(),
         h2_up22: h2_up22.toString(),
         h2_up23: h2_up23.toString(),
+        h2_up24: h2_up24.toString(),
+        h2_up25: h2_up25.toString(),
+        h2_up26: h2_up26.toString(),
+        h2_up27: h2_up27.toString(),
+        h2_up28: h2_up28.toString(),
         h2_re: h2_re.toString(),
 
         h3_ziyuan: h3_ziyuan.toString(),
@@ -480,7 +502,8 @@ function loadGame() {
         console.log("没有找到存档，使用初始值");
         bgIndex = 0;
         applyBackground();
-    }
+    };
+    initSK();
 }
 
 function applyGameState(state) {
@@ -504,6 +527,10 @@ function applyGameState(state) {
     h3_up2_auto = (state.h3_up2_auto === 1) ? 1 : 0;
     h3_up3_auto = (state.h3_up3_auto === 1) ? 1 : 0;
     h3_up4_auto = (state.h3_up4_auto === 1) ? 1 : 0;
+
+    sk_ing = (state.sk_ing === 1) ? 1 : 0;
+    sk_1_ing = (state.sk_1_ing === 1) ? 1 : 0;
+    sk_1_MAX = sanitizeDecimal(state.sk_1_MAX);
 
     h1_up1 = sanitizeDecimal(state.h1_up1);
     h1_up1_1 = sanitizeDecimal(state.h1_up1_1);
@@ -542,6 +569,11 @@ function applyGameState(state) {
     h2_up21 = sanitizeDecimal(state.h2_up21);
     h2_up22 = sanitizeDecimal(state.h2_up22);
     h2_up23 = sanitizeDecimal(state.h2_up23);
+    h2_up24 = sanitizeDecimal(state.h2_up24);
+    h2_up25 = sanitizeDecimal(state.h2_up25);
+    h2_up26 = sanitizeDecimal(state.h2_up26);
+    h2_up27 = sanitizeDecimal(state.h2_up27);
+    h2_up28 = sanitizeDecimal(state.h2_up28);
     h2_re = sanitizeDecimal(state.h2_re);
 
     h3_ziyuan = sanitizeDecimal(state.h3_ziyuan);
@@ -630,6 +662,7 @@ function importSave() {
 
         // 刷新当前界面
         UIvisible();
+        initSK();
         jiemian_re();
 
         alert("存档导入成功！");

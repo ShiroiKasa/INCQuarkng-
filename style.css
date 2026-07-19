@@ -86,3 +86,23 @@ button {
 button:hover {
     background-color: #cc5500;
 }
+
+#SK button {
+    background: transparent;
+    border: 2px solid #4e28a7;
+    border-radius: 0;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+/* 动画（所有蚀刻按钮共用） */
+@keyframes breathe {
+    0%   { background-color: #5c3b76; }  /* 最暗 */
+    50%  { background-color: #9278ab; }  /* 最亮（柔和） */
+    100% { background-color: #5c3b76; }  /* 最暗 */
+}
+
+#SK .etching {
+    animation: breathe 9s ease-in-out infinite;
+    color: #ffffff !important;
+}

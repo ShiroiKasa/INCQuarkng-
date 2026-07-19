@@ -5,7 +5,11 @@ function updateUI_h2(){
     b2_re.style.opacity = h2_ziyuan.gte(5e4) ? '1' : '0.5';
     document.getElementById("h2_re_b").innerHTML = h2_ziyuan.gte(5e4) ? "引力激发|引力子+" + formatDecimal(h3_ziyuan_js) : "引力激发|引力子+0";
 
-    document.getElementById("h2_ziyuan_txt").innerHTML = "原子:" + formatDecimal(h2_ziyuan) + "(对夸克加成:" + formatDecimal(new Decimal(((h2_ziyuan.plus(1)).log(10))).plus(1)) + ")";
+    if (h2_up26.eq(1)){
+        document.getElementById("h2_ziyuan_txt").innerHTML = "原子:" + formatDecimal(h2_ziyuan) + "(对夸克加成:" + formatDecimal(new Decimal(((h2_ziyuan.plus(1)).log(1.0001))).plus(1)) + ")";
+    }else{
+        document.getElementById("h2_ziyuan_txt").innerHTML = "原子:" + formatDecimal(h2_ziyuan) + "(对夸克加成:" + formatDecimal(new Decimal(((h2_ziyuan.plus(1)).log(10))).plus(1)) + ")";
+    };
     let h2_up3_buff = new Decimal(1);
     h2_up3.gte(1) && (h2_up3_buff = new Decimal(quark_max.log(10)));
     if (Quark.gte(1000) && h2_up9.gte(1)){
@@ -95,6 +99,21 @@ function updateUI_h2(){
 
     let b2_23 = document.getElementById('h2_up23_b');
     b2_23.style.opacity = (h2_up23.eq(1)) ? '1' : (h4_ziyuan.gte(1e4) ? '0.5' : '0.2');
+
+    let b2_24 = document.getElementById('h2_up24_b');
+    b2_24.style.opacity = (h2_up24.eq(1)) ? '1' : (Quark.gte(1e100) ? '0.5' : '0.2');
+
+    let b2_25 = document.getElementById('h2_up25_b');
+    b2_25.style.opacity = (h2_up25.eq(1)) ? '1' : (Quark.gte(1e125) ? '0.5' : '0.2');
+
+    let b2_26 = document.getElementById('h2_up26_b');
+    b2_26.style.opacity = (h2_up26.eq(1)) ? '1' : (Quark.gte(1e127) ? '0.5' : '0.2');
+
+    let b2_27 = document.getElementById('h2_up27_b');
+    b2_27.style.opacity = (h2_up27.eq(1)) ? '1' : (Quark.gte(1e135) ? '0.5' : '0.2');
+
+    let b2_28 = document.getElementById('h2_up28_b');
+    b2_28.style.opacity = (h2_up28.eq(1)) ? '1' : (Quark.gte(1e145) ? '0.5' : '0.2');
 }
 
 //计算函数
@@ -113,6 +132,9 @@ function h2_hans(){
     h3_BH_buff = (h3_BH.gte(1)) ? new Decimal(h3_BH.plus(2333).div(2333)) : new Decimal(1);
     h2_n_js = (h2_upn.times(h2_up10_buff).times(h3_BH_buff));
 
+    let h2_up27_buff = new Decimal(1);
+    h2_up27.gte(1) && (h2_up27_buff = Decimal.pow(Quark,0.05));
+
     let cp_up3_buff = cp_up3 + 1;
     let h2_up12_buff = new Decimal(1);
     h2_up12.gte(1) && (h2_up12_buff = new Decimal(quark_max.log(10)));
@@ -120,7 +142,7 @@ function h2_hans(){
     h3_up6q.gte(1) && (h3_up6_buff = new Decimal(h3_up6q.plus(8).log(8)));
 
     if (h2_ziyuan.gt(5e4)){
-        h3_ziyuan_js = new Decimal(h2_ziyuan.log(10)).times(h2_up12_buff).times(h3_up6_buff).times(cp_up3_buff);
+        h3_ziyuan_js = new Decimal(h2_ziyuan.log(10)).times(h2_up12_buff).times(h3_up6_buff).times(cp_up3_buff).times(h2_up27_buff);
     } else {
         h3_ziyuan_js = new Decimal(0);
     }
@@ -283,7 +305,26 @@ function h2_up22_button(){
     handleUpgrade('h2_up22', 3000, '钛', '解锁星辰层级自动化且自动升级不消耗资源', 1, '暗物质', 'h4_ziyuan');
 }
 function h2_up23_button(){
-    handleUpgrade('h2_up23', 1e4, '钒', '解锁解锁元素层级氟~氯升级自动化且自动升级不消耗资源', 1, '暗物质', 'h4_ziyuan');
+    handleUpgrade('h2_up23', 1e4, '钒', '解锁元素层级氟~氯升级自动化且自动升级不消耗资源', 1, '暗物质', 'h4_ziyuan');
+}
+function h2_up24_button(){
+    handleUpgrade('h2_up24', 1e100, '铬', '解锁新选项卡 蚀刻', 1, '夸克', 'Quark');
+}
+function h2_up25_button(){
+    handleUpgrade('h2_up25', 1e125, '锰', '大幅优化夸克禁闭获取原子公式 log<sub>10</sub>夸克 → 夸克<sup>0.12</sup>', 1, '夸克', 'Quark');
+    h1_js_re === 1;
+}
+function h2_up26_button(){
+    handleUpgrade('h2_up26', 1e127, '铁', '优化原子对夸克加成公式 (log<sub>10</sub>(原子+1))+1 → (log<sub>10<sup>-4</sup></sub>(原子+1))+1', 1, '夸克', 'Quark');
+    h1_js_re === 1;
+}
+function h2_up27_button(){
+    handleUpgrade('h2_up27', 1e135, '钴', '夸克加成引力子获取/公式*夸克<sup>0.05</sup>', 1, '夸克', 'Quark');
+    h1_js_re === 1;
+}
+function h2_up28_button(){
+    handleUpgrade('h2_up28', 1e145, '镍', '夸克加成暗物质获取/公式*lg(夸克)', 1, '夸克', 'Quark');
+    h1_js_re === 1;
 }
 
 function h2_re_button(){
@@ -349,3 +390,8 @@ document.getElementById('h2_up20_b').addEventListener('click', h2_up20_button);
 document.getElementById('h2_up21_b').addEventListener('click', h2_up21_button);
 document.getElementById('h2_up22_b').addEventListener('click', h2_up22_button);
 document.getElementById('h2_up23_b').addEventListener('click', h2_up23_button);
+document.getElementById('h2_up24_b').addEventListener('click', h2_up24_button);
+document.getElementById('h2_up25_b').addEventListener('click', h2_up25_button);
+document.getElementById('h2_up26_b').addEventListener('click', h2_up26_button);
+document.getElementById('h2_up27_b').addEventListener('click', h2_up27_button);
+document.getElementById('h2_up28_b').addEventListener('click', h2_up28_button);

@@ -11,7 +11,7 @@ function updateUI_h4(){
     h4_DMH_b.style.opacity = h4_ziyuan.gte(h4_DMH_cots) ? '1' : '0.5';
     document.getElementById("h4_DMH").innerHTML = "暗物质晕 数量:" + formatDecimal(h4_DMH) + " 费用:" + formatDecimal(h4_DMH_cots) + "暗物质";
 
-    let h4_GN_cots = new Decimal.pow(2,h4_GN);
+    let h4_GN_cots = new Decimal.pow(1.9,h4_GN);
     let b4_GN_b = document.getElementById('h4_GN');
     b4_GN_b.style.opacity = h3_BH.gte(h4_GN_cots) ? '1' : '0.5';
     document.getElementById("h4_GN").innerHTML = "星系核 数量:" + formatDecimal(h4_GN) + " 费用:" + formatDecimal(h4_GN_cots) + "黑洞";
@@ -57,7 +57,7 @@ function h4_DMH_button(){
     }
 }
 function h4_GN_button(){
-    let cost = new Decimal.pow(2,h4_GN);
+    let cost = new Decimal.pow(1.9,h4_GN);
     if (h3_BH.gte(cost)){
         h4_GN = h4_GN.plus(1);
         h3_BH = h3_BH.minus(cost);

@@ -104,7 +104,10 @@ function h3_hans(){
 
     let h2_up19_buff = new Decimal(1);
     h2_up19.gte(1) && (h2_up19_buff = new Decimal(h3_re));
-    h4_ziyuan_js = new Decimal(h3_BH.log(10)).times((cp_up4 + 1)).times(h2_up19_buff);
+    let h2_up28_buff = new Decimal(1);
+    h2_up28.gte(1) && (h2_up28_buff = Quark.log(10));
+
+    h4_ziyuan_js = new Decimal(h3_BH.log(10)).times((cp_up4 + 1)).times(h2_up19_buff).times(h2_up28_buff);
 }
 
 function h3_up1_button(){

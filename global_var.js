@@ -9,7 +9,7 @@ let gl_js_re = 0;
 let game_time = 0;
 let quark_max = new Decimal(0);
 
-let Quark = new Decimal(0);
+var Quark = new Decimal(0);
 
 let Quark_h1_js = new Decimal(0);
 let Quark_h2_buff1 = new Decimal(0);
@@ -88,6 +88,10 @@ var h2_up21 = new Decimal(0);
 var h2_up22 = new Decimal(0);
 var h2_up23 = new Decimal(0);
 var h2_up24 = new Decimal(0);
+var h2_up25 = new Decimal(0);
+var h2_up26 = new Decimal(0);
+var h2_up27 = new Decimal(0);
+var h2_up28 = new Decimal(0);
 
 let h2_re = new Decimal(0);
 
@@ -147,3 +151,11 @@ let h4_up2_js = new Decimal(0);
 let h4_up3 = new Decimal(0);
 let h4_up3q = new Decimal(0);
 let h4_up3_js = new Decimal(0);
+
+//SK
+let sk_ing = 0;
+let sk_1_ing = 0;
+
+let sk_1_MAX = new Decimal(0);
+let sk_1_buff1 = new Decimal(1);
+let sk_1_buff2 = new Decimal(1);
