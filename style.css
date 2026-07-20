@@ -34,6 +34,12 @@ body {
     margin: 2px;
     color: #2db3fb;
 }
+.counter_h5 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 2px;
+    color: #edc1fb;
+}
 .counter_h2_2 {
     font-size: 14px;
     font-weight: bold;
