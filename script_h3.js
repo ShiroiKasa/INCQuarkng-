@@ -15,7 +15,7 @@ function updateUI_h3(){
     let h3_up1_cost = Decimal.pow(2.33, h3_up1)
     let b3_1_b = document.getElementById('h3_mass_b');
     b3_1_b.style.opacity = h3_ziyuan.gte(h3_up1_cost) ? '1' : '0.5';
-    document.getElementById("h3_mass_b").innerHTML = "质量发生器" + h3_up1 + "级 费用:" + formatDecimal(h3_up1_cost) +"引力子<br>质量:" + formatDecimal(h3_mass) + "+" + formatDecimal(h3_mass_js) + "/s";
+    document.getElementById("h3_mass_b").innerHTML = "质量发生器" + formatDecimal(h3_up1) + "级 费用:" + formatDecimal(h3_up1_cost) +"引力子<br>质量:" + formatDecimal(h3_mass) + "+" + formatDecimal(h3_mass_js) + "/s";
 
     if (h3_mass.gte(1e4)){
         document.getElementById("h3_txt1").innerHTML = "质量加成:<br>夸克产量*" + formatDecimal(new Decimal(h3_mass.plus(666).div(666))) + "<br>质子产量*" + formatDecimal(new Decimal(h3_mass.log(11)));
@@ -26,9 +26,9 @@ function updateUI_h3(){
     let h3_up2_cost = Decimal.pow(3, h3_up2)
     let b3_2_b = document.getElementById('h3_BH_b');
     b3_2_b.style.opacity = h3_ziyuan.gte(h3_up2_cost) ? '1' : '0.5';
-    document.getElementById("h3_BH_b").innerHTML = "黑洞催化器" + h3_up2 + "级 费用:" + formatDecimal(h3_up2_cost) +"引力子<br>黑洞:" + formatDecimal(h3_BH) + "+" + formatDecimal(h3_BH_js) + "/s";
+    document.getElementById("h3_BH_b").innerHTML = "黑洞催化器" + formatDecimal(h3_up2) + "级 费用:" + formatDecimal(h3_up2_cost) +"引力子<br>黑洞:" + formatDecimal(h3_BH) + "+" + formatDecimal(h3_BH_js) + "/s";
     if (h3_BH.gte(1e4)){
-        document.getElementById("h3_txt2").innerHTML = "黑洞加成:<br>中子产量*" + formatDecimal(new Decimal(h3_BH.plus(2333).div(2333))) + "<br>电子产量*" + formatDecimal(new Decimal(h3_BH.log(10)));
+        document.getElementById("h3_txt2").innerHTML = "黑洞加成:<br>中子产量*" + formatDecimal(new Decimal(h3_BH.plus(2333).div(2333))) + "<br>电子产量*" + formatDecimal(new Decimal(h3_BH.plus(1).log(10)));
     }else{
         document.getElementById("h3_txt2").innerHTML = "黑洞加成:<br>中子产量*" + formatDecimal(new Decimal(h3_BH.plus(2333).div(2333)));
     }
@@ -36,33 +36,42 @@ function updateUI_h3(){
     let h3_up3_cost = Decimal.pow(3.33, h3_up3);
     let b3_3_b = document.getElementById('h3_up3_b');
     b3_3_b.style.opacity = h3_BH.gte(h3_up3_cost) ? '1' : '0.5';
-    document.getElementById("h3_up3_b").innerHTML = "类地行星" + h3_up3 + "级 费用:" + formatDecimal(h3_up3_cost) +"黑洞<br>数量:" + formatDecimal(h3_up3q) + "+" + formatDecimal(h3_up3q_js) + "/s 黑洞产量*" + formatDecimal(new Decimal(h3_up3q.plus(11).log(11)));
+    document.getElementById("h3_up3_b").innerHTML = "类地行星" + formatDecimal(h3_up3) + "级 费用:" + formatDecimal(h3_up3_cost) +"黑洞<br>数量:" + formatDecimal(h3_up3q) + "+" + formatDecimal(h3_up3q_js) + "/s 黑洞产量*" + formatDecimal(new Decimal(h3_up3q.plus(11).log(11)));
 
     let h3_up4_cost = Decimal.pow(3.99, h3_up4);
     let b3_4_b = document.getElementById('h3_up4_b');
     b3_4_b.style.opacity = h3_BH.gte(h3_up4_cost) ? '1' : '0.5';
-    document.getElementById("h3_up4_b").innerHTML = "类海王星" + h3_up4 + "级 费用:" + formatDecimal(h3_up4_cost) +"黑洞<br>数量:" + formatDecimal(h3_up4q) + "+" + formatDecimal(h3_up4q_js) + "/s 类地行星、黑洞产量*" + formatDecimal(new Decimal(h3_up4q.plus(10).log(10)));
+    document.getElementById("h3_up4_b").innerHTML = "类海王星" + formatDecimal(h3_up4) + "级 费用:" + formatDecimal(h3_up4_cost) +"黑洞<br>数量:" + formatDecimal(h3_up4q) + "+" + formatDecimal(h3_up4q_js) + "/s 类地行星、黑洞产量*" + formatDecimal(new Decimal(h3_up4q.plus(10).log(10)));
 
     let h3_up5_cost = Decimal.pow(5.33, h3_up5);
     let b3_5_b = document.getElementById('h3_up5_b');
     b3_5_b.style.opacity = h3_BH.gte(h3_up5_cost) ? '1' : '0.5';
-    document.getElementById("h3_up5_b").innerHTML = "类木行星" + h3_up5 + "级 费用:" + formatDecimal(h3_up5_cost) +"黑洞<br>数量:" + formatDecimal(h3_up5q) + "+" + formatDecimal(h3_up5q_js) + "/s 类海王星、黑洞产量*" + formatDecimal(new Decimal(h3_up5q.plus(9).log(9)));
+    document.getElementById("h3_up5_b").innerHTML = "类木行星" + formatDecimal(h3_up5) + "级 费用:" + formatDecimal(h3_up5_cost) +"黑洞<br>数量:" + formatDecimal(h3_up5q) + "+" + formatDecimal(h3_up5q_js) + "/s 类海王星、黑洞产量*" + formatDecimal(new Decimal(h3_up5q.plus(9).log(9)));
 
     let h3_up6_cost = Decimal.pow(6.66, h3_up6).times(1e6);
     let b3_6_b = document.getElementById('h3_up6_b');
     b3_6_b.style.opacity = h3_BH.gte(h3_up6_cost) ? '1' : '0.5';
-    document.getElementById("h3_up6_b").innerHTML = "M型恒星" + h3_up6 + "级 费用:" + formatDecimal(h3_up6_cost) +"黑洞<br>数量:" + formatDecimal(h3_up6q) + "+" + formatDecimal(h3_up6q_js) + "/s 行星、黑洞、引力子产量*" + formatDecimal(new Decimal(h3_up6q.plus(8).log(8)));
+    document.getElementById("h3_up6_b").innerHTML = "M型恒星" + formatDecimal(h3_up6) + "级 费用:" + formatDecimal(h3_up6_cost) +"黑洞<br>数量:" + formatDecimal(h3_up6q) + "+" + formatDecimal(h3_up6q_js) + "/s 行星、黑洞、引力子产量*" + formatDecimal(new Decimal(h3_up6q.plus(8).log(8)));
 
     let h3_up7_cost = Decimal.pow(7.99, h3_up7).times(1e7);
     let b3_7_b = document.getElementById('h3_up7_b');
     b3_7_b.style.opacity = h3_BH.gte(h3_up7_cost) ? '1' : '0.5';
-    document.getElementById("h3_up7_b").innerHTML = "K型恒星" + h3_up7 + "级 费用:" + formatDecimal(h3_up7_cost) +"黑洞<br>数量:" + formatDecimal(h3_up7q) + "+" + formatDecimal(h3_up7q_js) + "/s M型恒星、黑洞产量*" + formatDecimal(new Decimal(h3_up7q.plus(5).log(5)));
+    document.getElementById("h3_up7_b").innerHTML = "K型恒星" + formatDecimal(h3_up7) + "级 费用:" + formatDecimal(h3_up7_cost) +"黑洞<br>数量:" + formatDecimal(h3_up7q) + "+" + formatDecimal(h3_up7q_js) + "/s M型恒星、黑洞产量*" + formatDecimal(new Decimal(h3_up7q.plus(5).log(5)));
 
     let h3_up8_cost = Decimal.pow(9, h3_up8).times(1e8);
     let b3_8_b = document.getElementById('h3_up8_b');
     b3_8_b.style.opacity = h3_BH.gte(h3_up8_cost) ? '1' : '0.5';
-    document.getElementById("h3_up8_b").innerHTML = "G型恒星" + h3_up8 + "级 费用:" + formatDecimal(h3_up8_cost) +"黑洞<br>数量:" + formatDecimal(h3_up8q) + "+" + formatDecimal(h3_up8q_js) + "/s K型恒星、黑洞产量*" + formatDecimal(new Decimal(h3_up8q.plus(4.5).log(4.5)));
+    document.getElementById("h3_up8_b").innerHTML = "G型恒星" + formatDecimal(h3_up8) + "级 费用:" + formatDecimal(h3_up8_cost) +"黑洞<br>数量:" + formatDecimal(h3_up8q) + "+" + formatDecimal(h3_up8q_js) + "/s K型恒星、黑洞产量*" + formatDecimal(new Decimal(h3_up8q.plus(4.5).log(4.5)));
 
+    let h3_up9_cost = Decimal.pow(11, h3_up9).times(1e16);
+    let b3_9_b = document.getElementById('h3_up9_b');
+    b3_9_b.style.opacity = h3_BH.gte(h3_up9_cost) ? '1' : '0.5';
+    document.getElementById("h3_up9_b").innerHTML = "F型恒星" + formatDecimal(h3_up9) + "级 费用:" + formatDecimal(h3_up9_cost) +"黑洞<br>数量:" + formatDecimal(h3_up9q) + "+" + formatDecimal(h3_up9q_js) + "/s F型恒星、黑洞产量*" + formatDecimal(new Decimal(h3_up9q.plus(4).log(4)));
+
+    let h3_up10_cost = Decimal.pow(13, h3_up10).times(1e20);
+    let b3_10_b = document.getElementById('h3_up10_b');
+    b3_10_b.style.opacity = h3_BH.gte(h3_up10_cost) ? '1' : '0.5';
+    document.getElementById("h3_up10_b").innerHTML = "A型恒星" + formatDecimal(h3_up10) + "级 费用:" + formatDecimal(h3_up10_cost) +"黑洞<br>数量:" + formatDecimal(h3_up10q) + "+" + formatDecimal(h3_up10q_js) + "/s A型恒星、时间碎片产量*" + formatDecimal(new Decimal(h3_up10q.plus(3.8).log(3.8)));
 }
 
 function h3_hans(){
@@ -83,8 +92,12 @@ function h3_hans(){
     h3_up7q.gte(1) && (h3_up7_buff = new Decimal(h3_up7q.plus(5).log(5)));
     let h3_up8_buff = new Decimal(1);
     h3_up8q.gte(1) && (h3_up8_buff = new Decimal(h3_up8q.plus(4.5).log(4.5)));
+    let h3_up9_buff = new Decimal(1);
+    h3_up9q.gte(1) && (h3_up9_buff = new Decimal(h3_up9q.plus(4).log(4)));
+    let h3_up10_buff = new Decimal(1);
+    h3_up10q.gte(1) && (h3_up10_buff = new Decimal(h3_up10q.plus(3.8).log(3.8)));
     let h3_up_BHbuff = new Decimal(1);
-    h3_up_BHbuff = h3_up3_buff.times(h3_up4_buff).times(h3_up5_buff).times(h3_up6_buff).times(h3_up7_buff).times(h3_up8_buff);
+    h3_up_BHbuff = h3_up3_buff.times(h3_up4_buff).times(h3_up5_buff).times(h3_up6_buff).times(h3_up7_buff).times(h3_up8_buff).times(h3_up9_buff);
 
     h3_BH_js = Decimal.min(Decimal.pow(1.2, h3_up2).minus(1).times(10).times(h3_up_BHbuff),h3_mass.div(100));
 
@@ -100,14 +113,18 @@ function h3_hans(){
 
     h3_up7q_js = Decimal.pow(2, h3_up7).minus(1).times(20).times(h3_up8_buff);
 
-    h3_up8q_js = Decimal.pow(3, h3_up8).minus(1).times(40);
+    h3_up8q_js = Decimal.pow(3, h3_up8).minus(1).times(40).times(h3_up9_buff);
+
+    h3_up9q_js = Decimal.pow(4.1, h3_up9).minus(1).times(61).times(h3_up10_buff);
+
+    h3_up10q_js = Decimal.pow(5.2, h3_up10).minus(1).times(82);
 
     let h2_up19_buff = new Decimal(1);
     h2_up19.gte(1) && (h2_up19_buff = new Decimal(h3_re));
     let h2_up28_buff = new Decimal(1);
-    h2_up28.gte(1) && (h2_up28_buff = Quark.log(10));
+    h2_up28.gte(1) && (h2_up28_buff = Quark.plus(1).log(10));
 
-    h4_ziyuan_js = new Decimal(h3_BH.log(10)).times((cp_up4 + 1)).times(h2_up19_buff).times(h2_up28_buff);
+    h4_ziyuan_js = new Decimal(h3_BH.plus(1).log(10)).times((cp_up4 + 1)).times(h2_up19_buff).times(h2_up28_buff);
 }
 
 function h3_up1_button(){
@@ -182,12 +199,35 @@ function h3_up8_button(){
         updateUI_h3();
     }
 }
+function h3_up9_button(){
+    let cost = Decimal.pow(11, h3_up9).times(1e16);
+    if (h3_BH.gte(cost)){
+        h3_BH = h3_BH.minus(cost);
+        h3_up9 = h3_up9.plus(1);
+        h3_js_re = 1;
+        updateUI_h3();
+    }
+}
+function h3_up10_button(){
+    let cost = Decimal.pow(13, h3_up10).times(1e20);
+    if (h3_BH.gte(cost)){
+        h3_BH = h3_BH.minus(cost);
+        h3_up10 = h3_up10.plus(1);
+        h3_js_re = 1;
+        updateUI_h3();
+    }
+}
+
 
 function h3_re_button(){
     h3_BH.gte(1e6) && (h4_ziyuan = h4_ziyuan.plus(h4_ziyuan_js) , h3_re_hans());
 }
 
 function h3_re_hans(){
+    if (h3_re.eq(0)){
+        h4_cut_hans()
+        showModal('层级四:结构', '星云、暗物质晕、星系核和数量庞大的天体共同构成星系，成为跨越数亿光年的巨构', () => {}, null, true);
+    }
     h3_ziyuan = new Decimal(0);
 
     h3_mass = new Decimal(0);
@@ -229,5 +269,7 @@ document.getElementById('h3_up5_b').addEventListener('click', h3_up5_button);
 document.getElementById('h3_up6_b').addEventListener('click', h3_up6_button);
 document.getElementById('h3_up7_b').addEventListener('click', h3_up7_button);
 document.getElementById('h3_up8_b').addEventListener('click', h3_up8_button);
+document.getElementById('h3_up9_b').addEventListener('click', h3_up9_button);
+document.getElementById('h3_up10_b').addEventListener('click', h3_up10_button);
 
 document.getElementById('h3_re_b').addEventListener('click', h3_re_button);

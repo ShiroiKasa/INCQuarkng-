@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>夸克增量网页重置版</title>
     <link rel="stylesheet" href="style.css">
-    <script src="break_infinity.min.js"></script>
+    <!--<script src="break_infinity.min.js"></script>--> 
+    <script src="break_eternity.min.js"></script>
 </head>
 <body>
     <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
@@ -67,6 +68,7 @@
                 <button id="h3_upauto_b" style="display: none;background:#f78ae5;">生成器自动:关</button>
                 <button id="h3_up1_8auto_b" style="display: none;background:#f78ae5;">氢~氧自动:关</button>
                 <button id="h3_up9_17auto_b" style="display: none;background:#f78ae5;">氟~氯自动:关</button>
+                <button id="auto8_b" style="display: none;background:#f78ae5;">氩~镍自动:关</button>
             </div>
             <div class="button-group2">
                 <button style="background:#f78ae5;font-size: 18px;display: none;" id="h2_up5buff_b">电子生成器0级 费用:1e3原子<br>电子:0.00 夸克指数+0.00</button>
@@ -106,6 +108,15 @@
                 <button style="background:#ff6600;font-size: 20px;display: none;" id="h2_up26_b">铁</button>
                 <button style="background:#ff6600;font-size: 20px;display: none;" id="h2_up27_b">钴</button>
                 <button style="background:#ff6600;font-size: 20px;display: none;" id="h2_up28_b">镍</button>
+                <button style="background:#edc1fb;font-size: 20px;display: none;" id="h2_up29_b">铜</button>
+                <button style="background:#edc1fb;font-size: 20px;display: none;" id="h2_up30_b">锌</button>
+            </div>
+            <div class="button-group2">
+                <button style="background:#edc1fb;font-size: 20px;display: none;" id="h2_up31_b">镓</button>
+                <button style="background:#edc1fb;font-size: 20px;display: none;" id="h2_up32_b">锗</button>
+            </div>
+            <div class="button-group2">
+
             </div>
         </div>
     </div>
@@ -137,6 +148,10 @@
                 <button style="background:#65a6c9;font-size: 18px;display: none;" id="h3_up7_b">K型恒星0级 费用:1e7黑洞<br>数量:0.00 M型恒星产量*1</button>
                 <button style="background:#65a6c9;font-size: 18px;display: none;" id="h3_up8_b">G型恒星0级 费用:1e8黑洞<br>数量:0.00 K型恒星星产量*1</button>
             </div>
+            <div class="button-group2">
+                <button style="background:#65a6c9;font-size: 18px;display: none;" id="h3_up9_b">F型恒星0级 费用:1e18黑洞<br>数量:0.00 G型恒星产量*1</button>
+                <button style="background:#65a6c9;font-size: 18px;display: none;" id="h3_up10_b">A型恒星0级 费用:1e20黑洞<br>数量:0.00 F型恒星产量*1</button>
+            </div>
             <div class="button-group3">
                 <div class="counter_h3" style="font-size: 20px;" id="h3_txt1">质量加成:<br>夸克产量*1</div>
                 <div class="counter_h3" style="font-size: 20px;" id="h3_txt2">黑洞加成:<br>电子产量*1</div>
@@ -145,15 +160,16 @@
     </div>
 
     <div id="h4" style="display: none;">
-        <h2>层级:结构(42星系组分解锁下一层级,未更新)</h2>
+        <h2>层级:结构(42星系解锁下一层级)</h2>
             
         <div class="counter-group">
             <div class="counter_h4" id="h4_ziyuan_txt">暗物质:0(对夸克加成:1)</div>
             <div class="counter_h4" id="h4_ziyuans">0/s</div>
+            <button id="h4_re_b" style="background:#2db3fb;">时间扭曲|时间点+0</button>
         </div>
 
         <div class="button-group">
-            <div class="counter_h4" id="h4_txt" style="font-size: 15px;">1星系组分=1星云+1暗物质晕+1星系核</div>
+            <div class="counter_h4" id="h4_txt" style="font-size: 15px;">1星系=1星云+1暗物质晕+1星系核</div>
             <div class="button-group2">
                 <button style="background:#2db3fb;font-size: 20px;" id="h4_N">星云 数量:0 费用:1夸克</button>
                 <button style="background:#2db3fb;font-size: 20px;" id="h4_DMH">暗物质晕 数量:0 费用:1暗物质</button>
@@ -168,11 +184,33 @@
     </div>
 
     <div id="h5" style="display: none;">
-        <h2>层级:时间</h2>
+        <h2>层级:时间(1e308夸克解锁下一层级,未更新)</h2>
 
         <div class="counter-group">
             <div class="counter_h5" id="h5_ziyuan_txt">时间点:0(对夸克加成:1)</div>
             <div class="counter_h5" id="h5_ziyuans">0/s</div>
+            <div style="font-size: 15px;" class="counter_h5" id="h5_buff">时间碎片:0 对游戏速度倍率加成:1</div>
+            <div style="font-size: 15px;" class="counter_h5" id="h5_Quark_yc">夸克超过1e200的部分因溢出而^1</div>
+        </div>
+
+        <div class="button-group">
+            <button style="background:#edc1fb;font-size: 20px;" id="h5_up1">时间粉碎机:0 费用:1时间点</button>
+            <div class="button-group2">
+                <button class="h5-btn" id="h5_up2">时间碎片产量+0<br>费用:1时间碎片</button>
+                <button style="display: none;" class="h5-btn" id="h5_up3">时间碎片产量*1<br>费用:1时间碎片</button>
+                <button style="display: none;" class="h5-btn" id="h5_up4">时间碎片产量^1<br>费用:1时间碎片</button>
+                <button class="h5-btn" id="h5_up5">游戏速度倍率+0<br>费用:1时间碎片</button>
+                <button style="display: none;" class="h5-btn" id="h5_up6">游戏速度倍率*1<br>费用:1时间碎片</button>
+                <button style="display: none;" class="h5-btn" id="h5_up7">游戏速度倍率^1<br>费用:1时间碎片</button>
+            </div>
+            <div class="button-group2">
+                <button class="h5-btn" id="h5_up8">夸克额外倍率*1<br>费用:1时间碎片</button>
+                <button style="display: none;" class="h5-btn" id="h5_up9">夸克额外倍率^1<br>费用:1时间碎片</button>
+                <button style="display: none;" class="h5-btn" id="h5_up10">夸克额外倍率^(1↑↑3)<br>费用:1时间碎片</button>
+                <button class="h5-btn" id="h5_up11">宇宙大小<br>费用:1时间碎片</button>
+                <button class="h5-btn" id="h5_up12">夸克溢出减慢<br>费用:1时间碎片</button>
+                <button style="display: none;" class="h5-btn" id="h5_re_b">理论重构<br>费用:infinite夸克</button>
+            </div>
         </div>
 
     </div>
@@ -199,7 +237,9 @@
                 <button style="background:#ffa807;font-size: 18px;display: none;" id="cp_up2_b">原子*1 费用:1点数</button>
                 <button style="background:#ffa807;font-size: 18px;display: none;" id="cp_up3_b">引力子*1 费用:1点数</button>
                 <button style="background:#ffa807;font-size: 18px;display: none;" id="cp_up4_b">暗物质*1 费用:1点数</button>
+                <button style="background:#ffa807;font-size: 18px;display: none;" id="cp_up5_b">时间点*1 费用:1点数</button>
             </div>
+            <button style="background:#ffa807;font-size: 18px;display: none;" id="cp_version_b">领取更新礼物</button>
         </div>
     </div>
 
@@ -211,13 +251,14 @@
         <button id="exportSaveBtn" style="background:#e9b1ff;">导出存档</button>
         <button id="importSaveBtn" style="background:#e9b1ff;">导入存档</button>
         <input type="file" id="fileInput" accept=".json,.txt" style="display:none;">
-        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>v3.5(web3.5.26_07_20_1)</p>
+        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>v4.1(web4.1.26_08_02_1)</p>
     </div>
 
     <div id="stat" style="display: none;">
         <h2>统计</h2>
         <div class="button-group3">
-            <div class="counter_stat" id="Game_time" style="font-size: 18px;">游戏时间:0</div>
+            <div class="counter_stat" id="Game_time" style="font-size: 18px;">现实游戏时间:0</div>
+            <div class="counter_stat" id="Game_time_bl" style="font-size: 18px;display: none;">游戏时间:0</div>
             <div class="button-group2">
                 <div class="counter_stat" id="Quarks_MAX" style="font-size: 18px;">最大夸克数量:0</div>
                 <div class="counter_stat" id="h1_re_stat" style="font-size: 18px;">夸克禁闭次数:0</div>
@@ -229,6 +270,24 @@
             <div class="button-group2">
                 <div class="counter_stat" id="h3_ziyuan_MAX" style="font-size: 18px;">最大引力子数量:0</div>
                 <div class="counter_stat" id="h3_re_stat" style="font-size: 18px;">黑洞蒸发次数:0</div>
+            </div>
+            <div class="button-group2">
+                <div class="counter_stat" id="h4_ziyuan_MAX" style="font-size: 18px;">最大暗物质数量:0</div>
+                <div class="counter_stat" id="h4_re_stat" style="font-size: 18px;">时间扭曲次数:0</div>
+            </div>
+            <div class="button-group2">
+                <div class="counter_stat" id="h5_ziyuan_MAX" style="font-size: 18px;">最大时间点数量:0</div>
+                <div class="counter_stat" id="h5_re_stat" style="font-size: 18px;">理论重构次数:0</div>
+            </div>
+        </div>
+    </div>
+    <div id="myCustomModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:999999; background:rgba(0,0,0,0.7); align-items:center; justify-content:center; pointer-events:auto;">
+        <div style="background:#2a1531; border:2px solid #ffffff; border-radius:0; padding:40px 60px; max-width:80%; box-shadow:0 0 30px rgba(255,255,255,0.2);">
+            <div id="modalTitle" style="font-size:28px; font-weight:bold; color:#ffffff; text-align:center; margin-bottom:20px;">标题</div>
+            <div id="modalContent" style="font-size:18px; color:#ffffff; text-align:center; margin:20px 0; line-height:1.6;">内容</div>
+            <div id="modalButtonGroup" style="display:flex; justify-content:center; gap:20px; margin-top:30px;">
+                <button id="modalConfirmBtn" style="background:#2a1531; color:#ffffff; border:2px solid #ffffff; border-radius:0; padding:12px 36px; font-size:18px; cursor:pointer;">确定</button>
+                <button id="modalCancelBtn" style="background:#2a1531; color:#ffffff; border:2px solid #ffffff; border-radius:0; padding:12px 36px; font-size:18px; cursor:pointer;">取消</button>
             </div>
         </div>
     </div>
@@ -245,5 +304,7 @@
     <script src="blackhole_h3_bg.js"></script>
     <script src="script_h4.js"></script>
     <script src="galaxy_h4_bg.js"></script>
+    <script src="script_h5.js"></script>
+    <script src="time_h5_bg.js"></script>
 </body>
 </html>

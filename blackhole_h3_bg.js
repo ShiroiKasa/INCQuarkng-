@@ -8,6 +8,7 @@
     canvas.style.width = '100vw';
     canvas.style.height = '100vh';
     canvas.style.pointerEvents = 'none';
+    canvas.style.zIndex = '-1';
     document.body.prepend(canvas);
 
     let width, height, cx, cy;
@@ -34,12 +35,14 @@
     let glowTimer = 0;
     let currentRadius = 30;
 
+    let callCount = 0;
     function getRadius() {
+        callCount++;
         if (typeof h3_BH !== 'undefined' && h3_BH instanceof Decimal) {
-            let logVal = h3_BH.plus(1).log10();
-            if (!isFinite(logVal)) logVal = 300;
+            let logVal = h3_BH.plus(1).log10().toNumber();
             let raw = 20 + logVal;
-            return Math.max(20, Math.min(800, raw)); // 下限20，上限800
+            let result = Math.max(20, Math.min(800, raw));
+            return result;
         }
         return 30;
     }
@@ -70,6 +73,7 @@
         }
 
         resize();
+        
         currentRadius = getRadius();
 
         for (let p of particles) {

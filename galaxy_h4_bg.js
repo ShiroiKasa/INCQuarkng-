@@ -29,7 +29,7 @@
         canvas.style.display = shouldShow ? 'block' : 'none';
     }
 
-    // ========== 配置常量 ==========
+    // 配置常量 
     const MAX_PARTICLES = 300;
     const LINE_SPEED = 10;          // 旋转速度（像素/秒）
     const MIN_RADIUS = 100;          // 最小半径（像素）

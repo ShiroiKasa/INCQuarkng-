@@ -21,18 +21,18 @@ function updateUI_h1(){
     let b1_1_1 = document.getElementById('h1_up1_1_button');
     let clickCost = h1_up1_1.pow(2).plus(1);
     b1_1_1.style.opacity = Quark.gte(clickCost) ? '1' : '0.5';
-    document.getElementById("h1_up1_1_button").innerHTML = "+1点击产量" + h1_up1_1.toString() + "级 费用:" + formatDecimal(clickCost) + "夸克";
+    document.getElementById("h1_up1_1_button").innerHTML = "+1点击产量" + formatDecimal(h1_up1_1) + "级 费用:" + formatDecimal(clickCost) + "夸克";
 
     //自动生成器升级按钮（费用 = 2^等级 × 10）
     let b1_2 = document.getElementById('h1_up2_button');
     let genCost = Decimal.pow(1.2, h1_up1).times(10);
     b1_2.style.opacity = Quark.gte(genCost) ? '1' : '0.5';
-    document.getElementById("h1_up2_button").innerHTML = "夸克产量+" + h1_up1.toString() + " 费用:" + formatDecimal(genCost) + "夸克";
+    document.getElementById("h1_up2_button").innerHTML = "夸克产量+" + formatDecimal(h1_up1) + " 费用:" + formatDecimal(genCost) + "夸克";
 
     let b1_3 = document.getElementById("h1_up3_button");
     let h1_up3_cost = Decimal.pow(1.5, h1_up3).times(100);
     b1_3.style.opacity = Quark.gte(h1_up3_cost) ? '1' : '0.5';
-    document.getElementById("h1_up3_button").innerHTML = "夸克产量*" + h1_up3.plus(1).toString() + " 费用:" + formatDecimal(h1_up3_cost) + "夸克";
+    document.getElementById("h1_up3_button").innerHTML = "夸克产量*" + formatDecimal(h1_up3.plus(1)) + " 费用:" + formatDecimal(h1_up3_cost) + "夸克";
 
     let b1_4 = document.getElementById("h1_up4_button");
     let h1_up4_cost = Decimal.pow(1e3, Decimal.pow(1.2, h1_up4));
@@ -41,6 +41,9 @@ function updateUI_h1(){
 }
 //h1
 function h1_hans(){
+    if (quark_max.eq(1) && game_tc === 0){
+        showModal('第一个夸克', '您获得了第一个夸克！接下来只需要想办法获取更多的夸克就好，祝您游戏愉快!', () => {game_tc = 1}, null, true);
+    }
     //buff判断
     let cp_up1_buff = cp_up1 + 1;
 
@@ -55,7 +58,7 @@ function h1_hans(){
     h2_up17.gte(1) && (h2_up17_buff = new Decimal(Quark.plus(1.2).log(1.2)));
 
     let h2_up21_buff = new Decimal(1);
-    h2_up21.gte(1) && (h2_up21_buff = new Decimal(Decimal.pow(h4_ziyuan,3)));
+    h2_up21.gte(1) && (h2_up21_buff = Decimal.max(Decimal.pow(h4_ziyuan, 3), 1));
 
     //正式计算
     Quark_h1_js = Decimal.pow(h1_up1.times(h1_up3.plus(1)),h1_up4.div(10).plus(1));
@@ -73,7 +76,9 @@ function h1_hans(){
     let Quark_h4_buff2 = h4_up1q.plus(1);
     let Quark_h4_buff = Quark_h4_buff1.times(Quark_h4_buff2);
 
-    let Quark_js1 = (Decimal.pow((Quark_h1_js.times(Quark_h2_buff2)),h2_e_buff)).times(Quark_h3_buff).times(Quark_h4_buff);
+    let Quark_h5_buff = new Decimal(((h5_ziyuan.plus(1)).log(7))).plus(1).times(h5_time_buff_quark);
+
+    let Quark_js1 = (Decimal.pow((Quark_h1_js.times(Quark_h2_buff2)),h2_e_buff)).times(Quark_h3_buff).times(Quark_h4_buff).times(Quark_h5_buff);
     let Quark_js2 = Quark_js1.times(cp_up1_buff);
 
     Quark_js = Quark_js2;
@@ -83,6 +88,26 @@ function h1_hans(){
     }else{
         Quark_js = Quark_js.times(sk_1_buff1);
     };
+
+
+    //溢出函数
+    if (Quark_js.gte(h5_quark_max)){
+        let ratio = Quark_js.div(h5_quark_max);
+        let logRatio = ratio.log10();
+        //控制指数c，由h5_up12决定
+        let c = Decimal.div(20,Decimal.plus(1,Decimal.pow(h5_up12,2.33)));
+        //计算压缩指数p
+        let exponent = Decimal.div(1,Decimal.plus(1,Decimal.pow(logRatio,c)));
+        //下限0.01
+        exponent = Decimal.max(exponent,0.01);
+        
+        //UI显示
+        h5_overflow_exponent = exponent;
+        
+        Quark_js = h5_quark_max.times(Decimal.pow(ratio,exponent));
+    } else {
+        h5_overflow_exponent = new Decimal(1);
+    }
 
     //原子自动获取
     let cp_up2_buff = cp_up2 + 1;
@@ -162,6 +187,10 @@ function h1_re_button(){
 }
 
 function h1_re_hans(){
+    if (h1_re.eq(0)){
+        h2_cut_hans()
+        showModal('层级二:元素', '各种各样的元素可以带来不同的加成，随着游戏的推进，会解锁越来越多的元素，记得随时回来看看', () => {}, null, true);
+    }
     Quark = h2_up4.times(10);
 
     Quark_h1_js = new Decimal(0);
@@ -176,6 +205,7 @@ function h1_re_hans(){
     h1_js_re = 1;
     updateUI_h1();
     UIvisible();
+
 }
 
 document.getElementById('h1_up1_1_button').addEventListener('click', h1_up1_1_button);

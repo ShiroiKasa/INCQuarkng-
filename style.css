@@ -93,6 +93,41 @@ button:hover {
     background-color: #cc5500;
 }
 
+/* h5 升级按钮样式 */
+#h5 .h5-btn {
+    width: 200px;               /* 正方形 */
+    height: 200px;
+    background: white;          /* 白底 */
+    color: black;               /* 黑字 */
+    border: 2px solid black;    /* 黑边 */
+    border-radius: 0;           /* 无圆角，保持正方形 */
+    font-size: 18px;
+    padding: 0;
+    display: inline-flex;       /* 让文字居中 */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+/* 可升级时的样式 */
+#h5 .h5-btn.upgradable {
+    border-color: #ffa807;      /* 橙色边 */
+    color: #ffa807;             /* 橙色字 */
+}
+
+/* 保持白底，不受全局 hover 影响 */
+#h5 .h5-btn:hover {
+    background: white;
+    border-color: black;        /* hover 时边色不变（常态） */
+}
+
+#h5 .h5-btn.upgradable:hover {
+    border-color: #ffa807;      /* 可升级时 hover 保持橙色边 */
+    background: white;
+}
+
 #SK button {
     background: transparent;
     border: 2px solid #4e28a7;

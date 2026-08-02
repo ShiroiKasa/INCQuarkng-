@@ -3,10 +3,15 @@
 const bgColors = ["#ffffff", "#1e1e2f", "#f5f0e6", "#d9e8f5","#000000"];
 let bgIndex = 0;  //当前背景索引，0=白色
 
+let version = 4.1;
+
+let game_tc = 0;
+
 let UI_re = "h1";
 let gl_js_re = 0;
 
 let game_time = 0;
+let game_time_bl = new Decimal(0);
 let quark_max = new Decimal(0);
 
 var Quark = new Decimal(0);
@@ -17,6 +22,8 @@ let Quark_h2_buff2 = new Decimal(0);
 let Quark_js = new Decimal(0);
 
 //藏品
+let cp_version = 1.0;
+
 let cp_ds = 0;
 let cp_ds_cs = 0;
 
@@ -24,6 +31,7 @@ let cp_up1 = 0;
 let cp_up2 = 0;
 let cp_up3 = 0;
 let cp_up4 = 0;
+let cp_up5 = 0;
 //auto
 var h1_up2_auto = 0;
 var h1_up3_auto = 0;
@@ -34,6 +42,8 @@ var h3_up2_auto = 0;
 
 var h3_up3_auto = 0;
 var h3_up4_auto = 0;
+
+var auto8 = 0;
 
 //h1
 let h1_js_re = 1;
@@ -93,10 +103,15 @@ var h2_up26 = new Decimal(0);
 var h2_up27 = new Decimal(0);
 var h2_up28 = new Decimal(0);
 
+var h2_up29 = new Decimal(0);
+var h2_up30 = new Decimal(0);
+var h2_up31 = new Decimal(0);
+var h2_up32 = new Decimal(0);
+
 let h2_re = new Decimal(0);
 
 //h3
-let h3_js_re = 1;
+let h3_js_re = 1; 
 
 var h3_ziyuan = new Decimal(0);
 let h3_ziyuan_js = new Decimal(0);
@@ -119,6 +134,11 @@ let h3_up7q_js = new Decimal(0);
 let h3_up8q = new Decimal(0);
 let h3_up8q_js = new Decimal(0);
 
+let h3_up9q = new Decimal(0);
+let h3_up9q_js = new Decimal(0);
+let h3_up10q = new Decimal(0);
+let h3_up10q_js = new Decimal(0);
+
 let h3_up1 = new Decimal(0);
 let h3_up2 = new Decimal(0);
 let h3_up3 = new Decimal(0);
@@ -128,6 +148,9 @@ let h3_up5 = new Decimal(0);
 let h3_up6 = new Decimal(0);
 let h3_up7 = new Decimal(0);
 let h3_up8 = new Decimal(0);
+
+let h3_up9 = new Decimal(0);
+let h3_up10 = new Decimal(0);
 
 let h3_re = new Decimal(0);
 
@@ -151,6 +174,37 @@ let h4_up2_js = new Decimal(0);
 let h4_up3 = new Decimal(0);
 let h4_up3q = new Decimal(0);
 let h4_up3_js = new Decimal(0);
+
+let h4_re = new Decimal(0);
+
+//h5
+let h5_js_re = 1;
+
+var h5_ziyuan = new Decimal(0);
+let h5_ziyuan_js = new Decimal(0);
+let h5_ziyuan_max = new Decimal(0);
+
+let h5_time_confetti = new Decimal(0);
+let h5_time_confetti_js = new Decimal(0);
+let h5_time_buff = new Decimal(1);
+let h5_time_buff_quark = new Decimal(1);
+let h5_quark_max = new Decimal(1e200);
+let h5_overflow_exponent = new Decimal(1);
+
+let h5_up1 = new Decimal(0);
+let h5_up2 = new Decimal(0);
+let h5_up3 = new Decimal(0);
+let h5_up4 = new Decimal(0);
+let h5_up5 = new Decimal(0);
+let h5_up6 = new Decimal(0);
+let h5_up7 = new Decimal(0);
+let h5_up8 = new Decimal(0);
+let h5_up9 = new Decimal(0);
+let h5_up10 = new Decimal(0);
+let h5_up11 = new Decimal(0);
+let h5_up12 = new Decimal(0);
+
+let h5_re = new Decimal(0);
 
 //SK
 let sk_ing = 0;

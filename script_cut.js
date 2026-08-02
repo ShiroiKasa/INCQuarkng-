@@ -6,6 +6,8 @@ function updateUI_cut(){
     b3_cut.style.display = h2_re > 0 ? 'block' : 'none';
     let b4_cut = document.getElementById('h4_cut');
     b4_cut.style.display = h3_re > 0 ? 'block' : 'none';
+    let b5_cut = document.getElementById('h5_cut');
+    b5_cut.style.display = h4_re > 0 ? 'block' : 'none';
 
     let bSK_cut = document.getElementById('SK_cut');
     bSK_cut.style.display = h2_up24 > 0 ? 'block' : 'none';
@@ -20,6 +22,7 @@ function xs_hans(){
     document.getElementById('h2').style.display = 'none';
     document.getElementById('h3').style.display = 'none';
     document.getElementById('h4').style.display = 'none';
+    document.getElementById('h5').style.display = 'none';
     document.getElementById('SK').style.display = 'none';
     document.getElementById('cp').style.display = 'none';
     document.getElementById('set').style.display = 'none';
@@ -48,6 +51,12 @@ function h4_cut_hans(){
     xs_hans()
     UI_re = "h4"
     document.getElementById('h4').style.display = 'block';
+}
+
+function h5_cut_hans(){
+    xs_hans()
+    UI_re = "h5"
+    document.getElementById('h5').style.display = 'block';
 }
 
 function SK_cut_hans(){
@@ -79,6 +88,7 @@ document.getElementById('h1_cut').addEventListener('click', h1_cut_hans);
 document.getElementById('h2_cut').addEventListener('click', h2_cut_hans);
 document.getElementById('h3_cut').addEventListener('click', h3_cut_hans);
 document.getElementById('h4_cut').addEventListener('click', h4_cut_hans);
+document.getElementById('h5_cut').addEventListener('click', h5_cut_hans);
 document.getElementById('SK_cut').addEventListener('click', SK_cut_hans);
 document.getElementById('cp_cut').addEventListener('click', cp_cut_hans);
 document.getElementById('set_cut').addEventListener('click', set_cut_hans);

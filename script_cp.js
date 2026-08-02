@@ -10,6 +10,9 @@ function cp_ds_sj(){
 
 function updateUI_cp(){
     document.getElementById("cp_ds_txt").innerHTML = "藏品点数:" + formatDecimal(cp_ds) + " 上次获得点数在" + formatDecimal(cp_ds_cs / 10) + "秒前";
+
+    let cp_version_b = document.getElementById('cp_version_b');
+    (version > cp_version) ? cp_version_b.style.display = 'block' : cp_version_b.style.display = 'none';
     
     let cp_up1_cost = Math.pow(1.05,cp_up1);
     let cp_1_b = document.getElementById('cp_up1_b');
@@ -33,6 +36,21 @@ function updateUI_cp(){
     cp_4_b.style.opacity = (cp_ds >= cp_up4_cost) ? '1' : '0.5';
     h3_re.gte(1) ? cp_4_b.style.display = 'block' : cp_4_b.style.display = 'none';
     document.getElementById("cp_up4_b").innerHTML = "暗物质*" + (cp_up4 + 1) + " 点数需达到:" + formatDecimal(cp_up4_cost);
+
+    let cp_up5_cost = Math.pow(1.8,cp_up5);
+    let cp_5_b = document.getElementById('cp_up5_b');
+    cp_5_b.style.opacity = (cp_ds >= cp_up5_cost) ? '1' : '0.5';
+    h4_re.gte(1) ? cp_5_b.style.display = 'block' : cp_5_b.style.display = 'none';
+    document.getElementById("cp_up5_b").innerHTML = "时间点*" + (cp_up5 + 1) + " 点数需达到:" + formatDecimal(cp_up5_cost);
+}
+
+function claimUpdateReward(){
+    if(version > cp_version){
+        cp_version = version;
+        cp_ds += 233;
+        alert('感谢您的游玩！233藏品点数已增加至存档');
+        updateUI_cp();
+    }
 }
 
 function cp_up1_button(){
@@ -63,8 +81,17 @@ function cp_up4_button(){
         updateUI_cp();
     }
 }
+function cp_up5_button(){
+    let cost = Math.pow(1.8,cp_up5);
+    if (cp_ds >= cost){
+        cp_up5 += 1;
+        updateUI_cp();
+    }
+}
+document.getElementById('cp_version_b').addEventListener('click', claimUpdateReward);
 
 document.getElementById('cp_up1_b').addEventListener('click', cp_up1_button);
 document.getElementById('cp_up2_b').addEventListener('click', cp_up2_button);
 document.getElementById('cp_up3_b').addEventListener('click', cp_up3_button);
 document.getElementById('cp_up4_b').addEventListener('click', cp_up4_button);
+document.getElementById('cp_up5_b').addEventListener('click', cp_up5_button);

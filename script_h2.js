@@ -21,9 +21,9 @@ function updateUI_h2(){
     let h2_upe_cost = Decimal.pow(2, h2_upe).times(1000)
     let h2_upp_cost = Decimal.pow(2, h2_upp).times(1000)
     let h2_upn_cost = Decimal.pow(2, h2_upn).times(1000)
-    document.getElementById("h2_up5buff_b").innerHTML = "电子生成器" + h2_upe + "级 费用:" + formatDecimal(h2_upe_cost) +"原子<br>电子:" + formatDecimal(h2_e) + "+" + formatDecimal(h2_e_js) + "/s" + " 夸克指数+" + formatDecimal(new Decimal(h2_e.plus(10).log(10)).div(10));
-    document.getElementById("h2_up6buff_b").innerHTML = "质子生成器" + h2_upp + "级 费用:" + formatDecimal(h2_upp_cost) +"原子<br>质子:" + formatDecimal(h2_p) + "+" + formatDecimal(h2_p_js) + "/s" + " 原子产量*" + formatDecimal(new Decimal(h2_p.plus(10).log(10)));
-    document.getElementById("h2_up7buff_b").innerHTML = "中子生成器" + h2_upn + "级 费用:" + formatDecimal(h2_upn_cost) +"原子<br>中子:" + formatDecimal(h2_n) + "+" + formatDecimal(h2_n_js) + "/s" + " 电子/质子产量*" + formatDecimal(new Decimal(h2_n.plus(10).log(10)));
+    document.getElementById("h2_up5buff_b").innerHTML = "电子生成器" + formatDecimal(h2_upe) + "级 费用:" + formatDecimal(h2_upe_cost) +"原子<br>电子:" + formatDecimal(h2_e) + "+" + formatDecimal(h2_e_js) + "/s" + " 夸克指数+" + formatDecimal(new Decimal(h2_e.plus(10).log(10)).div(10));
+    document.getElementById("h2_up6buff_b").innerHTML = "质子生成器" + formatDecimal(h2_upp) + "级 费用:" + formatDecimal(h2_upp_cost) +"原子<br>质子:" + formatDecimal(h2_p) + "+" + formatDecimal(h2_p_js) + "/s" + " 原子产量*" + formatDecimal(new Decimal(h2_p.plus(10).log(10)));
+    document.getElementById("h2_up7buff_b").innerHTML = "中子生成器" + formatDecimal(h2_upn) + "级 费用:" + formatDecimal(h2_upn_cost) +"原子<br>中子:" + formatDecimal(h2_n) + "+" + formatDecimal(h2_n_js) + "/s" + " 电子/质子产量*" + formatDecimal(new Decimal(h2_n.plus(10).log(10)));
     let b2_e_b = document.getElementById('h2_up5buff_b');
     b2_e_b.style.opacity = h2_ziyuan.gte(h2_upe_cost) ? '1' : '0.5';
     let b2_p_b = document.getElementById('h2_up6buff_b');
@@ -114,12 +114,24 @@ function updateUI_h2(){
 
     let b2_28 = document.getElementById('h2_up28_b');
     b2_28.style.opacity = (h2_up28.eq(1)) ? '1' : (Quark.gte(1e145) ? '0.5' : '0.2');
+
+    let b2_29 = document.getElementById('h2_up29_b');
+    b2_29.style.opacity = (h2_up29.eq(1)) ? '1' : (h5_ziyuan.gte(50) ? '0.5' : '0.2');
+
+    let b2_30 = document.getElementById('h2_up30_b');
+    b2_30.style.opacity = (h2_up30.eq(1)) ? '1' : (h5_ziyuan.gte(150) ? '0.5' : '0.2');
+
+    let b2_31 = document.getElementById('h2_up31_b');
+    b2_31.style.opacity = (h2_up31.eq(1)) ? '1' : (h5_ziyuan.gte(200) ? '0.5' : '0.2');
+
+    let b2_32 = document.getElementById('h2_up32_b');
+    b2_32.style.opacity = (h2_up32.eq(1)) ? '1' : (h5_ziyuan.gte(500) ? '0.5' : '0.2');
 }
 
 //计算函数
 function h2_hans(){
     let h3_BH_buff2 = new Decimal(1);
-    h3_BH_buff2 = (h3_BH.gte(1e4)) ? new Decimal(h3_BH.log(10)) : new Decimal(1);
+    h3_BH_buff2 = (h3_BH.gte(1e4)) ? new Decimal(h3_BH.plus(1).log(10)) : new Decimal(1);
     h2_e_js = (h2_upe.times(h2_n.plus(10).log(10))).times(h3_BH_buff2);
 
     let h3_mass_buff = new Decimal(1);
@@ -241,10 +253,10 @@ function h2_up1_button(){
     handleUpgrade('h2_up1', 10, '氢', '夸克禁闭次数加成夸克获取/公式*夸克禁闭次数');
 }
 function h2_up2_button(){
-    handleUpgrade('h2_up2', 50, '氦', '最大夸克数量加成夸克获取/公式*lg(最大夸克数量)');
+    handleUpgrade('h2_up2', 50, '氦', '最大夸克数量加成夸克获取/公式*log<sub>10</sub>(最大夸克数量)');
 }
 function h2_up3_button(){
-    handleUpgrade('h2_up3', 100, '锂', '最大夸克数量加成原子获取/公式*lg(最大夸克数量)');
+    handleUpgrade('h2_up3', 100, '锂', '最大夸克数量加成原子获取/公式*log<sub>10</sub>(最大夸克数量)');
 }
 function h2_up4_button(){
     handleUpgrade('h2_up4', 500, '铍', '解锁夸克层级升级自动化且夸克初始数量变为10');
@@ -265,13 +277,13 @@ function h2_up9_button(){
     handleUpgrade('h2_up9', 10, '氟', '无需夸克禁闭也可以获得原子', 1, '引力子', 'h3_ziyuan');
 }
 function h2_up10_button(){
-    handleUpgrade('h2_up10', 50, '氖', '最大原子数量加成中子获取/公式*lg(最大原子数量)', 1, '引力子', 'h3_ziyuan');
+    handleUpgrade('h2_up10', 50, '氖', '最大原子数量加成中子获取/公式*log<sub>10</sub>(最大原子数量)', 1, '引力子', 'h3_ziyuan');
 }
 function h2_up11_button(){
     handleUpgrade('h2_up11', 100, '钠', '引力激发次数加成原子获取/公式*(引力激发次数)^0.5', 1, '引力子', 'h3_ziyuan');
 }
 function h2_up12_button(){
-    handleUpgrade('h2_up12', 200, '镁', '最大夸克数量加成引力子获取/公式*lg(最大夸克数量)', 1, '引力子', 'h3_ziyuan');
+    handleUpgrade('h2_up12', 200, '镁', '最大夸克数量加成引力子获取/公式*log<sub>10</sub>(最大夸克数量)', 1, '引力子', 'h3_ziyuan');
 }
 function h2_up13_button(){
     handleUpgrade('h2_up13', 500, '铝', '解锁元素层级生成器、氢~氧升级自动化且铍初始等级变为1', 1, '引力子', 'h3_ziyuan');
@@ -296,7 +308,6 @@ function h2_up19_button(){
 }
 function h2_up20_button(){
     handleUpgrade('h2_up20', 500, '钙', '星辰层级解锁K型、G型恒星', 1, '暗物质', 'h4_ziyuan');
-    UIvisible_h4();
 }
 function h2_up21_button(){
     handleUpgrade('h2_up21', 1000, '钪', '暗物质加成夸克获取/公式*暗物质<sup>3</sup>', 1, '暗物质', 'h4_ziyuan');
@@ -323,8 +334,20 @@ function h2_up27_button(){
     h1_js_re === 1;
 }
 function h2_up28_button(){
-    handleUpgrade('h2_up28', 1e145, '镍', '夸克加成暗物质获取/公式*lg(夸克)', 1, '夸克', 'Quark');
+    handleUpgrade('h2_up28', 1e145, '镍', '夸克加成暗物质获取/公式*log<sub>10</sub>(夸克)', 1, '夸克', 'Quark');
     h1_js_re === 1;
+}
+function h2_up29_button(){
+    handleUpgrade('h2_up29', 50, '铜', '星辰层级解锁F型、A型恒星', 1, '时间点', 'h5_ziyuan');
+}
+function h2_up30_button(){
+    handleUpgrade('h2_up30', 150, '锌', '解锁元素层级氩~镍升级自动化且自动升级不消耗资源', 1, '时间点', 'h5_ziyuan');
+}
+function h2_up31_button(){
+    handleUpgrade('h2_up31', 200, '镓', '无需黑洞蒸发也可以获得暗物质', 1, '时间点', 'h5_ziyuan');
+}
+function h2_up32_button(){
+    handleUpgrade('h2_up32', 500, '锗', '时间扭曲次数加成时间点获取/公式*log<sub>2</sub>(时间扭曲次数+2)', 1, '时间点', 'h5_ziyuan');
 }
 
 function h2_re_button(){
@@ -332,6 +355,10 @@ function h2_re_button(){
 }
 
 function h2_re_hans(){
+    if (h2_re.eq(0)){
+        h3_cut_hans()
+        showModal('层级三:星辰', '大量的元素聚集成星辰，行星与恒星自混沌中诞生<br>注意:黑洞催化器会消耗质量', () => {}, null, true);
+    }
     h2_ziyuan = new Decimal(0);
 
     h2_upe = new Decimal(0);
@@ -395,3 +422,7 @@ document.getElementById('h2_up25_b').addEventListener('click', h2_up25_button);
 document.getElementById('h2_up26_b').addEventListener('click', h2_up26_button);
 document.getElementById('h2_up27_b').addEventListener('click', h2_up27_button);
 document.getElementById('h2_up28_b').addEventListener('click', h2_up28_button);
+document.getElementById('h2_up29_b').addEventListener('click', h2_up29_button);
+document.getElementById('h2_up30_b').addEventListener('click', h2_up30_button);
+document.getElementById('h2_up31_b').addEventListener('click', h2_up31_button);
+document.getElementById('h2_up32_b').addEventListener('click', h2_up32_button);

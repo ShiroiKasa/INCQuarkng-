@@ -30,7 +30,7 @@ function SK_hans(){
             sk_1_buff1 = Decimal.pow(sk_1_MAX,0.666);
         }else{
             sk_1_buff1 = new Decimal(1);
-        }
+        };
         
     };
 }

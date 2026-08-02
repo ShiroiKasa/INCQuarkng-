@@ -27,9 +27,12 @@ function h3_up3_auto_cut(){
 function h3_up4_auto_cut(){
     toggleAuto('h3_up4_auto', 'h3_up9_17auto_b',"氟~氯自动:开","氟~氯自动:关");
 }
+function auto8_cut(){
+    toggleAuto('auto8', 'auto8_b',"氩~镍自动:开","氩~镍自动:关");
+}
 //全局自动化
 function global_auto(){
-    if (h2_up8.gte(1)){
+    if (h2_up8.gte(1) && Quark.gt(0)){
         let h1_up1_max = Decimal.floor(Quark.div(10).log(1.2)).plus(1);
         (h1_up2_auto === 1 && h1_up1_max.gt(h1_up1)) && (h1_up1 = h1_up1_max , h1_js_re = 1);
 
@@ -45,7 +48,7 @@ function global_auto(){
     }
 
     if (h2_up13.gte(1)){
-        if (h2_up16.gte(1)){
+        if (h2_up16.gte(1) && h2_ziyuan.gt(0)){
             let h2_upe_max = Decimal.floor(h2_ziyuan.div(1000).log(2)).plus(1);
             (h3_up1_auto === 1 && h2_upe_max.gt(h2_upe)) && (h2_upe = h2_upe_max , h2_js_re = 1);
 
@@ -70,29 +73,33 @@ function global_auto(){
     }
 
     if (h2_up22.gte(1)){
-        let h3_up1_max = Decimal.floor(h3_ziyuan.log(2.33)).plus(1);
-        (h3_up3_auto === 1 && h3_up1_max.gt(h3_up1)) && (h3_up1 = h3_up1_max , h3_js_re = 1);
+        if (h3_ziyuan.gt(0)){
+            let h3_up1_max = Decimal.floor(h3_ziyuan.log(2.33)).plus(1);
+            (h3_up3_auto === 1 && h3_up1_max.gt(h3_up1)) && (h3_up1 = h3_up1_max , h3_js_re = 1);
 
-        let h3_up2_max = Decimal.floor(h3_ziyuan.log(3)).plus(1);
-        (h3_up3_auto === 1 && h3_up2_max.gt(h3_up2)) && (h3_up2 = h3_up2_max , h3_js_re = 1);
+            let h3_up2_max = Decimal.floor(h3_ziyuan.log(3)).plus(1);
+            (h3_up3_auto === 1 && h3_up2_max.gt(h3_up2)) && (h3_up2 = h3_up2_max , h3_js_re = 1);
+        }
 
-        let h3_up3_max = Decimal.floor(h3_BH.log(3.33)).plus(1);
-        (h3_up3_auto === 1 && h3_up3_max.gt(h3_up3)) && (h3_up3 = h3_up3_max , h3_js_re = 1);
+        if (h3_BH.gt(0)){
+            let h3_up3_max = Decimal.floor(h3_BH.log(3.33)).plus(1);
+            (h3_up3_auto === 1 && h3_up3_max.gt(h3_up3)) && (h3_up3 = h3_up3_max , h3_js_re = 1);
 
-        let h3_up4_max = Decimal.floor(h3_BH.log(3.99)).plus(1);
-        (h3_up3_auto === 1 && h3_up4_max.gt(h3_up4)) && (h3_up4 = h3_up4_max , h3_js_re = 1);
+            let h3_up4_max = Decimal.floor(h3_BH.log(3.99)).plus(1);
+            (h3_up3_auto === 1 && h3_up4_max.gt(h3_up4)) && (h3_up4 = h3_up4_max , h3_js_re = 1);
 
-        let h3_up5_max = Decimal.floor(h3_BH.log(5.33)).plus(1);
-        (h3_up3_auto === 1 && h3_up5_max.gt(h3_up5)) && (h3_up5 = h3_up5_max , h3_js_re = 1);
+            let h3_up5_max = Decimal.floor(h3_BH.log(5.33)).plus(1);
+            (h3_up3_auto === 1 && h3_up5_max.gt(h3_up5)) && (h3_up5 = h3_up5_max , h3_js_re = 1);
 
-        let h3_up6_max = Decimal.floor(h3_BH.div(1e6).log(6.66)).plus(1);
-        (h3_up3_auto === 1 && h3_up6_max.gt(h3_up6)) && (h3_up6 = h3_up6_max , h3_js_re = 1);
+            let h3_up6_max = Decimal.floor(h3_BH.div(1e6).log(6.66)).plus(1);
+            (h3_up3_auto === 1 && h3_up6_max.gt(h3_up6)) && (h3_up6 = h3_up6_max , h3_js_re = 1);
 
-        let h3_up7_max = Decimal.floor(h3_BH.div(1e7).log(7.99)).plus(1);
-        (h3_up3_auto === 1 && h3_up7_max.gt(h3_up7)) && (h3_up7 = h3_up7_max , h3_js_re = 1);
+            let h3_up7_max = Decimal.floor(h3_BH.div(1e7).log(7.99)).plus(1);
+            (h3_up3_auto === 1 && h3_up7_max.gt(h3_up7)) && (h3_up7 = h3_up7_max , h3_js_re = 1);
 
-        let h3_up8_max = Decimal.floor(h3_BH.div(1e8).log(9)).plus(1);
-        (h3_up3_auto === 1 && h3_up8_max.gt(h3_up8)) && (h3_up8 = h3_up8_max , h3_js_re = 1);
+            let h3_up8_max = Decimal.floor(h3_BH.div(1e8).log(9)).plus(1);
+            (h3_up3_auto === 1 && h3_up8_max.gt(h3_up8)) && (h3_up8 = h3_up8_max , h3_js_re = 1);
+        }
     }
 
     if (h2_up23.gte(1)){
@@ -108,6 +115,22 @@ function global_auto(){
             autoPurchaseOneTime('h2_up17', new Decimal(0), 'h2_ziyuan');
         }
     }
+
+    if (h2_up30.gte(1)){
+        if (auto8 === 1){
+            autoPurchaseOneTime('h2_up18', new Decimal(0), 'h3_ziyuan');
+            autoPurchaseOneTime('h2_up19', new Decimal(0), 'h3_ziyuan');
+            autoPurchaseOneTime('h2_up20', new Decimal(0), 'h3_ziyuan');
+            autoPurchaseOneTime('h2_up21', new Decimal(0), 'h3_ziyuan');
+            autoPurchaseOneTime('h2_up22', new Decimal(0), 'h3_ziyuan');
+            autoPurchaseOneTime('h2_up23', new Decimal(0), 'h3_ziyuan');
+            autoPurchaseOneTime('h2_up24', new Decimal(0), 'Quark');
+            autoPurchaseOneTime('h2_up25', new Decimal(0), 'Quark');
+            autoPurchaseOneTime('h2_up26', new Decimal(0), 'Quark');
+            autoPurchaseOneTime('h2_up27', new Decimal(0), 'Quark');
+            autoPurchaseOneTime('h2_up28', new Decimal(0), 'Quark');
+        }
+    }
 }
 
 //绑定按钮事件
@@ -118,3 +141,4 @@ document.getElementById('h3_upauto_b').addEventListener('click', h3_up1_auto_cut
 document.getElementById('h3_up1_8auto_b').addEventListener('click', h3_up2_auto_cut);
 document.getElementById('h3_up_all_auto_b').addEventListener('click', h3_up3_auto_cut);
 document.getElementById('h3_up9_17auto_b').addEventListener('click', h3_up4_auto_cut);
+document.getElementById('auto8_b').addEventListener('click', auto8_cut);
