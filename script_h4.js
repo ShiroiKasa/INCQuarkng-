@@ -114,7 +114,7 @@ function h4_up3_button(){
 }
 
 function h4_re_button(){
-    let h4_re_pd = Decimal.min(h4_N, Decimal.min(h4_DMH, h4_GN));
+    let h4_re_pd = Decimal.min(h4_N, Decimal.min(h4_DMH, h4_GN)).plus(1e-9);
     h4_re_pd.gte(42) && (h5_ziyuan = h5_ziyuan.plus(h5_ziyuan_js) , h4_re_hans());
 }
 
