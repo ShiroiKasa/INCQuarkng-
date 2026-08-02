@@ -66,12 +66,12 @@ function updateUI_h3(){
     let h3_up9_cost = Decimal.pow(11, h3_up9).times(1e16);
     let b3_9_b = document.getElementById('h3_up9_b');
     b3_9_b.style.opacity = h3_BH.gte(h3_up9_cost) ? '1' : '0.5';
-    document.getElementById("h3_up9_b").innerHTML = "F型恒星" + formatDecimal(h3_up9) + "级 费用:" + formatDecimal(h3_up9_cost) +"黑洞<br>数量:" + formatDecimal(h3_up9q) + "+" + formatDecimal(h3_up9q_js) + "/s F型恒星、黑洞产量*" + formatDecimal(new Decimal(h3_up9q.plus(4).log(4)));
+    document.getElementById("h3_up9_b").innerHTML = "F型恒星" + formatDecimal(h3_up9) + "级 费用:" + formatDecimal(h3_up9_cost) +"黑洞<br>数量:" + formatDecimal(h3_up9q) + "+" + formatDecimal(h3_up9q_js) + "/s G型恒星、黑洞产量*" + formatDecimal(new Decimal(h3_up9q.plus(4).log(4)));
 
     let h3_up10_cost = Decimal.pow(13, h3_up10).times(1e20);
     let b3_10_b = document.getElementById('h3_up10_b');
     b3_10_b.style.opacity = h3_BH.gte(h3_up10_cost) ? '1' : '0.5';
-    document.getElementById("h3_up10_b").innerHTML = "A型恒星" + formatDecimal(h3_up10) + "级 费用:" + formatDecimal(h3_up10_cost) +"黑洞<br>数量:" + formatDecimal(h3_up10q) + "+" + formatDecimal(h3_up10q_js) + "/s A型恒星、时间碎片产量*" + formatDecimal(new Decimal(h3_up10q.plus(3.8).log(3.8)));
+    document.getElementById("h3_up10_b").innerHTML = "A型恒星" + formatDecimal(h3_up10) + "级 费用:" + formatDecimal(h3_up10_cost) +"黑洞<br>数量:" + formatDecimal(h3_up10q) + "+" + formatDecimal(h3_up10q_js) + "/s F型恒星、时间碎片产量*" + formatDecimal(new Decimal(h3_up10q.plus(3.8).log(3.8)));
 }
 
 function h3_hans(){
