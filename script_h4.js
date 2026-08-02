@@ -8,7 +8,7 @@ function updateUI_h4(){
     }
 
     let b4_re = document.getElementById('h4_re_b');
-    let h4_re_pd = Decimal.min(h4_N, Decimal.min(h4_DMH, h4_GN));
+    let h4_re_pd = Decimal.min(h4_N, Decimal.min(h4_DMH, h4_GN)).plus(1e-9);
     b4_re.style.visibility = h4_re_pd.gte(42) ? 'visible' : 'hidden';
     b4_re.style.opacity = h4_re_pd.gte(42) ? '1' : '0.5';
     document.getElementById("h4_re_b").innerHTML = h4_re_pd.gte(42) ? "时间扭曲|时间点+" + formatDecimal(h5_ziyuan_js) : "时间扭曲|时间点+0";
