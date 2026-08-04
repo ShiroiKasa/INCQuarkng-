@@ -69,7 +69,9 @@ function updateUI_h5(){
 }
 
 function h5_hans(){
-    let h5_time_buff_js = Decimal.pow(new Decimal(h5_time_confetti.plus(2).log(2)).plus(h5_up5).times(h5_up6.plus(1)),h5_up7.div(15).plus(1));
+    let h5_time_buff_js1 = Decimal.pow(new Decimal(h5_time_confetti.plus(2).log(2)).plus(h5_up5).times(h5_up6.plus(1)),h5_up7.div(15).plus(1));
+    let h5_time_buff_js2 = Decimal.max(h2_2_up1.times(10),1);
+    let h5_time_buff_js = h5_time_buff_js1.times(h5_time_buff_js2);
     h5_time_buff = Decimal.max(h5_time_buff_js,1);
 
     let h3_up10_buff = new Decimal(1);

@@ -3,7 +3,7 @@
 const bgColors = ["#ffffff", "#1e1e2f", "#f5f0e6", "#d9e8f5","#000000"];
 let bgIndex = 0;  //当前背景索引，0=白色
 
-let version = 4.1;
+let version = 4.2;
 
 let game_tc = 0;
 
@@ -44,6 +44,7 @@ var h3_up3_auto = 0;
 var h3_up4_auto = 0;
 
 var auto8 = 0;
+var auto9 = 0;
 
 //h1
 let h1_js_re = 1;
@@ -107,6 +108,14 @@ var h2_up29 = new Decimal(0);
 var h2_up30 = new Decimal(0);
 var h2_up31 = new Decimal(0);
 var h2_up32 = new Decimal(0);
+var h2_up33 = new Decimal(0);
+var h2_up34 = new Decimal(0);
+var h2_up35 = new Decimal(0);
+
+var h2_2_ziyuan = new Decimal(0);
+
+var h2_2_up1 = new Decimal(0);
+var h2_2_up2 = new Decimal(0);
 
 let h2_re = new Decimal(0);
 
@@ -174,6 +183,9 @@ let h4_up2_js = new Decimal(0);
 let h4_up3 = new Decimal(0);
 let h4_up3q = new Decimal(0);
 let h4_up3_js = new Decimal(0);
+let h4_up4 = new Decimal(0);
+let h4_up4q = new Decimal(0);
+let h4_up4_js = new Decimal(0);
 
 let h4_re = new Decimal(0);
 

@@ -8,8 +8,17 @@ function updateUI_h1(){
     h2_up3.gte(1) && (h2_up3_buff = new Decimal(quark_max.log(10)));
     document.getElementById("h1_re_b").innerHTML = Quark.gte(1000) ? "夸克禁闭|原子+" + formatDecimal(h2_ziyuan_js) : "夸克禁闭|原子+0";
 
-    document.getElementById("Quarks").innerHTML = "夸克:" + formatDecimal(Quark);
-    document.getElementById("h1_up1s").innerHTML = formatDecimal(Quark_js) + "/s";
+    if (Quark.gte(1e308) && h5_re.eq(0)){
+        document.getElementById("Quarks").innerHTML = "夸克:INF";
+    }else{
+        document.getElementById("Quarks").innerHTML = "夸克:" + formatDecimal(Quark);
+    }
+
+    if (Quark_js.gte(1e308) && h5_re.eq(0)){
+        document.getElementById("h1_up1s").innerHTML = "INF/s";
+    }else{
+        document.getElementById("h1_up1s").innerHTML = formatDecimal(Quark_js) + "/s";
+    }
 
     //点击按钮文字
     let clickBase = new Decimal(1);
@@ -95,7 +104,7 @@ function h1_hans(){
         let ratio = Quark_js.div(h5_quark_max);
         let logRatio = ratio.log10();
         //控制指数c，由h5_up12决定
-        let c = Decimal.div(20,Decimal.plus(1,Decimal.pow(h5_up12,2.33)));
+        let c = Decimal.div(20,Decimal.plus(1,Decimal.pow(h5_up12,2.2)));
         //计算压缩指数p
         let exponent = Decimal.div(1,Decimal.plus(1,Decimal.pow(logRatio,c)));
         //下限0.01
@@ -107,6 +116,13 @@ function h1_hans(){
         Quark_js = h5_quark_max.times(Decimal.pow(ratio,exponent));
     } else {
         h5_overflow_exponent = new Decimal(1);
+    }
+
+    if (Quark_js.gte(1.01e308) && h5_re.eq(0)){
+        Quark_js = new Decimal(1.01e308);
+    }
+    if (Quark.gte(1.01e308) && h5_re.eq(0)){
+        Quark = new Decimal(1.01e308);
     }
 
     //原子自动获取

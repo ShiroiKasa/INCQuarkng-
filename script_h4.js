@@ -8,7 +8,7 @@ function updateUI_h4(){
     }
 
     let b4_re = document.getElementById('h4_re_b');
-    let h4_re_pd = Decimal.min(h4_N, Decimal.min(h4_DMH, h4_GN)).plus(1e-9);
+    let h4_re_pd = Decimal.min(h4_N, Decimal.min(h4_DMH, h4_GN));
     b4_re.style.visibility = h4_re_pd.gte(42) ? 'visible' : 'hidden';
     b4_re.style.opacity = h4_re_pd.gte(42) ? '1' : '0.5';
     document.getElementById("h4_re_b").innerHTML = h4_re_pd.gte(42) ? "时间扭曲|时间点+" + formatDecimal(h5_ziyuan_js) : "时间扭曲|时间点+0";
@@ -42,6 +42,12 @@ function updateUI_h4(){
     let b4_up3_b = document.getElementById('h4_up3');
     b4_up3_b.style.opacity = (h4_N.gte(h4_up3_cots) && h4_DMH.gte(h4_up3_cots) && h4_GN.gte(h4_up3_cots)) ? '1' : '0.5';
     document.getElementById("h4_up3").innerHTML = "旋涡星系" + formatDecimal(h4_up3) + " 数量:" + formatDecimal(h4_up3q) + "+" + formatDecimal(h4_up3_js) + "/s 费用:" + formatDecimal(h4_up3_cots) + "<br>星系 对质量加成:" + formatDecimal(h4_up3q.plus(1));
+
+    let h4_up4_cots = new Decimal.pow(5,h4_up4).plus(70);
+    let b4_up4_b = document.getElementById('h4_up4');
+    b4_up4_b.style.opacity = (h4_N.gte(h4_up4_cots) && h4_DMH.gte(h4_up4_cots) && h4_GN.gte(h4_up4_cots)) ? '1' : '0.5';
+    document.getElementById("h4_up4").innerHTML = "椭圆星系" + formatDecimal(h4_up4) + " 数量:" + formatDecimal(h4_up4q) + "+" + formatDecimal(h4_up4_js) + "/s 费用:" + formatDecimal(h4_up4_cots) + "<br>星系 对黑洞加成:" + formatDecimal(h4_up4q.plus(1));
+
 }
 
 function h4_hans(){
@@ -49,18 +55,20 @@ function h4_hans(){
 
     h4_up2_js = new Decimal.pow(1.1,h4_up2).minus(1).times(10).times(h4_up3q.plus(1));
 
-    h4_up3_js = new Decimal.pow(1.15,h4_up3).minus(1).times(10);
+    h4_up3_js = new Decimal.pow(1.15,h4_up3).minus(1).times(10).times(h4_up4q.plus(1));
+
+    h4_up4_js = new Decimal.pow(1.16,h4_up4).minus(1).times(10);
 
     let h2_up32_buff = new Decimal(1);
     h2_up32.gte(1) && (h2_up32_buff = h4_re.plus(2).log(2));
 
-    h5_ziyuan_js = Decimal.min(h4_N, Decimal.min(h4_DMH, h4_GN)).times(Quark.plus(1).log(10)).div(7000).times((cp_up5 + 1)).times(h2_up32_buff);
+    h5_ziyuan_js = Decimal.min(h4_N, Decimal.min(h4_DMH, h4_GN)).times(Quark.plus(1).log(10)).div(7000).times((cp_up5 + 1)).times(h2_up32_buff).times(Decimal.max(h2_2_up2.times(2),1));
 }
 
 function h4_N_button(){
     let cost = new Decimal.pow(1e3,h4_N);
     if (Quark.gte(cost)){
-        h4_N = h4_N.plus(1);
+        h4_N = h4_N.plus(1).plus(1e-9);
         Quark = Quark.minus(cost);
         updateUI_h4();
     }
@@ -68,7 +76,7 @@ function h4_N_button(){
 function h4_DMH_button(){
     let cost = new Decimal.pow(1.5,h4_DMH);
     if (h4_ziyuan.gte(cost)){
-        h4_DMH = h4_DMH.plus(1);
+        h4_DMH = h4_DMH.plus(1).plus(1e-9);
         h4_ziyuan = h4_ziyuan.minus(cost);
         updateUI_h4();
     }
@@ -76,7 +84,7 @@ function h4_DMH_button(){
 function h4_GN_button(){
     let cost = new Decimal.pow(1.9,h4_GN);
     if (h3_BH.gte(cost)){
-        h4_GN = h4_GN.plus(1);
+        h4_GN = h4_GN.plus(1).plus(1e-9);
         h3_BH = h3_BH.minus(cost);
         updateUI_h4();
     }
@@ -113,8 +121,19 @@ function h4_up3_button(){
     }
 }
 
+function h4_up4_button(){
+    let cost = new Decimal.pow(5,h4_up4).plus(70);
+    if (h4_N.gte(cost) && h4_DMH.gte(cost) && h4_GN.gte(cost)){
+        h4_up4 = h4_up4.plus(1);
+        h4_N = h4_N.minus(cost);
+        h4_DMH = h4_DMH.minus(cost);
+        h4_GN = h4_GN.minus(cost);
+        updateUI_h4();
+    }
+}
+
 function h4_re_button(){
-    let h4_re_pd = Decimal.min(h4_N, Decimal.min(h4_DMH, h4_GN)).plus(1e-9);
+    let h4_re_pd = Decimal.min(h4_N, Decimal.min(h4_DMH, h4_GN));
     h4_re_pd.gte(42) && (h5_ziyuan = h5_ziyuan.plus(h5_ziyuan_js) , h4_re_hans());
 }
 
@@ -161,5 +180,6 @@ document.getElementById('h4_GN').addEventListener('click', h4_GN_button);
 document.getElementById('h4_up1').addEventListener('click', h4_up1_button);
 document.getElementById('h4_up2').addEventListener('click', h4_up2_button);
 document.getElementById('h4_up3').addEventListener('click', h4_up3_button);
+document.getElementById('h4_up4').addEventListener('click', h4_up4_button);
 
 document.getElementById('h4_re_b').addEventListener('click', h4_re_button);

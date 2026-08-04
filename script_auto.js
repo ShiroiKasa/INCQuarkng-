@@ -30,6 +30,9 @@ function h3_up4_auto_cut(){
 function auto8_cut(){
     toggleAuto('auto8', 'auto8_b',"氩~镍自动:开","氩~镍自动:关");
 }
+function auto9_cut(){
+    toggleAuto('auto9', 'auto9_b');
+}
 //全局自动化
 function global_auto(){
     if (h2_up8.gte(1) && Quark.gt(0)){
@@ -99,6 +102,14 @@ function global_auto(){
 
             let h3_up8_max = Decimal.floor(h3_BH.div(1e8).log(9)).plus(1);
             (h3_up3_auto === 1 && h3_up8_max.gt(h3_up8)) && (h3_up8 = h3_up8_max , h3_js_re = 1);
+
+            if (h2_up34.gt(0)){
+                let h3_up9_max = Decimal.floor(h3_BH.div(1e16).log(11)).plus(1);
+                (h3_up3_auto === 1 && h3_up9_max.gt(h3_up9)) && (h3_up9 = h3_up9_max , h3_js_re = 1);
+
+                let h3_up10_max = Decimal.floor(h3_BH.div(1e20).log(13)).plus(1);
+                (h3_up3_auto === 1 && h3_up10_max.gt(h3_up10)) && (h3_up10 = h3_up10_max , h3_js_re = 1);
+            }
         }
     }
 
@@ -131,6 +142,37 @@ function global_auto(){
             autoPurchaseOneTime('h2_up28', new Decimal(0), 'Quark');
         }
     }
+
+    if (h2_up34.gte(1)){
+        if (auto9 === 1){
+            if (Quark.gt(1)){
+                let h4_N_max = Decimal.floor(Quark.log(1e3)).plus(1);
+                (h4_N.lt(h4_N_max)) && (h4_N = h4_N_max, h4_js_re = 1);
+            }
+
+            if (h4_ziyuan.gt(1)){
+                let h4_DMH_max = Decimal.floor(h4_ziyuan.log(1.5)).plus(1);
+                (h4_DMH.lt(h4_DMH_max)) && (h4_DMH = h4_DMH_max, h4_js_re = 1);
+            }
+
+            if (h3_BH.gt(1)){
+                let h4_GN_max = Decimal.floor(h3_BH.log(1.9)).plus(1);
+                (h4_GN.lt(h4_GN_max)) && (h4_GN = h4_GN_max, h4_js_re = 1);
+            }
+
+            let h4_up1_max = Decimal.min(h4_N.log(2), h4_DMH.log(2), h4_GN.log(2)).plus(1);
+            h4_up1_max = Decimal.floor(h4_up1_max);
+            (h4_up1.lt(h4_up1_max)) && (h4_up1 = h4_up1_max, h4_js_re = 1);
+
+            let h4_up2_max = Decimal.min(h4_N.log(3), h4_DMH.log(3), h4_GN.log(3)).plus(1);
+            h4_up2_max = Decimal.floor(h4_up2_max);
+            (h4_up2.lt(h4_up2_max)) && (h4_up2 = h4_up2_max, h4_js_re = 1);
+
+            let h4_up3_max = Decimal.min(h4_N.log(4), h4_DMH.log(4), h4_GN.log(4)).plus(1);
+            h4_up3_max = Decimal.floor(h4_up3_max);
+            (h4_up3.lt(h4_up3_max)) && (h4_up3 = h4_up3_max, h4_js_re = 1);
+        }
+    }
 }
 
 //绑定按钮事件
@@ -142,3 +184,4 @@ document.getElementById('h3_up1_8auto_b').addEventListener('click', h3_up2_auto_
 document.getElementById('h3_up_all_auto_b').addEventListener('click', h3_up3_auto_cut);
 document.getElementById('h3_up9_17auto_b').addEventListener('click', h3_up4_auto_cut);
 document.getElementById('auto8_b').addEventListener('click', auto8_cut);
+document.getElementById('auto9_b').addEventListener('click', auto9_cut);

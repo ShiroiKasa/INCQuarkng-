@@ -96,8 +96,12 @@ function h3_hans(){
     h3_up9q.gte(1) && (h3_up9_buff = new Decimal(h3_up9q.plus(4).log(4)));
     let h3_up10_buff = new Decimal(1);
     h3_up10q.gte(1) && (h3_up10_buff = new Decimal(h3_up10q.plus(3.8).log(3.8)));
+
+    let h4_up4_buff = new Decimal(1);
+    h4_up4q.gte(1) && (h4_up4_buff = h4_up4q);
+
     let h3_up_BHbuff = new Decimal(1);
-    h3_up_BHbuff = h3_up3_buff.times(h3_up4_buff).times(h3_up5_buff).times(h3_up6_buff).times(h3_up7_buff).times(h3_up8_buff).times(h3_up9_buff);
+    h3_up_BHbuff = h3_up3_buff.times(h3_up4_buff).times(h3_up5_buff).times(h3_up6_buff).times(h3_up7_buff).times(h3_up8_buff).times(h3_up9_buff).times(h4_up4_buff);
 
     h3_BH_js = Decimal.min(Decimal.pow(1.2, h3_up2).minus(1).times(10).times(h3_up_BHbuff),h3_mass.div(100));
 

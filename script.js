@@ -227,10 +227,21 @@ function UIvisible_h2(){
     let b2_30_b = document.getElementById('h2_up30_b');
     let b2_31_b = document.getElementById('h2_up31_b');
     let b2_32_b = document.getElementById('h2_up32_b');
+    let b2_33_b = document.getElementById('h2_up33_b');
+    let b2_34_b = document.getElementById('h2_up34_b');
+    let b2_35_b = document.getElementById('h2_up35_b');
     h4_re.gte(1) ? b2_29_b.style.display = 'block' : b2_29_b.style.display = 'none';
     h4_re.gte(1) ? b2_30_b.style.display = 'block' : b2_30_b.style.display = 'none';
     h4_re.gte(1) ? b2_31_b.style.display = 'block' : b2_31_b.style.display = 'none';
     h4_re.gte(1) ? b2_32_b.style.display = 'block' : b2_32_b.style.display = 'none';
+    h4_re.gte(1) ? b2_33_b.style.display = 'block' : b2_33_b.style.display = 'none';
+    h4_re.gte(1) ? b2_34_b.style.display = 'block' : b2_34_b.style.display = 'none';
+    h4_re.gte(1) ? b2_35_b.style.display = 'block' : b2_35_b.style.display = 'none';
+
+    let b2_1_cut_b = document.getElementById('h2_1_cut');
+    let b2_2_cut_b = document.getElementById('h2_2_cut');
+    h2_up33.gte(1) ? b2_1_cut_b.style.display = 'block' : b2_1_cut_b.style.display = 'none';
+    h2_up33.gte(1) ? b2_2_cut_b.style.display = 'block' : b2_2_cut_b.style.display = 'none';
 }
 //h3
 function UIvisible_h3(){
@@ -255,7 +266,16 @@ function UIvisible_h3(){
 
 //h4
 function UIvisible_h4(){
+    let b_auto9 = document.getElementById('auto9_b');
+    if (h2_up34.gte(1)){
+        b_auto9.style.display = 'block';
+    }else{
+        b_auto9.style.display = 'none';
+    }
+    document.getElementById("auto9_b").innerHTML = (auto9 === 1) ? "自动:开" : "自动:关";
 
+    let b4_4_b = document.getElementById('h4_up4');
+    h2_up35.gte(1) ? b4_4_b.style.display = 'block' : b4_4_b.style.display = 'none';
 }
 
 //h5
@@ -313,6 +333,7 @@ function global_inc(dt) {
     h4_up1q = h4_up1q.plus(h4_up1_js.times(dt).times(h5_time_buff));
     h4_up2q = h4_up2q.plus(h4_up2_js.times(dt).times(h5_time_buff));
     h4_up3q = h4_up3q.plus(h4_up3_js.times(dt).times(h5_time_buff));
+    h4_up4q = h4_up4q.plus(h4_up4_js.times(dt).times(h5_time_buff));
 
     h5_time_confetti = h5_time_confetti.plus(h5_time_confetti_js.times(dt));//时间碎片本身，切记不要“临时起意”加上h5_time_buff
 }
@@ -562,6 +583,7 @@ function getGameState() {
         h3_up3_auto: h3_up3_auto,
         h3_up4_auto: h3_up4_auto,
         auto8: auto8,
+        auto9: auto9,
 
         sk_ing: sk_ing,
         sk_1_ing: sk_1_ing,
@@ -613,6 +635,12 @@ function getGameState() {
         h2_up30: h2_up30.toString(),
         h2_up31: h2_up31.toString(),
         h2_up32: h2_up32.toString(),
+        h2_up33: h2_up33.toString(),
+        h2_up34: h2_up34.toString(),
+        h2_up35: h2_up35.toString(),
+        h2_2_ziyuan: h2_2_ziyuan.toString(),
+        h2_2_up1: h2_2_up1.toString(),
+        h2_2_up2: h2_2_up2.toString(),
         h2_re: h2_re.toString(),
 
         h3_ziyuan: h3_ziyuan.toString(),
@@ -650,6 +678,8 @@ function getGameState() {
         h4_up2q: h4_up2q.toString(),
         h4_up3: h4_up3.toString(),
         h4_up3q: h4_up3q.toString(),
+        h4_up4: h4_up4.toString(),
+        h4_up4q: h4_up4q.toString(),
         h4_re: h4_re.toString(),
 
         h5_ziyuan: h5_ziyuan.toString(),
@@ -722,6 +752,7 @@ function applyGameState(state) {
     h3_up3_auto = (state.h3_up3_auto === 1) ? 1 : 0;
     h3_up4_auto = (state.h3_up4_auto === 1) ? 1 : 0;
     auto8 = (state.auto8 === 1) ? 1 : 0;
+    auto9 = (state.auto9 === 1) ? 1 : 0;
 
     sk_ing = (state.sk_ing === 1) ? 1 : 0;
     sk_1_ing = (state.sk_1_ing === 1) ? 1 : 0;
@@ -773,6 +804,12 @@ function applyGameState(state) {
     h2_up30 = sanitizeDecimal(state.h2_up30);
     h2_up31 = sanitizeDecimal(state.h2_up31);
     h2_up32 = sanitizeDecimal(state.h2_up32);
+    h2_up33 = sanitizeDecimal(state.h2_up33);
+    h2_up34 = sanitizeDecimal(state.h2_up34);
+    h2_up35 = sanitizeDecimal(state.h2_up35);
+    h2_2_ziyuan = sanitizeDecimal(state.h2_2_ziyuan);
+    h2_2_up1 = sanitizeDecimal(state.h2_2_up1);
+    h2_2_up2 = sanitizeDecimal(state.h2_2_up2);
     h2_re = sanitizeDecimal(state.h2_re);
 
     h3_ziyuan = sanitizeDecimal(state.h3_ziyuan);
@@ -810,6 +847,8 @@ function applyGameState(state) {
     h4_up2q = sanitizeDecimal(state.h4_up2q);
     h4_up3 = sanitizeDecimal(state.h4_up3);
     h4_up3q = sanitizeDecimal(state.h4_up3q);
+    h4_up4 = sanitizeDecimal(state.h4_up4);
+    h4_up4q = sanitizeDecimal(state.h4_up4q);
     h4_re = sanitizeDecimal(state.h4_re);
 
     h5_ziyuan = sanitizeDecimal(state.h5_ziyuan);

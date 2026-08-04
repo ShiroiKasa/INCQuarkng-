@@ -18,6 +18,12 @@ function updateUI_h2(){
         document.getElementById("h2_ziyuans").innerHTML = "0/s";
     }
 
+    if (h2_ziyuan.gte(1e55)){
+        document.getElementById("h2_2_ziyuan_txt").innerHTML = "可用纯净物:" + formatDecimal(h2_2_ziyuan) + " 化合可获得:" + formatDecimal(new Decimal(h2_ziyuan).log(1e55)) + "纯净物点数";
+    }else{
+        document.getElementById("h2_2_ziyuan_txt").innerHTML = "可用纯净物:" + formatDecimal(h2_2_ziyuan) + " 化合可获得:0纯净物点数";
+    }
+
     let h2_upe_cost = Decimal.pow(2, h2_upe).times(1000)
     let h2_upp_cost = Decimal.pow(2, h2_upp).times(1000)
     let h2_upn_cost = Decimal.pow(2, h2_upn).times(1000)
@@ -31,6 +37,7 @@ function updateUI_h2(){
     let b2_n_b = document.getElementById('h2_up7buff_b');
     b2_n_b.style.opacity = h2_ziyuan.gte(h2_upn_cost) ? '1' : '0.5';
     
+    //元素
     let b2_1 = document.getElementById('h2_up1_b');
     b2_1.style.opacity = (h2_up1.eq(1)) ? '1' : (h2_ziyuan.gte(10) ? '0.5' : '0.2');
 
@@ -126,6 +133,22 @@ function updateUI_h2(){
 
     let b2_32 = document.getElementById('h2_up32_b');
     b2_32.style.opacity = (h2_up32.eq(1)) ? '1' : (h5_ziyuan.gte(500) ? '0.5' : '0.2');
+
+    let b2_33 = document.getElementById('h2_up33_b');
+    b2_33.style.opacity = (h2_up33.eq(1)) ? '1' : (h5_ziyuan.gte(1000) ? '0.5' : '0.2');
+
+    let b2_34 = document.getElementById('h2_up34_b');
+    b2_34.style.opacity = (h2_up34.eq(1)) ? '1' : (h5_ziyuan.gte(5000) ? '0.5' : '0.2');
+
+    let b2_35 = document.getElementById('h2_up35_b');
+    b2_35.style.opacity = (h2_up35.eq(1)) ? '1' : (h5_ziyuan.gte(1e4) ? '0.5' : '0.2');
+
+    //纯净物
+    let b2_2_1 = document.getElementById('h2_1_up1_b');
+    b2_2_1.style.opacity = (h2_2_up1.eq(1)) ? '1' : (h2_2_ziyuan.gte(1) ? '0.5' : '0.2');
+
+    let b2_2_2 = document.getElementById('h2_1_up2_b');
+    b2_2_2.style.opacity = (h2_2_up2.eq(1)) ? '1' : (h2_2_ziyuan.gte(1) ? '0.5' : '0.2');
 }
 
 //计算函数
@@ -249,6 +272,8 @@ function h2_upn_button(){
         h2_js_re = 1;
     }
 }
+
+//元素
 function h2_up1_button(){
     handleUpgrade('h2_up1', 10, '氢', '夸克禁闭次数加成夸克获取/公式*夸克禁闭次数');
 }
@@ -349,7 +374,43 @@ function h2_up31_button(){
 function h2_up32_button(){
     handleUpgrade('h2_up32', 500, '锗', '时间扭曲次数加成时间点获取/公式*log<sub>2</sub>(时间扭曲次数+2)', 1, '时间点', 'h5_ziyuan');
 }
+function h2_up33_button(){
+    handleUpgrade('h2_up33', 1000, '砷', '元素层级解锁纯净物子选项卡', 1, '时间点', 'h5_ziyuan');
+    if (h5_re.eq(0) && h2_up33.eq(1)){
+        h2_2_cut_hans()
+        showModal('子选项卡：纯净物', '点击“化合”获取可用纯净物点数<br>注意:化合时会清空全部纯净物加点', () => {}, null, true);
+    };
+}
+function h2_up34_button(){
+    handleUpgrade('h2_up34', 5000, '硒', '解锁结构层级自动化且自动购买不消耗资源，F型、A型恒星纳入星辰层级自动化', 1, '时间点', 'h5_ziyuan');
+}
+function h2_up35_button(){
+    handleUpgrade('h2_up35', 1e4, '溴', '结构层级解锁椭圆星系', 1, '时间点', 'h5_ziyuan');
+}
 
+//纯净物
+function h2_2_up1_button(){
+    handleUpgrade('h2_2_up1', 1, 'H<sub>2</sub>', '游戏倍率*10', 1, '纯净物点数', 'h2_2_ziyuan');
+}
+
+function h2_2_up2_button(){
+    handleUpgrade('h2_2_up2', 1, 'N<sub>2</sub>', '时间点产量*2', 1, '纯净物点数', 'h2_2_ziyuan');
+}
+
+function h2_2_re_hans(){
+    if (h2_ziyuan.gte(1e55)){
+        h2_2_ziyuan = new Decimal(h2_ziyuan).log(1e55);
+    };
+
+    h2_2_up1 = new Decimal(0);
+    h2_2_up2 = new Decimal(0);
+}
+
+function h2_2_re_qr(){
+    showModal('是否进行化合？', '这将清空纯净物加点', () => {h2_2_re_hans()}, () => {}, false);
+}
+
+//重置
 function h2_re_button(){
     h2_ziyuan.gte(5e4) && (h3_ziyuan = h3_ziyuan.plus(h3_ziyuan_js) , h2_re_hans());
 }
@@ -426,3 +487,11 @@ document.getElementById('h2_up29_b').addEventListener('click', h2_up29_button);
 document.getElementById('h2_up30_b').addEventListener('click', h2_up30_button);
 document.getElementById('h2_up31_b').addEventListener('click', h2_up31_button);
 document.getElementById('h2_up32_b').addEventListener('click', h2_up32_button);
+document.getElementById('h2_up33_b').addEventListener('click', h2_up33_button);
+document.getElementById('h2_up34_b').addEventListener('click', h2_up34_button);
+document.getElementById('h2_up35_b').addEventListener('click', h2_up35_button);
+
+document.getElementById('h2_2_re').addEventListener('click', h2_2_re_qr);
+
+document.getElementById('h2_1_up1_b').addEventListener('click', h2_2_up1_button);
+document.getElementById('h2_1_up2_b').addEventListener('click', h2_2_up2_button);
