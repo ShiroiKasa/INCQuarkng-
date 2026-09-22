@@ -45,6 +45,54 @@ function showModal(title, content, onConfirm, onCancel, singleButton = false) {
     modal.style.display = 'flex';
 }
 
+/**
+ * 显示多步骤序列弹窗（点击“下一句”逐步显示）
+ * @param {string[]} steps        - 每步的内容（支持HTML）
+ * @param {string}   title        - 弹窗标题
+ * @param {Function} onComplete   - 所有步骤完成后的回调（可选）
+ */
+function showSequenceModal(steps, title, onComplete) {
+    if (!steps || steps.length === 0) return;
+
+    const modal = document.getElementById('myCustomModal');
+    const titleEl = document.getElementById('modalTitle');
+    const contentEl = document.getElementById('modalContent');
+    const confirmBtn = document.getElementById('modalConfirmBtn');
+    const cancelBtn = document.getElementById('modalCancelBtn');
+
+    // 隐藏取消按钮（单按钮模式）
+    cancelBtn.style.display = 'none';
+
+    let stepIndex = 0;          // 当前要显示的步骤索引
+    const totalSteps = steps.length;
+
+    // 显示当前步骤，并更新按钮文字
+    function showStep() {
+        if (stepIndex < totalSteps) {
+            titleEl.textContent = title;
+            contentEl.innerHTML = steps[stepIndex];
+            confirmBtn.textContent = (stepIndex === totalSteps - 1) ? '确认' : '继续';
+            stepIndex++;
+        } else {
+            // 所有步骤已展示完毕 → 关闭弹窗
+            modal.style.display = 'none';
+            modal.onclick = null;          // 清理事件
+            if (onComplete) onComplete();
+        }
+    }
+
+    // 绑定点击事件（只处理确认按钮）
+    modal.onclick = function(event) {
+        if (event.target.id === 'modalConfirmBtn') {
+            showStep();
+        }
+    };
+
+    // 显示第一步
+    showStep();
+    modal.style.display = 'flex';
+}
+
 //辅助函数，将Decimal对象格式化为友好的字符串
 function formatDecimal(value){
     let v = (value instanceof Decimal) ? value : new Decimal(value);
@@ -91,6 +139,7 @@ function jiemian_re(){
     (UI_re === "h3") && (updateUI_h3(), UIvisible_h3());//h3
     (UI_re === "h4") && (updateUI_h4(), UIvisible_h4());//h4
     (UI_re === "h5") && (updateUI_h5(), UIvisible_h5());//h5
+    (UI_re === "h6") && (updateUI_h6(), UIvisible_h6());//h6
     (UI_re === "SK") && updateUI_SK();
 }
 //stat
@@ -109,7 +158,7 @@ function updateUI_stat(){
     document.getElementById("h4_ziyuan_MAX").innerHTML = "最大暗物质数量:" + formatDecimal(h4_ziyuan_max);
     document.getElementById("h4_re_stat").innerHTML = "时间扭曲次数:" + formatDecimal(h4_re);
     document.getElementById("h5_ziyuan_MAX").innerHTML = "最大时间点数量:" + formatDecimal(h5_ziyuan_max);
-    document.getElementById("h5_re_stat").innerHTML = "理论重构次数:" + formatDecimal(h5_re);
+    document.getElementById("h5_re_stat").innerHTML = "奇点坍塌次数:" + formatDecimal(h5_re);
 }
 //可见性
 //总可见性
@@ -119,6 +168,7 @@ function UIvisible(){
     UIvisible_h3();
     UIvisible_h4();
     UIvisible_h5();
+    UIvisible_h6();
 }
 //h1
 function UIvisible_h1(){
@@ -238,6 +288,13 @@ function UIvisible_h2(){
     h4_re.gte(1) ? b2_34_b.style.display = 'block' : b2_34_b.style.display = 'none';
     h4_re.gte(1) ? b2_35_b.style.display = 'block' : b2_35_b.style.display = 'none';
 
+    let b2_36_b = document.getElementById('h2_up36_b');
+    let b2_37_b = document.getElementById('h2_up37_b');
+    let b2_38_b = document.getElementById('h2_up38_b');
+    h5_re.gte(1) ? b2_36_b.style.display = 'block' : b2_36_b.style.display = 'none';
+    h5_re.gte(1) ? b2_37_b.style.display = 'block' : b2_37_b.style.display = 'none';
+    h5_re.gte(1) ? b2_38_b.style.display = 'block' : b2_38_b.style.display = 'none';
+
     let b2_1_cut_b = document.getElementById('h2_1_cut');
     let b2_2_cut_b = document.getElementById('h2_2_cut');
     h2_up33.gte(1) ? b2_1_cut_b.style.display = 'block' : b2_1_cut_b.style.display = 'none';
@@ -292,6 +349,17 @@ function UIvisible_h5(){
     h5_up6.gte(10) ? b5_up7_b.style.display = 'block' : b5_up7_b.style.display = 'none';
     h5_up8.gte(10) ? b5_up9_b.style.display = 'block' : b5_up9_b.style.display = 'none';
     h5_up9.gte(10) ? b5_up10_b.style.display = 'block' : b5_up10_b.style.display = 'none';
+
+    let b5_re_b_b = document.getElementById('h5_re_b');
+    Quark.gte(1e308) ? b5_re_b_b.style.display = 'block' : b5_re_b_b.style.display = 'none';
+
+    let b5_upauto_b = document.getElementById('h5_upauto_b');
+    h2_up36.gte(1) ? b5_upauto_b.style.display = 'block' : b5_upauto_b.style.display = 'none';
+    document.getElementById("h5_upauto_b").innerHTML = (h5_up_auto === 1) ? "自动:开" : "自动:关";
+}
+
+function UIvisible_h6(){
+
 }
 
 //计算函数
@@ -317,6 +385,9 @@ function global_inc(dt) {
         if (h4_ziyuan.lt(0)) h4_ziyuan = new Decimal(0);
     }
 
+    //锶(奇点元素):无需时间扭曲也可以获得时间点,不受游戏倍率加成
+    h2_up38.gte(1) && (h5_ziyuan = h5_ziyuan.plus(h5_ziyuan_js.times(10).times(dt)));
+
     h3_mass = h3_mass.plus(h3_mass_js.times(dt).times(h5_time_buff));
     if (h3_mass.lt(0)) h3_mass = new Decimal(0);
     h3_BH = h3_BH.plus(h3_BH_js.times(dt).times(h5_time_buff));
@@ -335,6 +406,17 @@ function global_inc(dt) {
     h4_up3q = h4_up3q.plus(h4_up3_js.times(dt).times(h5_time_buff));
     h4_up4q = h4_up4q.plus(h4_up4_js.times(dt).times(h5_time_buff));
 
+    h6_brane = Decimal.max(h6_brane.plus(h6_brane_js.times(dt).times(h5_time_buff)), 0);
+    h6_up1q = Decimal.max(h6_up1q.plus(h6_up1q_js.times(dt).times(h5_time_buff)), 0);
+    h6_up2q = Decimal.max(h6_up2q.plus(h6_up2q_js.times(dt).times(h5_time_buff)), 0);
+    h6_up3q = Decimal.max(h6_up3q.plus(h6_up3q_js.times(dt).times(h5_time_buff)), 0);
+    h6_up4q = Decimal.max(h6_up4q.plus(h6_up4q_js.times(dt).times(h5_time_buff)), 0);
+    h6_up5q = Decimal.max(h6_up5q.plus(h6_up5q_js.times(dt).times(h5_time_buff)), 0);
+    h6_up6q = Decimal.max(h6_up6q.plus(h6_up6q_js.times(dt).times(h5_time_buff)), 0);
+    h6_up7q = Decimal.max(h6_up7q.plus(h6_up7q_js.times(dt).times(h5_time_buff)), 0);
+    h6_up8q = Decimal.max(h6_up8q.plus(h6_up8q_js.times(dt).times(h5_time_buff)), 0);
+    h6_up9q = Decimal.max(h6_up9q.plus(h6_up9q_js.times(dt).times(h5_time_buff)), 0);
+
     h5_time_confetti = h5_time_confetti.plus(h5_time_confetti_js.times(dt));//时间碎片本身，切记不要“临时起意”加上h5_time_buff
 }
 //统计
@@ -348,6 +430,7 @@ function stat_hans(dt){
     h3_ziyuan.gte(h3_ziyuan_max) && (h3_ziyuan_max = h3_ziyuan , h3_js_re = 1);
     h4_ziyuan.gte(h4_ziyuan_max) && (h4_ziyuan_max = h4_ziyuan , h4_js_re = 1);
     h5_ziyuan.gte(h5_ziyuan_max) && (h5_ziyuan_max = h5_ziyuan , h5_js_re = 1);
+    h6_ziyuan.gte(h6_ziyuan_max) && (h6_ziyuan_max = h6_ziyuan , h6_js_re = 1);
 }
 function formatGameTime(totalSeconds){
     //统一转换为 Decimal 实例，支持 number / string / Decimal 输入
@@ -412,13 +495,14 @@ function startAutoProduction(){
         dt = Math.min(dt, 300); // 限制最大值，防止跳跃
 
         //强制刷新
-        if (gl_js_re <= 5){
+        if (gl_js_re <= 6){
             (gl_js_re === 0) && (SK_hans());
             (gl_js_re === 1) && (h1_js_re = 1);
             (gl_js_re === 2) && (h2_js_re = 1);
             (gl_js_re === 3) && (h3_js_re = 1);
             (gl_js_re === 4) && (h4_js_re = 1);
             (gl_js_re === 5) && (h5_js_re = 1);
+            (gl_js_re === 6) && (h6_js_re = 1);
             gl_js_re += 1;
         }else{
             gl_js_re = 0;
@@ -439,6 +523,7 @@ function startAutoProduction(){
         (h3_js_re === 1) && (h3_hans(), h3_js_re -= 1);
         (h4_js_re === 1) && (h4_hans(), h4_js_re -= 1);
         (h5_js_re === 1) && (h5_hans(), h5_js_re -= 1);
+        (h6_js_re === 1) && (h6_hans(), h6_js_re -= 1);
         cp_ds_sj();
         global_inc(dt);       // 传入 dt
     }, 16);
@@ -564,7 +649,7 @@ function getGameState() {
         Quark: Quark.toString(),
         quark_max: quark_max.toString(),
         game_time: game_time,
-        game_time_bl: game_time_bl,
+        game_time_bl: game_time_bl.toString(),
 
         cp_version: cp_version,
         cp_ds: cp_ds,
@@ -574,6 +659,7 @@ function getGameState() {
         cp_up3: cp_up3,
         cp_up4: cp_up4,
         cp_up5: cp_up5,
+        cp_up6: cp_up6,
 
         h1_up2_auto: h1_up2_auto,
         h1_up3_auto: h1_up3_auto,
@@ -584,6 +670,7 @@ function getGameState() {
         h3_up4_auto: h3_up4_auto,
         auto8: auto8,
         auto9: auto9,
+        h5_up_auto: h5_up_auto,
 
         sk_ing: sk_ing,
         sk_1_ing: sk_1_ing,
@@ -638,6 +725,9 @@ function getGameState() {
         h2_up33: h2_up33.toString(),
         h2_up34: h2_up34.toString(),
         h2_up35: h2_up35.toString(),
+        h2_up36: h2_up36.toString(),
+        h2_up37: h2_up37.toString(),
+        h2_up38: h2_up38.toString(),
         h2_2_ziyuan: h2_2_ziyuan.toString(),
         h2_2_up1: h2_2_up1.toString(),
         h2_2_up2: h2_2_up2.toString(),
@@ -697,6 +787,42 @@ function getGameState() {
         h5_up10: h5_up10.toString(),
         h5_up11: h5_up11.toString(),
         h5_up12: h5_up12.toString(),
+        h5_re: h5_re.toString(),
+
+        h6_ziyuan: h6_ziyuan.toString(),
+        h6_ziyuan_max: h6_ziyuan_max.toString(),
+        h6_brane: h6_brane.toString(),
+        h6_up1: h6_up1.toString(),
+        h6_up1q: h6_up1q.toString(),
+        h6_up2: h6_up2.toString(),
+        h6_up2q: h6_up2q.toString(),
+        h6_up3: h6_up3.toString(),
+        h6_up3q: h6_up3q.toString(),
+        h6_up4: h6_up4.toString(),
+        h6_up4q: h6_up4q.toString(),
+        h6_up5: h6_up5.toString(),
+        h6_up5q: h6_up5q.toString(),
+        h6_up6: h6_up6.toString(),
+        h6_up6q: h6_up6q.toString(),
+        h6_up7: h6_up7.toString(),
+        h6_up7q: h6_up7q.toString(),
+        h6_up8: h6_up8.toString(),
+        h6_up8q: h6_up8q.toString(),
+        h6_up9: h6_up9.toString(),
+        h6_up9q: h6_up9q.toString(),
+        h6_up10: h6_up10.toString(),
+        h6_up10q: h6_up10q.toString(),
+
+        h6_1_up1: h6_1_up1.toString(),
+        h6_1_up2: h6_1_up2.toString(),
+        h6_1_up3: h6_1_up3.toString(),
+        h6_1_up4: h6_1_up4.toString(),
+        h6_1_up5: h6_1_up5.toString(),
+        h6_1_up6: h6_1_up6.toString(),
+        h6_1_up7: h6_1_up7.toString(),
+        h6_1_up8: h6_1_up8.toString(),
+        h6_1_up9: h6_1_up9.toString(),
+        h6_1_up10: h6_1_up10.toString(),
 
         bgIndex: bgIndex,
     };
@@ -743,6 +869,7 @@ function applyGameState(state) {
     cp_up3 = state.cp_up3 !== undefined && !isNaN(state.cp_up3) ? state.cp_up3 : 0;
     cp_up4 = state.cp_up4 !== undefined && !isNaN(state.cp_up4) ? state.cp_up4 : 0;
     cp_up5 = state.cp_up5 !== undefined && !isNaN(state.cp_up5) ? state.cp_up5 : 0;
+    cp_up6 = state.cp_up6 !== undefined && !isNaN(state.cp_up6) ? state.cp_up6 : 0;
 
     h1_up2_auto = (state.h1_up2_auto === 1) ? 1 : 0;
     h1_up3_auto = (state.h1_up3_auto === 1) ? 1 : 0;
@@ -753,6 +880,7 @@ function applyGameState(state) {
     h3_up4_auto = (state.h3_up4_auto === 1) ? 1 : 0;
     auto8 = (state.auto8 === 1) ? 1 : 0;
     auto9 = (state.auto9 === 1) ? 1 : 0;
+    h5_up_auto = (state.h5_up_auto === 1) ? 1 : 0;
 
     sk_ing = (state.sk_ing === 1) ? 1 : 0;
     sk_1_ing = (state.sk_1_ing === 1) ? 1 : 0;
@@ -807,6 +935,9 @@ function applyGameState(state) {
     h2_up33 = sanitizeDecimal(state.h2_up33);
     h2_up34 = sanitizeDecimal(state.h2_up34);
     h2_up35 = sanitizeDecimal(state.h2_up35);
+    h2_up36 = sanitizeDecimal(state.h2_up36);
+    h2_up37 = sanitizeDecimal(state.h2_up37);
+    h2_up38 = sanitizeDecimal(state.h2_up38);
     h2_2_ziyuan = sanitizeDecimal(state.h2_2_ziyuan);
     h2_2_up1 = sanitizeDecimal(state.h2_2_up1);
     h2_2_up2 = sanitizeDecimal(state.h2_2_up2);
@@ -866,6 +997,42 @@ function applyGameState(state) {
     h5_up10 = sanitizeDecimal(state.h5_up10);
     h5_up11 = sanitizeDecimal(state.h5_up11);
     h5_up12 = sanitizeDecimal(state.h5_up12);
+    h5_re = sanitizeDecimal(state.h5_re);
+
+    h6_ziyuan = sanitizeDecimal(state.h6_ziyuan);
+    h6_ziyuan_max = sanitizeDecimal(state.h6_ziyuan_max);
+    h6_brane = sanitizeDecimal(state.h6_brane);
+    h6_up1 = sanitizeDecimal(state.h6_up1);
+    h6_up1q = sanitizeDecimal(state.h6_up1q);
+    h6_up2 = sanitizeDecimal(state.h6_up2);
+    h6_up2q = sanitizeDecimal(state.h6_up2q);
+    h6_up3 = sanitizeDecimal(state.h6_up3);
+    h6_up3q = sanitizeDecimal(state.h6_up3q);
+    h6_up4 = sanitizeDecimal(state.h6_up4);
+    h6_up4q = sanitizeDecimal(state.h6_up4q);
+    h6_up5 = sanitizeDecimal(state.h6_up5);
+    h6_up5q = sanitizeDecimal(state.h6_up5q);
+    h6_up6 = sanitizeDecimal(state.h6_up6);
+    h6_up6q = sanitizeDecimal(state.h6_up6q);
+    h6_up7 = sanitizeDecimal(state.h6_up7);
+    h6_up7q = sanitizeDecimal(state.h6_up7q);
+    h6_up8 = sanitizeDecimal(state.h6_up8);
+    h6_up8q = sanitizeDecimal(state.h6_up8q);
+    h6_up9 = sanitizeDecimal(state.h6_up9);
+    h6_up9q = sanitizeDecimal(state.h6_up9q);
+    h6_up10 = sanitizeDecimal(state.h6_up10);
+    h6_up10q = sanitizeDecimal(state.h6_up10q);
+
+    h6_1_up1 = sanitizeDecimal(state.h6_1_up1);
+    h6_1_up2 = sanitizeDecimal(state.h6_1_up2);
+    h6_1_up3 = sanitizeDecimal(state.h6_1_up3);
+    h6_1_up4 = sanitizeDecimal(state.h6_1_up4);
+    h6_1_up5 = sanitizeDecimal(state.h6_1_up5);
+    h6_1_up6 = sanitizeDecimal(state.h6_1_up6);
+    h6_1_up7 = sanitizeDecimal(state.h6_1_up7);
+    h6_1_up8 = sanitizeDecimal(state.h6_1_up8);
+    h6_1_up9 = sanitizeDecimal(state.h6_1_up9);
+    h6_1_up10 = sanitizeDecimal(state.h6_1_up10);
 
     bgIndex = (state.bgIndex >= 0 && state.bgIndex < bgColors.length) ? state.bgIndex : 0;
     applyBackground();
@@ -876,6 +1043,7 @@ function applyGameState(state) {
     h3_js_re = 1;
     h4_js_re = 1;
     h5_js_re = 1;
+    h6_js_re = 1;
 }
 
 function exportSave() {

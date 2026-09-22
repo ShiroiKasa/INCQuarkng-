@@ -13,7 +13,7 @@ function updateUI_h2(){
     let h2_up3_buff = new Decimal(1);
     h2_up3.gte(1) && (h2_up3_buff = new Decimal(quark_max.log(10)));
     if (Quark.gte(1000) && h2_up9.gte(1)){
-        document.getElementById("h2_ziyuans").innerHTML = formatDecimal(h2_ziyuan_js.times(10)) + "/s";
+        document.getElementById("h2_ziyuans").innerHTML = formatDecimal(h2_ziyuan_js.times(10).times(h5_time_buff)) + "/s";
     }else{
         document.getElementById("h2_ziyuans").innerHTML = "0/s";
     }
@@ -27,9 +27,9 @@ function updateUI_h2(){
     let h2_upe_cost = Decimal.pow(2, h2_upe).times(1000)
     let h2_upp_cost = Decimal.pow(2, h2_upp).times(1000)
     let h2_upn_cost = Decimal.pow(2, h2_upn).times(1000)
-    document.getElementById("h2_up5buff_b").innerHTML = "电子生成器" + formatDecimal(h2_upe) + "级 费用:" + formatDecimal(h2_upe_cost) +"原子<br>电子:" + formatDecimal(h2_e) + "+" + formatDecimal(h2_e_js) + "/s" + " 夸克指数+" + formatDecimal(new Decimal(h2_e.plus(10).log(10)).div(10));
-    document.getElementById("h2_up6buff_b").innerHTML = "质子生成器" + formatDecimal(h2_upp) + "级 费用:" + formatDecimal(h2_upp_cost) +"原子<br>质子:" + formatDecimal(h2_p) + "+" + formatDecimal(h2_p_js) + "/s" + " 原子产量*" + formatDecimal(new Decimal(h2_p.plus(10).log(10)));
-    document.getElementById("h2_up7buff_b").innerHTML = "中子生成器" + formatDecimal(h2_upn) + "级 费用:" + formatDecimal(h2_upn_cost) +"原子<br>中子:" + formatDecimal(h2_n) + "+" + formatDecimal(h2_n_js) + "/s" + " 电子/质子产量*" + formatDecimal(new Decimal(h2_n.plus(10).log(10)));
+    document.getElementById("h2_up5buff_b").innerHTML = "电子生成器" + formatDecimal(h2_upe) + "级 费用:" + formatDecimal(h2_upe_cost) +"原子<br>电子:" + formatDecimal(h2_e) + "+" + formatDecimal(h2_e_js.times(h5_time_buff)) + "/s" + " 夸克指数+" + formatDecimal(new Decimal(h2_e.plus(10).log(10)).div(10));
+    document.getElementById("h2_up6buff_b").innerHTML = "质子生成器" + formatDecimal(h2_upp) + "级 费用:" + formatDecimal(h2_upp_cost) +"原子<br>质子:" + formatDecimal(h2_p) + "+" + formatDecimal(h2_p_js.times(h5_time_buff)) + "/s" + " 原子产量*" + formatDecimal(new Decimal(h2_p.plus(10).log(10)));
+    document.getElementById("h2_up7buff_b").innerHTML = "中子生成器" + formatDecimal(h2_upn) + "级 费用:" + formatDecimal(h2_upn_cost) +"原子<br>中子:" + formatDecimal(h2_n) + "+" + formatDecimal(h2_n_js.times(h5_time_buff)) + "/s" + " 电子/质子产量*" + formatDecimal(new Decimal(h2_n.plus(10).log(10)));
     let b2_e_b = document.getElementById('h2_up5buff_b');
     b2_e_b.style.opacity = h2_ziyuan.gte(h2_upe_cost) ? '1' : '0.5';
     let b2_p_b = document.getElementById('h2_up6buff_b');
@@ -142,6 +142,19 @@ function updateUI_h2(){
 
     let b2_35 = document.getElementById('h2_up35_b');
     b2_35.style.opacity = (h2_up35.eq(1)) ? '1' : (h5_ziyuan.gte(1e4) ? '0.5' : '0.2');
+
+    //奇点元素
+    let b2_36 = document.getElementById('h2_up36_b');
+    b2_36.style.opacity = (h2_up36.eq(1)) ? '1' : (h6_ziyuan.gte(50) ? '0.5' : '0.2');
+    b2_36.classList.toggle('upgradable', h2_up36.lt(1) && h6_ziyuan.gte(50));
+
+    let b2_37 = document.getElementById('h2_up37_b');
+    b2_37.style.opacity = (h2_up37.eq(1)) ? '1' : (h6_ziyuan.gte(100) ? '0.5' : '0.2');
+    b2_37.classList.toggle('upgradable', h2_up37.lt(1) && h6_ziyuan.gte(100));
+
+    let b2_38 = document.getElementById('h2_up38_b');
+    b2_38.style.opacity = (h2_up38.eq(1)) ? '1' : (h6_ziyuan.gte(1000) ? '0.5' : '0.2');
+    b2_38.classList.toggle('upgradable', h2_up38.lt(1) && h6_ziyuan.gte(1000));
 
     //纯净物
     let b2_2_1 = document.getElementById('h2_1_up1_b');
@@ -388,6 +401,17 @@ function h2_up35_button(){
     handleUpgrade('h2_up35', 1e4, '溴', '结构层级解锁椭圆星系', 1, '时间点', 'h5_ziyuan');
 }
 
+//奇点元素(消耗奇点)
+function h2_up36_button(){
+    handleUpgrade('h2_up36', 50, '氪', '解锁时间层级升级自动化且自动升级不消耗资源', 1, '奇点', 'h6_ziyuan');
+}
+function h2_up37_button(){
+    handleUpgrade('h2_up37', 100, '铷', '奇点坍塌次数加成奇点获取/公式*log<sub>2</sub>(奇点坍塌次数+2)', 1, '奇点', 'h6_ziyuan');
+}
+function h2_up38_button(){
+    handleUpgrade('h2_up38', 1000, '锶', '无需时间扭曲也可以获得时间点', 1, '奇点', 'h6_ziyuan');
+}
+
 //纯净物
 function h2_2_up1_button(){
     handleUpgrade('h2_2_up1', 1, 'H<sub>2</sub>', '游戏倍率*10', 1, '纯净物点数', 'h2_2_ziyuan');
@@ -490,6 +514,10 @@ document.getElementById('h2_up32_b').addEventListener('click', h2_up32_button);
 document.getElementById('h2_up33_b').addEventListener('click', h2_up33_button);
 document.getElementById('h2_up34_b').addEventListener('click', h2_up34_button);
 document.getElementById('h2_up35_b').addEventListener('click', h2_up35_button);
+
+document.getElementById('h2_up36_b').addEventListener('click', h2_up36_button);
+document.getElementById('h2_up37_b').addEventListener('click', h2_up37_button);
+document.getElementById('h2_up38_b').addEventListener('click', h2_up38_button);
 
 document.getElementById('h2_2_re').addEventListener('click', h2_2_re_qr);
 

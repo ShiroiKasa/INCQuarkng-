@@ -17,7 +17,7 @@ function updateUI_h1(){
     if (Quark_js.gte(1e308) && h5_re.eq(0)){
         document.getElementById("h1_up1s").innerHTML = "INF/s";
     }else{
-        document.getElementById("h1_up1s").innerHTML = formatDecimal(Quark_js) + "/s";
+        document.getElementById("h1_up1s").innerHTML = formatDecimal(Quark_js.times(h5_time_buff)) + "/s";
     }
 
     //点击按钮文字
@@ -87,7 +87,11 @@ function h1_hans(){
 
     let Quark_h5_buff = new Decimal(((h5_ziyuan.plus(1)).log(7))).plus(1).times(h5_time_buff_quark);
 
-    let Quark_js1 = (Decimal.pow((Quark_h1_js.times(Quark_h2_buff2)),h2_e_buff)).times(Quark_h3_buff).times(Quark_h4_buff).times(Quark_h5_buff);
+    let Quark_h6_buff = new Decimal(((h6_ziyuan.plus(1)).log(6))).plus(1);
+
+    let Quark_h6_brane_buff = Decimal.max(h6_brane,1);//膜数量直接加成夸克产量(膜为0时按1算,避免前期夸克产量归零)
+
+    let Quark_js1 = (Decimal.pow((Quark_h1_js.times(Quark_h2_buff2)),h2_e_buff)).times(Quark_h3_buff).times(Quark_h4_buff).times(Quark_h5_buff).times(Quark_h6_buff).times(Quark_h6_brane_buff);
     let Quark_js2 = Quark_js1.times(cp_up1_buff);
 
     Quark_js = Quark_js2;

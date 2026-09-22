@@ -14,6 +14,7 @@
         <button id="h3_cut" style="background:#8ad1f7;display: none;">星辰</button>
         <button id="h4_cut" style="background:#2db3fb;display: none;">结构</button>
         <button id="h5_cut" style="background:#edc1fb;display: none;">时间</button>
+        <button id="h6_cut" style="background:#ecbe02;display: none;">弦论</button>
         <button id="SK_cut" style="background:#4e28a7;display: none;">蚀刻</button>
         <button id="cp_cut" style="background:#ffa807;">藏品</button>
         <button id="set_cut" style="background:#50285e;">设置</button>
@@ -63,7 +64,7 @@
             <button id="h2_re_b" style="background:#f78ae5;">引力激发|引力子+0</button>
         </div>
         
-        <div  id="h2_1">
+        <div id="h2_1">
             <div class="button-group">
                 <div class="button-group2">
                     <button id="h3_upauto_b" style="display: none;background:#f78ae5;">生成器自动:关</button>
@@ -118,12 +119,17 @@
                     <button style="background:#edc1fb;font-size: 20px;display: none;" id="h2_up33_b">砷</button>
                     <button style="background:#edc1fb;font-size: 20px;display: none;" id="h2_up34_b">硒</button>
                     <button style="background:#edc1fb;font-size: 20px;display: none;" id="h2_up35_b">溴</button>
+                    <button class="qidian-btn" style="font-size: 20px;display: none;" id="h2_up36_b">氪</button>
+                    <button class="qidian-btn" style="font-size: 20px;display: none;" id="h2_up37_b">铷</button>
+                    <button class="qidian-btn" style="font-size: 20px;display: none;" id="h2_up38_b">锶</button>
+                </div>
+                <div class="button-group2">
                 </div>
                 <h2>元素</h2>
             </div>
         </div>
 
-        <div id="h2_2"  style="display: none;">
+        <div id="h2_2" style="display: none;">
             <div class="button-group">
                 <button id="h2_2_re" style="background:#0a3147;">化合</button>
                 <div class="counter_h2" id="h2_2_ziyuan_txt">可用纯净物:0 下一个:1原子</div>
@@ -212,7 +218,7 @@
     </div>
 
     <div id="h5" style="display: none;">
-        <h2>层级:时间(1e308夸克解锁下一层级,未更新)</h2>
+        <h2>层级:时间(1e308夸克解锁下一层级)</h2>
 
         <div class="counter-group">
             <div class="counter_h5" id="h5_ziyuan_txt">时间点:0(对夸克加成:1)</div>
@@ -223,6 +229,9 @@
 
         <div class="button-group">
             <button style="background:#edc1fb;font-size: 20px;" id="h5_up1">时间粉碎机:0 费用:1时间点</button>
+            <div class="button-group2">
+                <button id="h5_upauto_b" style="display: none;background:#edc1fb;">自动:关</button>
+            </div>
             <div class="button-group2">
                 <button class="h5-btn" id="h5_up2">时间碎片产量+0<br>费用:1时间碎片</button>
                 <button style="display: none;" class="h5-btn" id="h5_up3">时间碎片产量*1<br>费用:1时间碎片</button>
@@ -237,10 +246,82 @@
                 <button style="display: none;" class="h5-btn" id="h5_up10">夸克额外倍率^(1↑↑3)<br>费用:1时间碎片</button>
                 <button class="h5-btn" id="h5_up11">宇宙大小<br>费用:1时间碎片</button>
                 <button class="h5-btn" id="h5_up12">夸克溢出减慢<br>费用:1时间碎片</button>
-                <button style="display: none;" class="h5-btn" id="h5_re_b">理论重构<br>费用:infinite夸克</button>
+                <button style="display: none;" class="h5-btn" id="h5_re_b">奇点坍塌<br>费用:infinite夸克</button>
             </div>
         </div>
 
+    </div>
+
+    <div id="h6" style="display: none;">
+        <h2>层级:弦论(???解锁下一层级，未更新)</h2>
+
+        <div class="counter-group">
+            <div class="counter_h6" id="h6_ziyuan_txt">奇点:0(对夸克加成:1 对膜加成:1)</div>
+            <div class="counter_h6" id="h6_ziyuans">0/s</div>
+            <div class="counter_h6" id="h6_brane_txt">膜:0 +0/s(对夸克加成:1)</div>
+        </div>
+
+        <div id="h6_1">
+            <div class="button-group">
+                <div class="button-group">
+                    <div class="button-group2">
+                        <button class="h6-btn" id="h6_up1">一维0级:0 费用:1膜</button>
+                        <button class="h6-btn" id="h6_up2">二维0级:0 费用:1一维</button>
+                        <button class="h6-btn" id="h6_up3">三维0级:0 费用:1二维</button>
+                        <button class="h6-btn" id="h6_up4">四维0级:0 费用:1三维</button>
+                        <button class="h6-btn" id="h6_up5">五维0级:0 费用:1四维</button>
+                    </div>
+                    <div class="button-group2">
+                        <button class="h6-btn" id="h6_up6">六维0级:0 费用:1五维</button>
+                        <button class="h6-btn" id="h6_up7">七维0级:0 费用:1六维</button>
+                        <button class="h6-btn" id="h6_up8">八维0级:0 费用:1七维</button>
+                        <button class="h6-btn" id="h6_up9">九维0级:0 费用:1八维</button>
+                        <button class="h6-btn" id="h6_up10">十维0级:0 费用:1九维</button>
+                    </div>
+                </div>
+                <h2>维度</h2>
+            </div>
+        </div>
+
+        <div id="h6_2" style="display: none;">
+            <div class="button-group">
+                <div class="button-group">
+                    <div class="button-group2">
+                        <button class="h6-btn" id="h6_1_up1">奇点弦0级 时间碎片产量*1.00<br>费用:10.00奇点</button>
+                    </div>
+                    <div class="button-group2">
+                        <button class="h6-btn" id="h6_1_null1" style="visibility: hidden;">占位符1</button>
+                    </div>
+                    <div class="button-group2">
+                        <button class="h6-btn" id="h6_1_up2">开弦0级 奇点弦效果*1.00<br>费用:10.00奇点</button>
+                        <button class="h6-btn" id="h6_1_null2" style="visibility: hidden;">占位符1占位符2占位符3占位符4</button>
+                        <button class="h6-btn" id="h6_1_up3">闭弦0级 奇点弦数量*1.00<br>费用:10.00奇点</button>
+                    </div>
+                    <div class="button-group2">
+                        <button class="h6-btn" id="h6_1_null3" style="visibility: hidden;">占位符1</button>
+                    </div>
+                    <div class="button-group2">
+                        <button class="h6-btn" id="h6_1_up4">基态0级 开弦效果*1.00<br>费用:10.00奇点</button>
+                        <button class="h6-btn" id="h6_1_up5">激发态0级 闭弦效果*1.00<br>费用:10.00奇点</button>
+                    </div>
+                    <div class="button-group2">
+                        <button class="h6-btn" id="h6_1_up6">TypeI弦0级 奇点弦费用*1.00<br>费用:1.00奇点</button>
+                        <button class="h6-btn" id="h6_1_up7">TypeIIA弦0级 奇点弦数量*1.00<br>费用:1.00奇点</button>
+                        <button class="h6-btn" id="h6_1_up8">TypeIIB弦0级 奇点获取量*1.00<br>费用:1.00奇点</button>
+                        <button class="h6-btn" id="h6_1_up9">杂化弦SO(32)0级 开弦、闭弦费用*1.00<br>费用:1.00奇点</button>
+                        <button class="h6-btn" id="h6_1_up10">杂化弦E8XE80级 基态、激发态费用*1.00<br>费用:1.00奇点</button>
+                    </div>
+                </div>
+                <h2>弦</h2>
+            </div>
+        </div>
+
+        <div class="counter-group">
+            <div class="button-group2">
+                <button id="h6_1_cut" style="background:#ecbe02;">维度</button>
+                <button id="h6_2_cut" style="background:#ecbe02;">弦</button>
+            </div>
+        </div>
     </div>
 
     <div id="SK" style="display: none;">
@@ -267,6 +348,9 @@
                 <button style="background:#ffa807;font-size: 18px;display: none;" id="cp_up4_b">暗物质*1 费用:1点数</button>
                 <button style="background:#ffa807;font-size: 18px;display: none;" id="cp_up5_b">时间点*1 费用:1点数</button>
             </div>
+            <div class="button-group2">
+                <button style="background:#ffa807;font-size: 18px;display: none;" id="cp_up6_b">奇点*1 费用:1点数</button>
+            </div>
             <button style="background:#ffa807;font-size: 18px;display: none;" id="cp_version_b">领取更新礼物</button>
         </div>
     </div>
@@ -279,7 +363,7 @@
         <button id="exportSaveBtn" style="background:#e9b1ff;">导出存档</button>
         <button id="importSaveBtn" style="background:#e9b1ff;">导入存档</button>
         <input type="file" id="fileInput" accept=".json,.txt" style="display:none;">
-        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>v4.2(web4.2.26_08_04_1)</p>
+        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>v5.1(web5.1.26_09_23_1)<br><br>© 2025 ShiroiKasa. All rights reserved.</p>
     </div>
 
     <div id="stat" style="display: none;">
@@ -305,7 +389,11 @@
             </div>
             <div class="button-group2">
                 <div class="counter_stat" id="h5_ziyuan_MAX" style="font-size: 18px;">最大时间点数量:0</div>
-                <div class="counter_stat" id="h5_re_stat" style="font-size: 18px;">理论重构次数:0</div>
+                <div class="counter_stat" id="h5_re_stat" style="font-size: 18px;">奇点坍塌次数:0</div>
+            </div>
+            <div class="button-group2">
+                <div class="counter_stat" id="h6_ziyuan_MAX" style="font-size: 18px;">最大奇点数量:0</div>
+                <div class="counter_stat" id="h6_re_stat" style="font-size: 18px;">???次数:0</div>
             </div>
         </div>
     </div>
@@ -334,5 +422,7 @@
     <script src="galaxy_h4_bg.js"></script>
     <script src="script_h5.js"></script>
     <script src="time_h5_bg.js"></script>
+    <script src="script_h6.js"></script>
+    <script src="string_theory_h6_bg.js"></script>
 </body>
 </html>

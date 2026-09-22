@@ -2,7 +2,7 @@ function updateUI_h4(){
     document.getElementById("h4_ziyuan_txt").innerHTML = "暗物质:" + formatDecimal(h4_ziyuan) + "(对夸克加成:" + formatDecimal(new Decimal(((h4_ziyuan.plus(1)).log(8))).plus(1)) + ")";
 
     if (h3_ziyuan.gte(1e6) && h2_up31.gte(1)){
-        document.getElementById("h4_ziyuans").innerHTML = formatDecimal(h4_ziyuan_js.times(10)) + "/s";
+        document.getElementById("h4_ziyuans").innerHTML = formatDecimal(h4_ziyuan_js.times(10).times(h5_time_buff)) + "/s";
     }else{
         document.getElementById("h4_ziyuans").innerHTML = "0/s";
     }
@@ -31,22 +31,22 @@ function updateUI_h4(){
     let h4_up1_cots = new Decimal.pow(2,h4_up1);
     let b4_up1_b = document.getElementById('h4_up1');
     b4_up1_b.style.opacity = (h4_N.gte(h4_up1_cots) && h4_DMH.gte(h4_up1_cots) && h4_GN.gte(h4_up1_cots)) ? '1' : '0.5';
-    document.getElementById("h4_up1").innerHTML = "不规则星系" + formatDecimal(h4_up1) + " 数量:" + formatDecimal(h4_up1q) + "+" + formatDecimal(h4_up1_js) + "/s 费用:" + formatDecimal(h4_up1_cots) + "<br>星系 对夸克加成:" + formatDecimal(h4_up1q.plus(1));
+    document.getElementById("h4_up1").innerHTML = "不规则星系" + formatDecimal(h4_up1) + " 数量:" + formatDecimal(h4_up1q) + "+" + formatDecimal(h4_up1_js.times(h5_time_buff)) + "/s 费用:" + formatDecimal(h4_up1_cots) + "<br>星系 对夸克加成:" + formatDecimal(h4_up1q.plus(1));
 
     let h4_up2_cots = new Decimal.pow(3,h4_up2).plus(2);
     let b4_up2_b = document.getElementById('h4_up2');
     b4_up2_b.style.opacity = (h4_N.gte(h4_up2_cots) && h4_DMH.gte(h4_up2_cots) && h4_GN.gte(h4_up2_cots)) ? '1' : '0.5';
-    document.getElementById("h4_up2").innerHTML = "矮星系" + formatDecimal(h4_up2) + " 数量:" + formatDecimal(h4_up2q) + "+" + formatDecimal(h4_up2_js) + "/s 费用:" + formatDecimal(h4_up2_cots) + "<br>星系 对原子加成:" + formatDecimal(h4_up2q.plus(1));
+    document.getElementById("h4_up2").innerHTML = "矮星系" + formatDecimal(h4_up2) + " 数量:" + formatDecimal(h4_up2q) + "+" + formatDecimal(h4_up2_js.times(h5_time_buff)) + "/s 费用:" + formatDecimal(h4_up2_cots) + "<br>星系 对原子加成:" + formatDecimal(h4_up2q.plus(1));
 
     let h4_up3_cots = new Decimal.pow(4,h4_up3).plus(10);
     let b4_up3_b = document.getElementById('h4_up3');
     b4_up3_b.style.opacity = (h4_N.gte(h4_up3_cots) && h4_DMH.gte(h4_up3_cots) && h4_GN.gte(h4_up3_cots)) ? '1' : '0.5';
-    document.getElementById("h4_up3").innerHTML = "旋涡星系" + formatDecimal(h4_up3) + " 数量:" + formatDecimal(h4_up3q) + "+" + formatDecimal(h4_up3_js) + "/s 费用:" + formatDecimal(h4_up3_cots) + "<br>星系 对质量加成:" + formatDecimal(h4_up3q.plus(1));
+    document.getElementById("h4_up3").innerHTML = "旋涡星系" + formatDecimal(h4_up3) + " 数量:" + formatDecimal(h4_up3q) + "+" + formatDecimal(h4_up3_js.times(h5_time_buff)) + "/s 费用:" + formatDecimal(h4_up3_cots) + "<br>星系 对质量加成:" + formatDecimal(h4_up3q.plus(1));
 
     let h4_up4_cots = new Decimal.pow(5,h4_up4).plus(70);
     let b4_up4_b = document.getElementById('h4_up4');
     b4_up4_b.style.opacity = (h4_N.gte(h4_up4_cots) && h4_DMH.gte(h4_up4_cots) && h4_GN.gte(h4_up4_cots)) ? '1' : '0.5';
-    document.getElementById("h4_up4").innerHTML = "椭圆星系" + formatDecimal(h4_up4) + " 数量:" + formatDecimal(h4_up4q) + "+" + formatDecimal(h4_up4_js) + "/s 费用:" + formatDecimal(h4_up4_cots) + "<br>星系 对黑洞加成:" + formatDecimal(h4_up4q.plus(1));
+    document.getElementById("h4_up4").innerHTML = "椭圆星系" + formatDecimal(h4_up4) + " 数量:" + formatDecimal(h4_up4q) + "+" + formatDecimal(h4_up4_js.times(h5_time_buff)) + "/s 费用:" + formatDecimal(h4_up4_cots) + "<br>星系 对黑洞加成:" + formatDecimal(h4_up4q.plus(1));
 
 }
 

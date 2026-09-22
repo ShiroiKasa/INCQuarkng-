@@ -3,7 +3,7 @@
 const bgColors = ["#ffffff", "#1e1e2f", "#f5f0e6", "#d9e8f5","#000000"];
 let bgIndex = 0;  //当前背景索引，0=白色
 
-let version = 4.2;
+let version = 5.1;
 
 let game_tc = 0;
 
@@ -32,6 +32,7 @@ let cp_up2 = 0;
 let cp_up3 = 0;
 let cp_up4 = 0;
 let cp_up5 = 0;
+let cp_up6 = 0;
 //auto
 var h1_up2_auto = 0;
 var h1_up3_auto = 0;
@@ -45,6 +46,7 @@ var h3_up4_auto = 0;
 
 var auto8 = 0;
 var auto9 = 0;
+var h5_up_auto = 0;
 
 //h1
 let h1_js_re = 1;
@@ -111,6 +113,11 @@ var h2_up32 = new Decimal(0);
 var h2_up33 = new Decimal(0);
 var h2_up34 = new Decimal(0);
 var h2_up35 = new Decimal(0);
+
+//奇点元素(消耗奇点)
+var h2_up36 = new Decimal(0);//氪
+var h2_up37 = new Decimal(0);//铷
+var h2_up38 = new Decimal(0);//锶
 
 var h2_2_ziyuan = new Decimal(0);
 
@@ -200,7 +207,7 @@ let h5_time_confetti = new Decimal(0);
 let h5_time_confetti_js = new Decimal(0);
 let h5_time_buff = new Decimal(1);
 let h5_time_buff_quark = new Decimal(1);
-let h5_quark_max = new Decimal(1e200);
+let h5_quark_max = new Decimal(1e180);
 let h5_overflow_exponent = new Decimal(1);
 
 let h5_up1 = new Decimal(0);
@@ -217,6 +224,67 @@ let h5_up11 = new Decimal(0);
 let h5_up12 = new Decimal(0);
 
 let h5_re = new Decimal(0);
+
+//h6
+let h6_js_re = 1;
+
+var h6_ziyuan = new Decimal(0);
+let h6_ziyuan_js = new Decimal(0);
+let h6_ziyuan_max = new Decimal(0);
+
+let h6_brane = new Decimal(0);
+let h6_brane_js = new Decimal(0);
+
+let h6_up1 = new Decimal(0);
+let h6_up1q = new Decimal(0);
+let h6_up2 = new Decimal(0);
+let h6_up2q = new Decimal(0);
+let h6_up3 = new Decimal(0);
+let h6_up3q = new Decimal(0);
+let h6_up4 = new Decimal(0);
+let h6_up4q = new Decimal(0);
+let h6_up5 = new Decimal(0);
+let h6_up5q = new Decimal(0);
+let h6_up6 = new Decimal(0);
+let h6_up6q = new Decimal(0);
+let h6_up7 = new Decimal(0);
+let h6_up7q = new Decimal(0);
+let h6_up8 = new Decimal(0);
+let h6_up8q = new Decimal(0);
+let h6_up9 = new Decimal(0);
+let h6_up9q = new Decimal(0);
+let h6_up10 = new Decimal(0);
+let h6_up10q = new Decimal(0);
+
+//h6维度每秒产量(十维为链条顶端,数量仅通过购买获得,故无产量变量)
+let h6_up1q_js = new Decimal(0);
+let h6_up2q_js = new Decimal(0);
+let h6_up3q_js = new Decimal(0);
+let h6_up4q_js = new Decimal(0);
+let h6_up5q_js = new Decimal(0);
+let h6_up6q_js = new Decimal(0);
+let h6_up7q_js = new Decimal(0);
+let h6_up8q_js = new Decimal(0);
+let h6_up9q_js = new Decimal(0);
+
+//h6弦(第二子选项卡"弦")
+//等级n从0开始,费用中的n为当前等级,效果中的n为购买后的等级
+let h6_1_up1 = new Decimal(0);//奇点弦:时间碎片产量*1.15^n,费用10^(1.15^n)
+let h6_1_up2 = new Decimal(0);//开弦:奇点弦效果*1.15^n,费用10^(1.15^n)
+let h6_1_up3 = new Decimal(0);//闭弦:奇点弦数量*1.1^n,费用10^(1.15^n)
+let h6_1_up4 = new Decimal(0);//基态:开弦效果*1.15^n,费用10^(1.15^n)
+let h6_1_up5 = new Decimal(0);//激发态:闭弦效果*1.1^n,费用10^(1.15^n)
+let h6_1_up6 = new Decimal(0);//TypeI弦:奇点弦费用*max(0.1,0.95^n),费用7^n
+let h6_1_up7 = new Decimal(0);//TypeIIA弦:奇点弦数量*1.2^n,费用7^n
+let h6_1_up8 = new Decimal(0);//TypeIIB弦:奇点获取量*2^n,费用11^n
+let h6_1_up9 = new Decimal(0);//杂化弦SO(32):开弦、闭弦费用*max(0.1,0.95^n),费用7^n
+let h6_1_up10 = new Decimal(0);//杂化弦E8XE8:基态、激发态费用*max(0.1,0.95^n),费用7^n
+
+//弦加成(派生值,由 script_h6.js 的 h6_1_hans 计算)
+let h6_1_xiaoguo_buff = new Decimal(1);//奇点弦效果=开弦*基态
+let h6_1_shuliang_buff = new Decimal(1);//奇点弦数量=闭弦*激发态*TypeIIA弦
+let h6_1_zhonghe_buff = new Decimal(1);//时间碎片产量倍率=奇点弦综合
+let h6_1_ziyuan_buff = new Decimal(1);//奇点获取量倍率=TypeIIB弦
 
 //SK
 let sk_ing = 0;

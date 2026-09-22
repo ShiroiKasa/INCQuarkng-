@@ -33,6 +33,9 @@ function auto8_cut(){
 function auto9_cut(){
     toggleAuto('auto9', 'auto9_b');
 }
+function h5_up_auto_cut(){
+    toggleAuto('h5_up_auto', 'h5_upauto_b');
+}
 //全局自动化
 function global_auto(){
     if (h2_up8.gte(1) && Quark.gt(0)){
@@ -173,6 +176,23 @@ function global_auto(){
             (h4_up3.lt(h4_up3_max)) && (h4_up3 = h4_up3_max, h4_js_re = 1);
         }
     }
+
+    //氪(奇点元素):时间层级升级自动化,仍以资源为门槛但升级不消耗资源
+    if (h2_up36.gte(1) && h5_up_auto === 1){
+        (h5_ziyuan.gte(Decimal.pow(5.2,h5_up1).div(5))) && (h5_up1 = h5_up1.plus(1) , h5_js_re = 1);
+
+        (h5_time_confetti.gte(Decimal.pow(2.3,h5_up2))) && (h5_up2 = h5_up2.plus(1) , h5_js_re = 1);
+        (h5_time_confetti.gte(Decimal.pow(3.95153,h5_up3).times(10))) && (h5_up3 = h5_up3.plus(1) , h5_js_re = 1);
+        (h5_time_confetti.gte(Decimal.pow(9,h5_up4).times(1e4))) && (h5_up4 = h5_up4.plus(1) , h5_js_re = 1);
+        (h5_time_confetti.gte(Decimal.pow(2,h5_up5))) && (h5_up5 = h5_up5.plus(1) , h5_js_re = 1);
+        (h5_time_confetti.gte(Decimal.pow(3.95153,h5_up6).times(10))) && (h5_up6 = h5_up6.plus(1) , h5_js_re = 1);
+        (h5_time_confetti.gte(Decimal.pow(11,h5_up7).times(5e6))) && (h5_up7 = h5_up7.plus(1) , h5_js_re = 1);
+        (h5_time_confetti.gte(Decimal.pow(2.33,h5_up8))) && (h5_up8 = h5_up8.plus(1) , h5_js_re = 1);
+        (h5_time_confetti.gte(Decimal.pow(6.66,h5_up9).times(15))) && (h5_up9 = h5_up9.plus(1) , h5_js_re = 1);
+        (h5_time_confetti.gte(Decimal.pow(3,Decimal.pow(h5_up10,h5_up10)).times(1e7))) && (h5_up10 = h5_up10.plus(1) , h5_js_re = 1);
+        (h5_time_confetti.gte(Decimal.pow(42,h5_up11).times(1e8))) && (h5_up11 = h5_up11.plus(1) , h5_js_re = 1);
+        (h5_time_confetti.gte(Decimal.pow(4.32,h5_up12).times(1e9))) && (h5_up12 = h5_up12.plus(1) , h5_js_re = 1);
+    }
 }
 
 //绑定按钮事件
@@ -185,3 +205,4 @@ document.getElementById('h3_up_all_auto_b').addEventListener('click', h3_up3_aut
 document.getElementById('h3_up9_17auto_b').addEventListener('click', h3_up4_auto_cut);
 document.getElementById('auto8_b').addEventListener('click', auto8_cut);
 document.getElementById('auto9_b').addEventListener('click', auto9_cut);
+document.getElementById('h5_upauto_b').addEventListener('click', h5_up_auto_cut);

@@ -40,6 +40,12 @@ body {
     margin: 2px;
     color: #edc1fb;
 }
+.counter_h6 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 2px;
+    color: #ecbe02;
+}
 .counter_h2_2 {
     font-size: 14px;
     font-weight: bold;
@@ -126,6 +132,56 @@ button:hover {
 #h5 .h5-btn.upgradable:hover {
     border-color: #ffa807;      /* 可升级时 hover 保持橙色边 */
     background: white;
+}
+
+/* H6 / H2奇点元素 动态渐变边框按钮(共用 h6 配色) */
+
+#h6 .h6-btn, #h2 .qidian-btn {
+    position: relative;
+    background: transparent;
+    color: rgb(255, 255, 255);
+    border: 2px solid #ccc;
+    border-radius: 0;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    z-index: 1;
+    overflow: visible;
+}
+
+#h6 .h6-btn::before, #h2 .qidian-btn::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: transparent;
+    border: 2px solid transparent;
+    border-image: linear-gradient(90deg, #ffd700 0%, #ffffff 25%, #ffd700 50%, #ffffff 75%, #ffd700 100%);
+    border-image-slice: 1;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#h6 .h6-btn.upgradable::before, #h2 .qidian-btn.upgradable::before {
+    opacity: 1;
+    animation: gradientFlow 3s linear infinite;
+}
+
+#h6 .h6-btn.upgradable, #h2 .qidian-btn.upgradable {
+    color: #ffd700 !important;
+}
+
+@keyframes gradientFlow {
+    0%   { border-image: linear-gradient(0deg,   #ffd700 0%, #ffffff 25%, #ffd700 50%, #ffffff 75%, #ffd700 100%); border-image-slice: 1; }
+    25%  { border-image: linear-gradient(90deg,  #ffd700 0%, #ffffff 25%, #ffd700 50%, #ffffff 75%, #ffd700 100%); border-image-slice: 1; }
+    50%  { border-image: linear-gradient(180deg, #ffd700 0%, #ffffff 25%, #ffd700 50%, #ffffff 75%, #ffd700 100%); border-image-slice: 1; }
+    75%  { border-image: linear-gradient(270deg, #ffd700 0%, #ffffff 25%, #ffd700 50%, #ffffff 75%, #ffd700 100%); border-image-slice: 1; }
+    100% { border-image: linear-gradient(360deg, #ffd700 0%, #ffffff 25%, #ffd700 50%, #ffffff 75%, #ffd700 100%); border-image-slice: 1; }
 }
 
 #SK button {
