@@ -33,15 +33,17 @@ function formatDecimalCompact(value){
 
     //小于1000:普通小数,去掉末尾多余的0
     if (v.lt(1000)){
-        if (v.lt(0.01)) return res_trim(v.toExponential(2));//极小值用科学计数法
+        if (v.lt(0.01)) return decimalToString(v, 1);//极小值用科学计数法
         return res_trim(v.toFixed(2));//523.00 -> 523
     }
 
     //不小于1000:统一科学计数法,1.00e100 -> 1e100
-    return res_trim(v.toExponential(2)).replace('+','');
+    //指数由 decimalToString(定义在 script.js)精确给出,不能用 v.toExponential:
+    //break_eternity 会把指数按3位有效数字四舍五入(1187→1190、1198→1200)
+    return decimalToString(v, 1);
 }
 
-//去掉小数末尾多余的0(科学计数法只处理尾数部分,避免误删指数末尾的0)
+//去掉小数末尾多余的0(仅用于普通小数;科学计数法的尾数由 decimalToString 负责)
 function res_trim(str){
     let parts = str.split('e');
     let mantissa = parts[0];

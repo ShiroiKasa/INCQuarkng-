@@ -93,6 +93,25 @@ function showSequenceModal(steps, title, onComplete) {
     modal.style.display = 'flex';
 }
 
+//科学计数法内核:尾数(保留2位小数) + "e" + 精确指数
+//注意:指数绝不能交给 break_eternity 的 toStringWithDecimalPlaces/toExponential——
+//它们内部用 decimalPlaces() 把指数按 places+1 位有效数字四舍五入(1187→1190、1198→1200),
+//数值过1e1000后显示值会凭空大10~1000倍,故指数一律自己用 floor(log10) 精确取
+//多重指数(ee...):最高一层的指数同样要精确,内层按同一规则递归(内层尾数已无意义)
+//trim=1:去掉尾数末尾多余的0(供核心资源条的紧凑显示使用)
+function decimalToString(v, trim){
+    if(v.layer > 1){
+        return "e" + decimalToString(v.log10(), trim);
+    }
+    let exponent = Decimal.floor(v.log10());
+    let mantissa = v.div(Decimal.pow(10, exponent));
+    //尾数进位:浮点误差会让尾数凑到9.999…(如 Decimal.pow(10,1187)),toFixed(2) 会输出10.00
+    mantissa.gte(9.995) && (mantissa = mantissa.div(10) , exponent = exponent.plus(1));
+    let mantissaStr = mantissa.toFixed(2);
+    (trim === 1) && (mantissaStr = mantissaStr.replace(/0+$/,'').replace(/\.$/,''));
+    return mantissaStr + "e" + exponent.toString();
+}
+
 //辅助函数，将Decimal对象格式化为友好的字符串
 function formatDecimal(value){
     let v = (value instanceof Decimal) ? value : new Decimal(value);
@@ -104,28 +123,12 @@ function formatDecimal(value){
     //小于1000时，区分极小值
     if(v.lt(1000)){
         if (v.lt(0.01)){
-            return v.toExponential(2); //极小值用科学计数法
+            return decimalToString(v, 0); //极小值用科学计数法
         }
         return v.toFixed(2); //普通小数保留两位
     }
 
-    //layer=0科学计数法逻辑
-    if(v.layer > 0){
-        return v.toStringWithDecimalPlaces(2);
-    }
-
-    let log10 = v.log10();
-    let exponent = Decimal.floor(log10);
-    let mantissa = v.div(Decimal.pow(10, exponent));
-
-    if(exponent.gte(1000)){
-        let expStr = exponent.toExponential(2).replace('+', '');
-        return "e" + expStr;
-    }
-
-    let mantissaStr = mantissa.toFixed(2);
-    let expStr = exponent.toString().replace('+', '');
-    return mantissaStr + "e" + expStr;
+    return decimalToString(v, 0);
 }
 
 //界面更新函数

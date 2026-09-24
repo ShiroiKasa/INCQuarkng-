@@ -46,7 +46,8 @@ function updateUI_h4(){
     let h4_up4_cots = new Decimal.pow(5,h4_up4).plus(70);
     let b4_up4_b = document.getElementById('h4_up4');
     b4_up4_b.style.opacity = (h4_N.gte(h4_up4_cots) && h4_DMH.gte(h4_up4_cots) && h4_GN.gte(h4_up4_cots)) ? '1' : '0.5';
-    document.getElementById("h4_up4").innerHTML = "椭圆星系" + formatDecimal(h4_up4) + " 数量:" + formatDecimal(h4_up4q) + "+" + formatDecimal(h4_up4_js.times(h4_up5q.plus(1)).times(h5_time_buff)) + "/s 费用:" + formatDecimal(h4_up4_cots) + "<br>星系 对黑洞加成:" + formatDecimal(h4_up4q.plus(1));
+    //椭圆星系产量已由 h4_hans 计入 (巨星系数量+1),此处不可再乘一次
+    document.getElementById("h4_up4").innerHTML = "椭圆星系" + formatDecimal(h4_up4) + " 数量:" + formatDecimal(h4_up4q) + "+" + formatDecimal(h4_up4_js.times(h5_time_buff)) + "/s 费用:" + formatDecimal(h4_up4_cots) + "<br>星系 对黑洞加成:" + formatDecimal(h4_up4q.plus(1));
 
     let h4_up5_cots = new Decimal.pow(6,h4_up5).plus(130);
     let b4_up5_b = document.getElementById('h4_up5');
