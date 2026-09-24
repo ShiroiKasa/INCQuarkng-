@@ -87,7 +87,11 @@ function h5_hans(){
     let h5_time_buff_js1 = Decimal.pow(new Decimal(h5_time_confetti.plus(2).log(2)).plus(h5_up5).times(h5_up6.plus(1)),h5_up7.div(15).plus(1));
     let h5_time_buff_js2 = Decimal.max(h2_2_up1.times(10),1);
     let h5_time_buff_js = h5_time_buff_js1.times(h5_time_buff_js2);
-    h5_time_buff = Decimal.max(h5_time_buff_js,1);
+    //F₂(纯净物):全局游戏倍率^0.1
+    //基数来自 log/加法/乘法,恒为非负,故取 0.1 次方不会产生 NaN
+    h2_2_up6.eq(1) && (h5_time_buff_js = h5_time_buff_js.pow(0.1));
+    //不设下限:游戏倍率允许小于1(F₂ 会让它降到1以下,这是该纯净物的代价)
+    h5_time_buff = h5_time_buff_js;
 
     let h3_up10_buff = new Decimal(1);
     h3_up10q.gte(1) && (h3_up10_buff = new Decimal(h3_up10q.plus(3.6).log(3.6)));
@@ -106,6 +110,9 @@ function h5_hans(){
 
     //弦论:TypeIIB弦加成奇点获取量
     h6_ziyuan_js = (Quark.plus(1).log(10)).times(h5_time_confetti.plus(1).log(10)).div(500).times((cp_up6 + 1)).times(h6_1_ziyuan_buff).times(h2_up37_buff);
+
+    //O₂(纯净物):奇点产量*2
+    h2_2_up3.eq(1) && (h6_ziyuan_js = h6_ziyuan_js.times(2));
 }
 
 function h5_up1_button(){

@@ -46,7 +46,12 @@ function updateUI_h4(){
     let h4_up4_cots = new Decimal.pow(5,h4_up4).plus(70);
     let b4_up4_b = document.getElementById('h4_up4');
     b4_up4_b.style.opacity = (h4_N.gte(h4_up4_cots) && h4_DMH.gte(h4_up4_cots) && h4_GN.gte(h4_up4_cots)) ? '1' : '0.5';
-    document.getElementById("h4_up4").innerHTML = "椭圆星系" + formatDecimal(h4_up4) + " 数量:" + formatDecimal(h4_up4q) + "+" + formatDecimal(h4_up4_js.times(h5_time_buff)) + "/s 费用:" + formatDecimal(h4_up4_cots) + "<br>星系 对黑洞加成:" + formatDecimal(h4_up4q.plus(1));
+    document.getElementById("h4_up4").innerHTML = "椭圆星系" + formatDecimal(h4_up4) + " 数量:" + formatDecimal(h4_up4q) + "+" + formatDecimal(h4_up4_js.times(h4_up5q.plus(1)).times(h5_time_buff)) + "/s 费用:" + formatDecimal(h4_up4_cots) + "<br>星系 对黑洞加成:" + formatDecimal(h4_up4q.plus(1));
+
+    let h4_up5_cots = new Decimal.pow(6,h4_up5).plus(130);
+    let b4_up5_b = document.getElementById('h4_up5');
+    b4_up5_b.style.opacity = (h4_N.gte(h4_up5_cots) && h4_DMH.gte(h4_up5_cots) && h4_GN.gte(h4_up5_cots)) ? '1' : '0.5';
+    document.getElementById("h4_up5").innerHTML = "巨星系" + formatDecimal(h4_up5) + " 数量:" + formatDecimal(h4_up5q) + "+" + formatDecimal(h4_up5_js) + "/s 费用:" + formatDecimal(h4_up5_cots) + "<br>星系 对时间点加成:" + formatDecimal(h4_up5q.plus(1));
 
 }
 
@@ -57,12 +62,16 @@ function h4_hans(){
 
     h4_up3_js = new Decimal.pow(1.15,h4_up3).minus(1).times(10).times(h4_up4q.plus(1));
 
-    h4_up4_js = new Decimal.pow(1.16,h4_up4).minus(1).times(10);
+    h4_up4_js = new Decimal.pow(1.16,h4_up4).minus(1).times(10).times(h4_up5q.plus(1));
+
+    //巨星系产量(不受游戏倍率加成)
+    h4_up5_js = new Decimal.pow(1.17,h4_up5).minus(1).times(10);
 
     let h2_up32_buff = new Decimal(1);
     h2_up32.gte(1) && (h2_up32_buff = h4_re.plus(2).log(2));
 
-    h5_ziyuan_js = Decimal.min(h4_N, Decimal.min(h4_DMH, h4_GN)).times(Quark.plus(1).log(10)).div(7000).times((cp_up5 + 1)).times(h2_up32_buff).times(Decimal.max(h2_2_up2.times(2),1));
+    //巨星系:对时间点产量加成
+    h5_ziyuan_js = Decimal.min(h4_N, Decimal.min(h4_DMH, h4_GN)).times(Quark.plus(1).log(10)).div(7000).times((cp_up5 + 1)).times(h2_up32_buff).times(Decimal.max(h2_2_up2.times(2),1)).times(h4_up5q.plus(1));
 }
 
 function h4_N_button(){
@@ -132,6 +141,17 @@ function h4_up4_button(){
     }
 }
 
+function h4_up5_button(){
+    let cost = new Decimal.pow(6,h4_up5).plus(130);
+    if (h4_N.gte(cost) && h4_DMH.gte(cost) && h4_GN.gte(cost)){
+        h4_up5 = h4_up5.plus(1);
+        h4_N = h4_N.minus(cost);
+        h4_DMH = h4_DMH.minus(cost);
+        h4_GN = h4_GN.minus(cost);
+        updateUI_h4();
+    }
+}
+
 function h4_re_button(){
     let h4_re_pd = Decimal.min(h4_N, Decimal.min(h4_DMH, h4_GN));
     h4_re_pd.gte(42) && (h5_ziyuan = h5_ziyuan.plus(h5_ziyuan_js) , h4_re_hans());
@@ -181,5 +201,6 @@ document.getElementById('h4_up1').addEventListener('click', h4_up1_button);
 document.getElementById('h4_up2').addEventListener('click', h4_up2_button);
 document.getElementById('h4_up3').addEventListener('click', h4_up3_button);
 document.getElementById('h4_up4').addEventListener('click', h4_up4_button);
+document.getElementById('h4_up5').addEventListener('click', h4_up5_button);
 
 document.getElementById('h4_re_b').addEventListener('click', h4_re_button);

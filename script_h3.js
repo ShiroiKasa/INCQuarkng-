@@ -71,7 +71,12 @@ function updateUI_h3(){
     let h3_up10_cost = Decimal.pow(13, h3_up10).times(1e20);
     let b3_10_b = document.getElementById('h3_up10_b');
     b3_10_b.style.opacity = h3_BH.gte(h3_up10_cost) ? '1' : '0.5';
-    document.getElementById("h3_up10_b").innerHTML = "A型恒星" + formatDecimal(h3_up10) + "级 费用:" + formatDecimal(h3_up10_cost) +"黑洞<br>数量:" + formatDecimal(h3_up10q) + "+" + formatDecimal(h3_up10q_js.times(h5_time_buff)) + "/s F型恒星、时间碎片产量*" + formatDecimal(new Decimal(h3_up10q.plus(3.8).log(3.8)));
+    document.getElementById("h3_up10_b").innerHTML = "A型恒星" + formatDecimal(h3_up10) + "级 费用:" + formatDecimal(h3_up10_cost) +"黑洞<br>数量:" + formatDecimal(h3_up10q) + "+" + formatDecimal(h3_up10q_js.times(h3_up11_buff).times(h5_time_buff)) + "/s F型恒星、时间碎片产量*" + formatDecimal(new Decimal(h3_up10q.plus(3.8).log(3.8)));
+
+    let h3_up11_cost = Decimal.pow(15, h3_up11).times(1e50);
+    let b3_11_b = document.getElementById('h3_up11_b');
+    b3_11_b.style.opacity = h3_BH.gte(h3_up11_cost) ? '1' : '0.5';
+    document.getElementById("h3_up11_b").innerHTML = "B型恒星" + formatDecimal(h3_up11) + "级 费用:" + formatDecimal(h3_up11_cost) +"黑洞<br>数量:" + formatDecimal(h3_up11q) + "+" + formatDecimal(h3_up11q_js.times(h5_time_buff)) + "/s A型恒星、膜产量*" + formatDecimal(h3_up11_buff);
 }
 
 function h3_hans(){
@@ -96,6 +101,9 @@ function h3_hans(){
     h3_up9q.gte(1) && (h3_up9_buff = new Decimal(h3_up9q.plus(4).log(4)));
     let h3_up10_buff = new Decimal(1);
     h3_up10q.gte(1) && (h3_up10_buff = new Decimal(h3_up10q.plus(3.8).log(3.8)));
+    //B型恒星(钼解锁):加成A型恒星产量与膜产量
+    h3_up11_buff = new Decimal(1);
+    h3_up11q.gte(1) && (h3_up11_buff = new Decimal(h3_up11q.plus(3.7).log(3.7)));
 
     let h4_up4_buff = new Decimal(1);
     h4_up4q.gte(1) && (h4_up4_buff = h4_up4q);
@@ -121,7 +129,10 @@ function h3_hans(){
 
     h3_up9q_js = Decimal.pow(4.1, h3_up9).minus(1).times(61).times(h3_up10_buff);
 
-    h3_up10q_js = Decimal.pow(5.2, h3_up10).minus(1).times(82);
+    h3_up10q_js = Decimal.pow(5.2, h3_up10).minus(1).times(82).times(h3_up11_buff);
+
+    //B型恒星产量
+    h3_up11q_js = Decimal.pow(6.4, h3_up11).minus(1).times(94);
 
     let h2_up19_buff = new Decimal(1);
     h2_up19.gte(1) && (h2_up19_buff = new Decimal(h3_re));
@@ -221,6 +232,15 @@ function h3_up10_button(){
         updateUI_h3();
     }
 }
+function h3_up11_button(){
+    let cost = Decimal.pow(15, h3_up11).times(1e50);
+    if (h3_BH.gte(cost)){
+        h3_BH = h3_BH.minus(cost);
+        h3_up11 = h3_up11.plus(1);
+        h3_js_re = 1;
+        updateUI_h3();
+    }
+}
 
 
 function h3_re_button(){
@@ -275,5 +295,6 @@ document.getElementById('h3_up7_b').addEventListener('click', h3_up7_button);
 document.getElementById('h3_up8_b').addEventListener('click', h3_up8_button);
 document.getElementById('h3_up9_b').addEventListener('click', h3_up9_button);
 document.getElementById('h3_up10_b').addEventListener('click', h3_up10_button);
+document.getElementById('h3_up11_b').addEventListener('click', h3_up11_button);
 
 document.getElementById('h3_re_b').addEventListener('click', h3_re_button);

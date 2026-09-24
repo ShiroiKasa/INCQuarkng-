@@ -21,6 +21,8 @@
         <button id="stat_cut" style="background:#59849b;">统计</button>
     </div>
 
+    <div id="res_bar" class="res-bar"></div>
+
     <div id="cx_xs" style="display: none;">
         <div style="background:#9769d3;font-size: 30px;" id="cx_bt">标题</div>
         <div style="background:#9769d3;font-size: 20px;" id="cx_nr">内容</div>
@@ -71,6 +73,7 @@
                     <button id="h3_up1_8auto_b" style="display: none;background:#f78ae5;">氢~氧自动:关</button>
                     <button id="h3_up9_17auto_b" style="display: none;background:#f78ae5;">氟~氯自动:关</button>
                     <button id="auto8_b" style="display: none;background:#f78ae5;">氩~镍自动:关</button>
+                    <button id="auto11_b" style="display: none;background:#f78ae5;">铜~溴自动:关</button>
                 </div>
                 <div class="button-group2">
                     <button style="background:#f78ae5;font-size: 18px;display: none;" id="h2_up5buff_b">电子生成器0级 费用:1e3原子<br>电子:0.00 夸克指数+0.00</button>
@@ -122,8 +125,12 @@
                     <button class="qidian-btn" style="font-size: 20px;display: none;" id="h2_up36_b">氪</button>
                     <button class="qidian-btn" style="font-size: 20px;display: none;" id="h2_up37_b">铷</button>
                     <button class="qidian-btn" style="font-size: 20px;display: none;" id="h2_up38_b">锶</button>
+                    <button class="qidian-btn" style="font-size: 20px;display: none;" id="h2_up39_b">钇</button>
                 </div>
                 <div class="button-group2">
+                    <button class="qidian-btn" style="font-size: 20px;display: none;" id="h2_up40_b">锆</button>
+                    <button class="qidian-btn" style="font-size: 20px;display: none;" id="h2_up41_b">铌</button>
+                    <button class="qidian-btn" style="font-size: 20px;display: none;" id="h2_up42_b">钼</button>
                 </div>
                 <h2>元素</h2>
             </div>
@@ -136,6 +143,12 @@
                 <div class="button-group2">
                     <button style="background:#0a3147;font-size: 20px;" id="h2_1_up1_b">H<sub>2</sub></button>
                     <button style="background:#0a3147;font-size: 20px;" id="h2_1_up2_b">N<sub>2</sub></button>
+                </div>
+                <div class="button-group2">
+                    <button style="background:#0a3147;font-size: 20px;display: none;" id="h2_1_up3_b">O<sub>2</sub></button>
+                    <button style="background:#0a3147;font-size: 20px;display: none;" id="h2_1_up4_b">O<sub>3</sub></button>
+                    <button style="background:#0a3147;font-size: 20px;display: none;" id="h2_1_up5_b">Ne</button>
+                    <button style="background:#0a3147;font-size: 20px;display: none;" id="h2_1_up6_b">F<sub>2</sub></button>
                 </div>
                 <h2>纯净物</h2>
             </div>
@@ -179,6 +192,7 @@
             <div class="button-group2">
                 <button style="background:#65a6c9;font-size: 18px;display: none;" id="h3_up9_b">F型恒星0级 费用:1e18黑洞<br>数量:0.00 G型恒星产量*1</button>
                 <button style="background:#65a6c9;font-size: 18px;display: none;" id="h3_up10_b">A型恒星0级 费用:1e20黑洞<br>数量:0.00 F型恒星产量*1</button>
+                <button style="background:#65a6c9;font-size: 18px;display: none;" id="h3_up11_b">B型恒星0级 费用:1e50黑洞<br>数量:0.00 A型恒星、膜产量*1</button>
             </div>
             <div class="button-group3">
                 <div class="counter_h3" style="font-size: 20px;" id="h3_txt1">质量加成:<br>夸克产量*1</div>
@@ -213,6 +227,7 @@
             </div>
             <div class="button-group2">
                 <button style="background:#2db3fb;font-size: 20px;display: none;" id="h4_up4">椭圆星系 数量:0 费用:1星系组分</button>
+                <button style="background:#2db3fb;font-size: 20px;display: none;" id="h4_up5">巨星系 数量:0 费用:1星系组分</button>
             </div>
         </div>
     </div>
@@ -330,6 +345,10 @@
         <div class="button-group">
             <div class="button-group2">
                 <button id="SK_1" style="color:#ff6600;">蚀刻·夸克<br><br>立即进行一次黑洞蒸发重置<br>夸克产量^0.3<br>蚀刻中的最大夸克数量:0<br>对夸克产量加成(蚀刻时不生效):*1<br><br>开始蚀刻</button>
+                <button id="SK_2" style="color:#ff6600;display: none;">蚀刻·夸克II<br><br>立即进行一次奇点坍塌重置<br>夸克产量取以2为底的对数<br>蚀刻中的最大夸克数量:0<br>对夸克产量加成(蚀刻中不生效):*1<br><br>开始蚀刻</button>
+            </div>
+            <div class="button-group2">
+                <button id="SK_3" style="color:#f78ae5;display: none;">蚀刻·元素<br><br>立即进行一次奇点坍塌重置<br>元素层级生成器等级固定为0<br>原子产量^0.6<br>蚀刻中的最大夸克数量:0<br>对电子产量加成(蚀刻中不生效):*1<br><br>开始蚀刻</button>
             </div>
         </div>
 
@@ -363,7 +382,9 @@
         <button id="exportSaveBtn" style="background:#e9b1ff;">导出存档</button>
         <button id="importSaveBtn" style="background:#e9b1ff;">导入存档</button>
         <input type="file" id="fileInput" accept=".json,.txt" style="display:none;">
-        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>v5.1(web5.1.26_09_23_1)<br><br>© 2025 ShiroiKasa. All rights reserved.</p>
+        <h2>资源条显示</h2>
+        <div id="res_set_group" class="res-set-group"></div>
+        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>v5.2(web5.2.26_09_24_1)<br><br>© 2025 ShiroiKasa. All rights reserved.</p>
     </div>
 
     <div id="stat" style="display: none;">
@@ -411,6 +432,7 @@
     <script src="global_var.js"></script><!-- 变量加载 -->
     <script src="script_auto.js"></script><!-- 自动化加载 -->
     <script src="script_cut.js"></script><!-- 切换界面加载 -->
+    <script src="script_res.js"></script><!-- 核心资源条加载 -->
     <script src="SK.js"></script><!-- 蚀刻界面加载 -->
     <script src="script.js"></script><!-- 存档加载 -->
     <script src="script_cp.js"></script>

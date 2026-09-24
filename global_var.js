@@ -3,7 +3,7 @@
 const bgColors = ["#ffffff", "#1e1e2f", "#f5f0e6", "#d9e8f5","#000000"];
 let bgIndex = 0;  //当前背景索引，0=白色
 
-let version = 5.1;
+let version = 5.2;
 
 let game_tc = 0;
 
@@ -46,6 +46,7 @@ var h3_up4_auto = 0;
 
 var auto8 = 0;
 var auto9 = 0;
+var auto11 = 0;//铌解锁的铜~溴自动化(0/1)
 var h5_up_auto = 0;
 
 //h1
@@ -118,11 +119,19 @@ var h2_up35 = new Decimal(0);
 var h2_up36 = new Decimal(0);//氪
 var h2_up37 = new Decimal(0);//铷
 var h2_up38 = new Decimal(0);//锶
+var h2_up39 = new Decimal(0);//钇:解锁蚀刻·夸克II、蚀刻·元素
+var h2_up40 = new Decimal(0);//锆:解锁纯净物O₂、O₃、Ne、F₂
+var h2_up41 = new Decimal(0);//铌:解锁元素升级自动化(自动升到1级,不消耗资源、无门槛)
+var h2_up42 = new Decimal(0);//钼:解锁B型恒星、巨星系
 
 var h2_2_ziyuan = new Decimal(0);
 
 var h2_2_up1 = new Decimal(0);
 var h2_2_up2 = new Decimal(0);
+var h2_2_up3 = new Decimal(0);//O₂:奇点产量*2
+var h2_2_up4 = new Decimal(0);//O₃:每秒产出1个十维(不受游戏倍率加成)
+var h2_2_up5 = new Decimal(0);//Ne:夸克溢出次方+0.2(上限为1)
+var h2_2_up6 = new Decimal(0);//F₂:夸克产量*1e500,全局游戏倍率^0.1
 
 let h2_re = new Decimal(0);
 
@@ -168,6 +177,12 @@ let h3_up8 = new Decimal(0);
 let h3_up9 = new Decimal(0);
 let h3_up10 = new Decimal(0);
 
+//B型恒星(钼解锁)
+let h3_up11 = new Decimal(0);
+let h3_up11q = new Decimal(0);
+let h3_up11q_js = new Decimal(0);
+let h3_up11_buff = new Decimal(1);//加成A型恒星产量与膜产量
+
 let h3_re = new Decimal(0);
 
 //h4
@@ -193,6 +208,9 @@ let h4_up3_js = new Decimal(0);
 let h4_up4 = new Decimal(0);
 let h4_up4q = new Decimal(0);
 let h4_up4_js = new Decimal(0);
+let h4_up5 = new Decimal(0);
+let h4_up5q = new Decimal(0);
+let h4_up5_js = new Decimal(0);
 
 let h4_re = new Decimal(0);
 
@@ -287,9 +305,32 @@ let h6_1_zhonghe_buff = new Decimal(1);//时间碎片产量倍率=奇点弦综�
 let h6_1_ziyuan_buff = new Decimal(1);//奇点获取量倍率=TypeIIB弦
 
 //SK
+//三种蚀刻互相独立,可以同时进行;sk_ing=任意一种进行中
 let sk_ing = 0;
 let sk_1_ing = 0;
+let sk_2_ing = 0;
+let sk_3_ing = 0;
 
 let sk_1_MAX = new Decimal(0);
 let sk_1_buff1 = new Decimal(1);
 let sk_1_buff2 = new Decimal(1);
+
+//蚀刻·夸克II
+let sk_2_MAX = new Decimal(0);//蚀刻中的最大夸克数量
+let sk_2_buff1 = new Decimal(1);//对夸克产量加成(蚀刻中不生效)
+
+//蚀刻·元素
+let sk_3_MAX = new Decimal(0);//蚀刻中的最大夸克数量
+let sk_3_buff1 = new Decimal(1);//对电子产量加成(蚀刻中不生效)=(蚀刻中最大夸克数量)^0.1
+
+//核心资源条(顶部资源摘要条)
+//显示开关:1=显示,0=隐藏,默认全部显示
+let res_show_Quark = 1;
+let res_show_h2_ziyuan = 1;
+let res_show_h3_ziyuan = 1;
+let res_show_h4_ziyuan = 1;
+let res_show_h5_ziyuan = 1;
+let res_show_h5_time_confetti = 1;
+let res_show_h6_ziyuan = 1;
+let res_show_h6_brane = 1;
+let res_show_cp_ds = 1;

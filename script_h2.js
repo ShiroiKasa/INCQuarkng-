@@ -11,7 +11,8 @@ function updateUI_h2(){
         document.getElementById("h2_ziyuan_txt").innerHTML = "原子:" + formatDecimal(h2_ziyuan) + "(对夸克加成:" + formatDecimal(new Decimal(((h2_ziyuan.plus(1)).log(10))).plus(1)) + ")";
     };
     let h2_up3_buff = new Decimal(1);
-    h2_up3.gte(1) && (h2_up3_buff = new Decimal(quark_max.log(10)));
+    //quark_max为0时log10为NaN,按1算
+    h2_up3.gte(1) && (h2_up3_buff = Decimal.max(quark_max,1).log(10));
     if (Quark.gte(1000) && h2_up9.gte(1)){
         document.getElementById("h2_ziyuans").innerHTML = formatDecimal(h2_ziyuan_js.times(10).times(h5_time_buff)) + "/s";
     }else{
@@ -22,6 +23,21 @@ function updateUI_h2(){
         document.getElementById("h2_2_ziyuan_txt").innerHTML = "可用纯净物:" + formatDecimal(h2_2_ziyuan) + " 化合可获得:" + formatDecimal(new Decimal(h2_ziyuan).log(1e55)) + "纯净物点数";
     }else{
         document.getElementById("h2_2_ziyuan_txt").innerHTML = "可用纯净物:" + formatDecimal(h2_2_ziyuan) + " 化合可获得:0纯净物点数";
+    }
+
+    //O₃(纯净物):每秒产出1个十维(不受游戏倍率加成)
+    if (h2_2_up4.eq(1)){
+        document.getElementById("h2_2_ziyuan_txt").innerHTML += "<br>O<sub>3</sub>:每秒产出1个十维(不受游戏倍率加成)";
+    }
+    //Ne(纯净物):夸克溢出次方+0.2(上限为1)
+    if (h2_2_up5.eq(1)){
+        document.getElementById("h2_2_ziyuan_txt").innerHTML += "<br>Ne:夸克溢出次方+0.2(上限为1)";
+    }
+    //F₂(纯净物):夸克产量*1e500,全局游戏倍率^0.1
+    //注:倍率本身用 Decimal.pow(10,500) 构造(裸字面量 1e500 会溢出成 Infinity),
+    //但 Decimal.pow 走 log/exp 会有浮点漂移,formatDecimal 会显示成 10e499,故说明文字直接写字面量
+    if (h2_2_up6.eq(1)){
+        document.getElementById("h2_2_ziyuan_txt").innerHTML += "<br>F<sub>2</sub>:夸克产量*1e500,全局游戏倍率^0.1";
     }
 
     let h2_upe_cost = Decimal.pow(2, h2_upe).times(1000)
@@ -156,19 +172,49 @@ function updateUI_h2(){
     b2_38.style.opacity = (h2_up38.eq(1)) ? '1' : (h6_ziyuan.gte(1000) ? '0.5' : '0.2');
     b2_38.classList.toggle('upgradable', h2_up38.lt(1) && h6_ziyuan.gte(1000));
 
+    let b2_39 = document.getElementById('h2_up39_b');
+    b2_39.style.opacity = (h2_up39.eq(1)) ? '1' : (h6_ziyuan.gte(1e5) ? '0.5' : '0.2');
+    b2_39.classList.toggle('upgradable', h2_up39.lt(1) && h6_ziyuan.gte(1e5));
+
+    let b2_40 = document.getElementById('h2_up40_b');
+    b2_40.style.opacity = (h2_up40.eq(1)) ? '1' : (h6_ziyuan.gte(2e5) ? '0.5' : '0.2');
+    b2_40.classList.toggle('upgradable', h2_up40.lt(1) && h6_ziyuan.gte(2e5));
+
+    let b2_41 = document.getElementById('h2_up41_b');
+    b2_41.style.opacity = (h2_up41.eq(1)) ? '1' : (h6_ziyuan.gte(5e5) ? '0.5' : '0.2');
+    b2_41.classList.toggle('upgradable', h2_up41.lt(1) && h6_ziyuan.gte(5e5));
+
+    let b2_42 = document.getElementById('h2_up42_b');
+    b2_42.style.opacity = (h2_up42.eq(1)) ? '1' : (h6_ziyuan.gte(1e6) ? '0.5' : '0.2');
+    b2_42.classList.toggle('upgradable', h2_up42.lt(1) && h6_ziyuan.gte(1e6));
+
     //纯净物
     let b2_2_1 = document.getElementById('h2_1_up1_b');
     b2_2_1.style.opacity = (h2_2_up1.eq(1)) ? '1' : (h2_2_ziyuan.gte(1) ? '0.5' : '0.2');
 
     let b2_2_2 = document.getElementById('h2_1_up2_b');
     b2_2_2.style.opacity = (h2_2_up2.eq(1)) ? '1' : (h2_2_ziyuan.gte(1) ? '0.5' : '0.2');
+
+    //O₂、O₃、Ne、F₂(锆解锁)
+    let b2_2_3 = document.getElementById('h2_1_up3_b');
+    b2_2_3.style.opacity = (h2_2_up3.eq(1)) ? '1' : (h2_2_ziyuan.gte(2) ? '0.5' : '0.2');
+
+    let b2_2_4 = document.getElementById('h2_1_up4_b');
+    b2_2_4.style.opacity = (h2_2_up4.eq(1)) ? '1' : (h2_2_ziyuan.gte(2) ? '0.5' : '0.2');
+
+    let b2_2_5 = document.getElementById('h2_1_up5_b');
+    b2_2_5.style.opacity = (h2_2_up5.eq(1)) ? '1' : (h2_2_ziyuan.gte(2) ? '0.5' : '0.2');
+
+    let b2_2_6 = document.getElementById('h2_1_up6_b');
+    b2_2_6.style.opacity = (h2_2_up6.eq(1)) ? '1' : (h2_2_ziyuan.gte(2) ? '0.5' : '0.2');
 }
 
 //计算函数
 function h2_hans(){
     let h3_BH_buff2 = new Decimal(1);
     h3_BH_buff2 = (h3_BH.gte(1e4)) ? new Decimal(h3_BH.plus(1).log(10)) : new Decimal(1);
-    h2_e_js = (h2_upe.times(h2_n.plus(10).log(10))).times(h3_BH_buff2);
+    //蚀刻·元素:对电子产量加成(蚀刻中不生效,此时sk_3_buff1=1)
+    h2_e_js = (h2_upe.times(h2_n.plus(10).log(10))).times(h3_BH_buff2).times(sk_3_buff1);
 
     let h3_mass_buff = new Decimal(1);
     h3_mass_buff = (h3_mass.gte(1e4)) ? new Decimal(h3_mass.log(9)) : new Decimal(1);
@@ -185,7 +231,8 @@ function h2_hans(){
 
     let cp_up3_buff = cp_up3 + 1;
     let h2_up12_buff = new Decimal(1);
-    h2_up12.gte(1) && (h2_up12_buff = new Decimal(quark_max.log(10)));
+    //quark_max为0时log10为NaN,按1算
+    h2_up12.gte(1) && (h2_up12_buff = Decimal.max(quark_max,1).log(10));
     let h3_up6_buff = new Decimal(1);
     h3_up6q.gte(1) && (h3_up6_buff = new Decimal(h3_up6q.plus(8).log(8)));
 
@@ -259,6 +306,7 @@ function autoPurchaseOneTime(upgradeVarName, price, resourceVarName, maxLevel = 
     return false;
 }
 function h2_upe_button(){
+    if (sk_3_ing === 1) return;//蚀刻·元素:元素层级生成器等级固定为0
     let cost = Decimal.pow(2, h2_upe).times(1000)
     if (h2_ziyuan.gte(cost)){
         h2_ziyuan = h2_ziyuan.minus(cost);
@@ -268,6 +316,7 @@ function h2_upe_button(){
     }
 }
 function h2_upp_button(){
+    if (sk_3_ing === 1) return;//蚀刻·元素:元素层级生成器等级固定为0
     let cost = Decimal.pow(2, h2_upp).times(1000)
     if (h2_ziyuan.gte(cost)){
         h2_ziyuan = h2_ziyuan.minus(cost);
@@ -277,6 +326,7 @@ function h2_upp_button(){
     }
 }
 function h2_upn_button(){
+    if (sk_3_ing === 1) return;//蚀刻·元素:元素层级生成器等级固定为0
     let cost = Decimal.pow(2, h2_upn).times(1000)
     if (h2_ziyuan.gte(cost)){
         h2_ziyuan = h2_ziyuan.minus(cost);
@@ -411,6 +461,19 @@ function h2_up37_button(){
 function h2_up38_button(){
     handleUpgrade('h2_up38', 1000, '锶', '无需时间扭曲也可以获得时间点', 1, '奇点', 'h6_ziyuan');
 }
+function h2_up39_button(){
+    handleUpgrade('h2_up39', 1e5, '钇', '解锁蚀刻·夸克II、蚀刻·元素', 1, '奇点', 'h6_ziyuan');
+    UIvisible_SK();
+}
+function h2_up40_button(){
+    handleUpgrade('h2_up40', 2e5, '锆', '解锁纯净物O<sub>2</sub>、O<sub>3</sub>、Ne、F<sub>2</sub>', 1, '奇点', 'h6_ziyuan');
+}
+function h2_up41_button(){
+    handleUpgrade('h2_up41', 5e5, '铌', '解锁元素升级自动化(自动升到1级,不消耗资源、无解锁门槛)', 1, '奇点', 'h6_ziyuan');
+}
+function h2_up42_button(){
+    handleUpgrade('h2_up42', 1e6, '钼', '星辰层级解锁B型恒星,结构层级解锁巨星系', 1, '奇点', 'h6_ziyuan');
+}
 
 //纯净物
 function h2_2_up1_button(){
@@ -421,6 +484,22 @@ function h2_2_up2_button(){
     handleUpgrade('h2_2_up2', 1, 'N<sub>2</sub>', '时间点产量*2', 1, '纯净物点数', 'h2_2_ziyuan');
 }
 
+function h2_2_up3_button(){
+    handleUpgrade('h2_2_up3', 2, 'O<sub>2</sub>', '奇点产量*2', 1, '纯净物点数', 'h2_2_ziyuan');
+}
+
+function h2_2_up4_button(){
+    handleUpgrade('h2_2_up4', 2, 'O<sub>3</sub>', '每秒产出1个十维(不受游戏倍率加成)', 1, '纯净物点数', 'h2_2_ziyuan');
+}
+
+function h2_2_up5_button(){
+    handleUpgrade('h2_2_up5', 2, 'Ne', '夸克溢出次方+0.2(上限为1)', 1, '纯净物点数', 'h2_2_ziyuan');
+}
+
+function h2_2_up6_button(){
+    handleUpgrade('h2_2_up6', 2, 'F<sub>2</sub>', '夸克产量*1e500,但全局游戏倍率^0.1', 1, '纯净物点数', 'h2_2_ziyuan');
+}
+
 function h2_2_re_hans(){
     if (h2_ziyuan.gte(1e55)){
         h2_2_ziyuan = new Decimal(h2_ziyuan).log(1e55);
@@ -428,6 +507,10 @@ function h2_2_re_hans(){
 
     h2_2_up1 = new Decimal(0);
     h2_2_up2 = new Decimal(0);
+    h2_2_up3 = new Decimal(0);
+    h2_2_up4 = new Decimal(0);
+    h2_2_up5 = new Decimal(0);
+    h2_2_up6 = new Decimal(0);
 }
 
 function h2_2_re_qr(){
@@ -460,7 +543,8 @@ function h2_re_hans(){
     h2_up1 = new Decimal(0);
     h2_up2 = new Decimal(0);
     h2_up3 = new Decimal(0);
-    h2_up4 = new Decimal(h2_up13);
+    //铝(h2_up13):铍初始等级变为1
+    h2_up4 = h2_up13.gte(1) ? new Decimal(1) : new Decimal(0);
     h2_up5 = new Decimal(0);
     h2_up6 = new Decimal(0);
     h2_up7 = new Decimal(0);
@@ -518,8 +602,16 @@ document.getElementById('h2_up35_b').addEventListener('click', h2_up35_button);
 document.getElementById('h2_up36_b').addEventListener('click', h2_up36_button);
 document.getElementById('h2_up37_b').addEventListener('click', h2_up37_button);
 document.getElementById('h2_up38_b').addEventListener('click', h2_up38_button);
+document.getElementById('h2_up39_b').addEventListener('click', h2_up39_button);
+document.getElementById('h2_up40_b').addEventListener('click', h2_up40_button);
+document.getElementById('h2_up41_b').addEventListener('click', h2_up41_button);
+document.getElementById('h2_up42_b').addEventListener('click', h2_up42_button);
 
 document.getElementById('h2_2_re').addEventListener('click', h2_2_re_qr);
 
 document.getElementById('h2_1_up1_b').addEventListener('click', h2_2_up1_button);
 document.getElementById('h2_1_up2_b').addEventListener('click', h2_2_up2_button);
+document.getElementById('h2_1_up3_b').addEventListener('click', h2_2_up3_button);
+document.getElementById('h2_1_up4_b').addEventListener('click', h2_2_up4_button);
+document.getElementById('h2_1_up5_b').addEventListener('click', h2_2_up5_button);
+document.getElementById('h2_1_up6_b').addEventListener('click', h2_2_up6_button);

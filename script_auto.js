@@ -33,11 +33,25 @@ function auto8_cut(){
 function auto9_cut(){
     toggleAuto('auto9', 'auto9_b');
 }
+function auto11_cut(){
+    toggleAuto('auto11', 'auto11_b', "铜~溴自动:开", "铜~溴自动:关");
+}
 function h5_up_auto_cut(){
     toggleAuto('h5_up_auto', 'h5_upauto_b');
 }
+//铌(奇点元素):铜~溴自动化(不消耗资源、无解锁门槛,可开关)
+const niobium_ups = ['h2_up29','h2_up30','h2_up31','h2_up32','h2_up33','h2_up34','h2_up35'];
+
 //全局自动化
 function global_auto(){
+    //铌(奇点元素):铜~溴全部升到1级,费用按0计(不消耗资源)
+    //放在本函数最前,使这些元素在同帧内立即点亮,其解锁效果(如砷的纯净物子选项卡)无需等到下一帧
+    if (h2_up41.gte(1) && auto11 === 1){
+        for (let i = 0; i < niobium_ups.length; i++){
+            autoPurchaseOneTime(niobium_ups[i], new Decimal(0), 'h5_ziyuan');
+        }
+    }
+
     if (h2_up8.gte(1) && Quark.gt(0)){
         let h1_up1_max = Decimal.floor(Quark.div(10).log(1.2)).plus(1);
         (h1_up2_auto === 1 && h1_up1_max.gt(h1_up1)) && (h1_up1 = h1_up1_max , h1_js_re = 1);
@@ -205,4 +219,5 @@ document.getElementById('h3_up_all_auto_b').addEventListener('click', h3_up3_aut
 document.getElementById('h3_up9_17auto_b').addEventListener('click', h3_up4_auto_cut);
 document.getElementById('auto8_b').addEventListener('click', auto8_cut);
 document.getElementById('auto9_b').addEventListener('click', auto9_cut);
+document.getElementById('auto11_b').addEventListener('click', auto11_cut);
 document.getElementById('h5_upauto_b').addEventListener('click', h5_up_auto_cut);

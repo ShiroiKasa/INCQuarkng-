@@ -59,7 +59,8 @@ function h1_hans(){
     let h2_up1_buff = new Decimal(1)
     h2_up1.gte(1) && (h2_up1_buff = h1_re);
     let h2_up2_buff = new Decimal(1)
-    h2_up2.gte(1) && (h2_up2_buff = quark_max.log(10));
+    //quark_max为0时log10为NaN(铌自动化会在没有夸克时直接买下氦),按1算
+    h2_up2.gte(1) && (h2_up2_buff = Decimal.max(quark_max,1).log(10));
     let h2_e_buff = new Decimal(1)
     h2_e.gte(0.1) && (h2_e_buff = (new Decimal(h2_e.plus(10).log(10)).div(10)).plus(1));
 
@@ -91,7 +92,14 @@ function h1_hans(){
 
     let Quark_h6_brane_buff = Decimal.max(h6_brane,1);//膜数量直接加成夸克产量(膜为0时按1算,避免前期夸克产量归零)
 
-    let Quark_js1 = (Decimal.pow((Quark_h1_js.times(Quark_h2_buff2)),h2_e_buff)).times(Quark_h3_buff).times(Quark_h4_buff).times(Quark_h5_buff).times(Quark_h6_buff).times(Quark_h6_brane_buff);
+    //F₂(纯净物):夸克产量*1e500
+    //注意:不能用 new Decimal(1e500)。JS 数字字面量 1e500 本身就已溢出为 Infinity,
+    //交给 Decimal 会得到一个无效值,进而把 Quark_js 污染成 NaN/(e^Infinity)NaN。
+    //必须用 Decimal.pow 在 Decimal 域内构造。
+    let h2_2_up6_buff = new Decimal(1);
+    h2_2_up6.eq(1) && (h2_2_up6_buff = Decimal.pow(10, 500));
+
+    let Quark_js1 = (Decimal.pow((Quark_h1_js.times(Quark_h2_buff2)),h2_e_buff)).times(Quark_h3_buff).times(Quark_h4_buff).times(Quark_h5_buff).times(Quark_h6_buff).times(Quark_h6_brane_buff).times(h2_2_up6_buff);
     let Quark_js2 = Quark_js1.times(cp_up1_buff);
 
     Quark_js = Quark_js2;
@@ -100,6 +108,14 @@ function h1_hans(){
         Quark_js = Decimal.pow(Quark_js,0.3);
     }else{
         Quark_js = Quark_js.times(sk_1_buff1);
+    };
+
+    //蚀刻·夸克II:产量取以2为底的对数,加成(蚀刻中不生效)=蚀刻中的最大夸克数量
+    if (sk_2_ing === 1){
+        //产量不足1时按0处理(0的对数为NaN,小于1的对数为负)
+        Quark_js = (Quark_js.gte(1)) ? Quark_js.log(2) : new Decimal(0);
+    }else{
+        Quark_js = Quark_js.times(sk_2_buff1);
     };
 
 
@@ -113,6 +129,9 @@ function h1_hans(){
         let exponent = Decimal.div(1,Decimal.plus(1,Decimal.pow(logRatio,c)));
         //下限0.01
         exponent = Decimal.max(exponent,0.01);
+
+        //Ne(纯净物):夸克溢出次方+0.2(上限为1)
+        (h2_2_up5.eq(1)) && (exponent = Decimal.min(exponent.plus(0.2), 1));
         
         //UI显示
         h5_overflow_exponent = exponent;
@@ -133,7 +152,8 @@ function h1_hans(){
     let cp_up2_buff = cp_up2 + 1;
 
     let h2_up3_buff = new Decimal(1);
-    h2_up3.gte(1) && (h2_up3_buff = new Decimal(quark_max.log(10)));
+    //quark_max为0时log10为NaN(铌自动化会在没有夸克时直接买下锂),按1算
+    h2_up3.gte(1) && (h2_up3_buff = Decimal.max(quark_max,1).log(10));
     let h2_up11_buff = new Decimal(1);
     h2_up11.gte(1) && (h2_up11_buff = new Decimal(h2_re.pow(0.5)));
 
@@ -146,6 +166,8 @@ function h1_hans(){
             Quark_h2_ziyuan = Decimal.pow(Quark_js,0.12);
         };
         h2_ziyuan_js = h2_up3_buff.times(Quark_h2_ziyuan).times(new Decimal(h2_p.plus(10).log(10))).times(cp_up2_buff).times(h4_up2_buff);
+        //蚀刻·元素:原子产量^0.6
+        (sk_3_ing === 1) && (h2_ziyuan_js = Decimal.pow(h2_ziyuan_js,0.6));
     }else{
         h2_ziyuan_js = new Decimal(0);
     }

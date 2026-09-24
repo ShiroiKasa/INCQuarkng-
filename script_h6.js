@@ -185,7 +185,8 @@ function updateUI_h6(){
 //计算函数
 function h6_hans(){
     //膜产量:奇点每秒生产1膜(每个奇点),另加一维等级*一维数量
-    h6_brane_js = h6_up1.times(h6_up1q).plus(h6_ziyuan);
+    //B型恒星(钼解锁):加成膜产量
+    h6_brane_js = h6_up1.times(h6_up1q).plus(h6_ziyuan).times(h3_up11_buff);
 
     //维度产量:高一维的等级*高一维数量的平方根(每秒产量,十维数量仅通过购买获得)
     h6_up1q_js = h6_up2.times(h6_up2q.pow(0.5));

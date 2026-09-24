@@ -132,6 +132,7 @@ function formatDecimal(value){
 //UI刷新
 function jiemian_re(){
     updateUI_cut();//界面按钮可见性
+    updateUI_res();//核心资源条
     (UI_re === "stat") && updateUI_stat();//统计
     (UI_re === "cp") && updateUI_cp();
     (UI_re === "h1") && (updateUI_h1(), UIvisible_h1());//h1
@@ -169,6 +170,8 @@ function UIvisible(){
     UIvisible_h4();
     UIvisible_h5();
     UIvisible_h6();
+    UIvisible_SK();//蚀刻按钮(钇解锁)
+    updateUI_res();//核心资源条(解锁状态变化后立即刷新)
 }
 //h1
 function UIvisible_h1(){
@@ -202,6 +205,7 @@ function UIvisible_h2(){
     let b3_2_auto = document.getElementById('h3_up1_8auto_b');
     let b3_4_auto = document.getElementById('h3_up9_17auto_b');
     let b_auto8 = document.getElementById('auto8_b');
+    let b_auto11 = document.getElementById('auto11_b');
     if (h2_up13.gte(1)){
         b3_1_auto.style.display = 'block';
         b3_2_auto.style.display = 'block';
@@ -219,10 +223,17 @@ function UIvisible_h2(){
     }else{
         b_auto8.style.display = 'none';
     }
+    //铌(奇点元素):铜~溴自动
+    if (h2_up41.gte(1)){
+        b_auto11.style.display = 'block';
+    }else{
+        b_auto11.style.display = 'none';
+    }
     document.getElementById("h3_upauto_b").innerHTML = (h3_up1_auto === 1) ? "生成器自动:开" : "生成器自动:关";
     document.getElementById("h3_up1_8auto_b").innerHTML = (h3_up2_auto === 1) ? "氢~氧自动:开" : "氢~氧自动:关";
     document.getElementById("h3_up9_17auto_b").innerHTML = (h3_up4_auto === 1) ? "氟~氯自动:开" : "氟~氯自动:关";
     document.getElementById("auto8_b").innerHTML = (auto8 === 1) ? "氩~镍自动:开" : "氩~镍自动:关";
+    document.getElementById("auto11_b").innerHTML = (auto11 === 1) ? "铜~溴自动:开" : "铜~溴自动:关";
 
     let b2_up5_b = document.getElementById('h2_up5buff_b');
     let b2_up6_b = document.getElementById('h2_up6buff_b');
@@ -291,9 +302,27 @@ function UIvisible_h2(){
     let b2_36_b = document.getElementById('h2_up36_b');
     let b2_37_b = document.getElementById('h2_up37_b');
     let b2_38_b = document.getElementById('h2_up38_b');
+    let b2_39_b = document.getElementById('h2_up39_b');
+    let b2_40_b = document.getElementById('h2_up40_b');
+    let b2_41_b = document.getElementById('h2_up41_b');
+    let b2_42_b = document.getElementById('h2_up42_b');
     h5_re.gte(1) ? b2_36_b.style.display = 'block' : b2_36_b.style.display = 'none';
     h5_re.gte(1) ? b2_37_b.style.display = 'block' : b2_37_b.style.display = 'none';
     h5_re.gte(1) ? b2_38_b.style.display = 'block' : b2_38_b.style.display = 'none';
+    h5_re.gte(1) ? b2_39_b.style.display = 'block' : b2_39_b.style.display = 'none';
+    h5_re.gte(1) ? b2_40_b.style.display = 'block' : b2_40_b.style.display = 'none';
+    h5_re.gte(1) ? b2_41_b.style.display = 'block' : b2_41_b.style.display = 'none';
+    h5_re.gte(1) ? b2_42_b.style.display = 'block' : b2_42_b.style.display = 'none';
+
+    //锆(奇点元素):解锁纯净物O₂、O₃、Ne、F₂
+    let b2_1_up3_b = document.getElementById('h2_1_up3_b');
+    let b2_1_up4_b = document.getElementById('h2_1_up4_b');
+    let b2_1_up5_b = document.getElementById('h2_1_up5_b');
+    let b2_1_up6_b = document.getElementById('h2_1_up6_b');
+    h2_up40.gte(1) ? b2_1_up3_b.style.display = 'block' : b2_1_up3_b.style.display = 'none';
+    h2_up40.gte(1) ? b2_1_up4_b.style.display = 'block' : b2_1_up4_b.style.display = 'none';
+    h2_up40.gte(1) ? b2_1_up5_b.style.display = 'block' : b2_1_up5_b.style.display = 'none';
+    h2_up40.gte(1) ? b2_1_up6_b.style.display = 'block' : b2_1_up6_b.style.display = 'none';
 
     let b2_1_cut_b = document.getElementById('h2_1_cut');
     let b2_2_cut_b = document.getElementById('h2_2_cut');
@@ -319,6 +348,10 @@ function UIvisible_h3(){
     let b3_10_b = document.getElementById('h3_up10_b');
     h2_up29.gte(1) ? b3_9_b.style.display = 'block' : b3_9_b.style.display = 'none';
     h2_up29.gte(1) ? b3_10_b.style.display = 'block' : b3_10_b.style.display = 'none';
+
+    //钼(奇点元素):B型恒星
+    let b3_11_b = document.getElementById('h3_up11_b');
+    h2_up42.gte(1) ? b3_11_b.style.display = 'block' : b3_11_b.style.display = 'none';
 }
 
 //h4
@@ -333,6 +366,10 @@ function UIvisible_h4(){
 
     let b4_4_b = document.getElementById('h4_up4');
     h2_up35.gte(1) ? b4_4_b.style.display = 'block' : b4_4_b.style.display = 'none';
+
+    //钼(奇点元素):巨星系
+    let b4_5_b = document.getElementById('h4_up5');
+    h2_up42.gte(1) ? b4_5_b.style.display = 'block' : b4_5_b.style.display = 'none';
 }
 
 //h5
@@ -400,11 +437,14 @@ function global_inc(dt) {
     h3_up8q = h3_up8q.plus(h3_up8q_js.times(dt).times(h5_time_buff));
     h3_up9q = h3_up9q.plus(h3_up9q_js.times(dt).times(h5_time_buff));
     h3_up10q = h3_up10q.plus(h3_up10q_js.times(dt).times(h5_time_buff));
+    h3_up11q = h3_up11q.plus(h3_up11q_js.times(dt).times(h5_time_buff));
 
     h4_up1q = h4_up1q.plus(h4_up1_js.times(dt).times(h5_time_buff));
     h4_up2q = h4_up2q.plus(h4_up2_js.times(dt).times(h5_time_buff));
     h4_up3q = h4_up3q.plus(h4_up3_js.times(dt).times(h5_time_buff));
     h4_up4q = h4_up4q.plus(h4_up4_js.times(dt).times(h5_time_buff));
+    //巨星系产量不受游戏倍率加成
+    h4_up5q = h4_up5q.plus(h4_up5_js.times(dt));
 
     h6_brane = Decimal.max(h6_brane.plus(h6_brane_js.times(dt).times(h5_time_buff)), 0);
     h6_up1q = Decimal.max(h6_up1q.plus(h6_up1q_js.times(dt).times(h5_time_buff)), 0);
@@ -416,6 +456,8 @@ function global_inc(dt) {
     h6_up7q = Decimal.max(h6_up7q.plus(h6_up7q_js.times(dt).times(h5_time_buff)), 0);
     h6_up8q = Decimal.max(h6_up8q.plus(h6_up8q_js.times(dt).times(h5_time_buff)), 0);
     h6_up9q = Decimal.max(h6_up9q.plus(h6_up9q_js.times(dt).times(h5_time_buff)), 0);
+    //O₃(纯净物):每秒产出1个十维(十维数量仅通过购买与O₃获得,不受游戏倍率加成)
+    h2_2_up4.eq(1) && (h6_up10q = h6_up10q.plus(dt));
 
     h5_time_confetti = h5_time_confetti.plus(h5_time_confetti_js.times(dt));//时间碎片本身，切记不要“临时起意”加上h5_time_buff
 }
@@ -560,6 +602,7 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
 
             // 刷新 UI
             UIvisible();
+            initSK();
             if (UI_re === "h1") updateUI_h1();
             else if (UI_re === "h2") updateUI_h2();
             else if (UI_re === "h3") updateUI_h3();
@@ -670,11 +713,16 @@ function getGameState() {
         h3_up4_auto: h3_up4_auto,
         auto8: auto8,
         auto9: auto9,
+        auto11: auto11,
         h5_up_auto: h5_up_auto,
 
         sk_ing: sk_ing,
         sk_1_ing: sk_1_ing,
         sk_1_MAX: sk_1_MAX.toString(),
+        sk_2_ing: sk_2_ing,
+        sk_2_MAX: sk_2_MAX.toString(),
+        sk_3_ing: sk_3_ing,
+        sk_3_MAX: sk_3_MAX.toString(),
 
         h1_up1: h1_up1.toString(),
         h1_up1_1: h1_up1_1.toString(),
@@ -728,9 +776,17 @@ function getGameState() {
         h2_up36: h2_up36.toString(),
         h2_up37: h2_up37.toString(),
         h2_up38: h2_up38.toString(),
+        h2_up39: h2_up39.toString(),
+        h2_up40: h2_up40.toString(),
+        h2_up41: h2_up41.toString(),
+        h2_up42: h2_up42.toString(),
         h2_2_ziyuan: h2_2_ziyuan.toString(),
         h2_2_up1: h2_2_up1.toString(),
         h2_2_up2: h2_2_up2.toString(),
+        h2_2_up3: h2_2_up3.toString(),
+        h2_2_up4: h2_2_up4.toString(),
+        h2_2_up5: h2_2_up5.toString(),
+        h2_2_up6: h2_2_up6.toString(),
         h2_re: h2_re.toString(),
 
         h3_ziyuan: h3_ziyuan.toString(),
@@ -755,6 +811,8 @@ function getGameState() {
         h3_up9q: h3_up9q.toString(),
         h3_up10: h3_up10.toString(),
         h3_up10q: h3_up10q.toString(),
+        h3_up11: h3_up11.toString(),
+        h3_up11q: h3_up11q.toString(),
         h3_re: h3_re.toString(),
 
         h4_ziyuan: h4_ziyuan.toString(),
@@ -770,6 +828,8 @@ function getGameState() {
         h4_up3q: h4_up3q.toString(),
         h4_up4: h4_up4.toString(),
         h4_up4q: h4_up4q.toString(),
+        h4_up5: h4_up5.toString(),
+        h4_up5q: h4_up5q.toString(),
         h4_re: h4_re.toString(),
 
         h5_ziyuan: h5_ziyuan.toString(),
@@ -823,6 +883,17 @@ function getGameState() {
         h6_1_up8: h6_1_up8.toString(),
         h6_1_up9: h6_1_up9.toString(),
         h6_1_up10: h6_1_up10.toString(),
+
+        //核心资源条显示开关
+        res_show_Quark: res_show_Quark,
+        res_show_h2_ziyuan: res_show_h2_ziyuan,
+        res_show_h3_ziyuan: res_show_h3_ziyuan,
+        res_show_h4_ziyuan: res_show_h4_ziyuan,
+        res_show_h5_ziyuan: res_show_h5_ziyuan,
+        res_show_h5_time_confetti: res_show_h5_time_confetti,
+        res_show_h6_ziyuan: res_show_h6_ziyuan,
+        res_show_h6_brane: res_show_h6_brane,
+        res_show_cp_ds: res_show_cp_ds,
 
         bgIndex: bgIndex,
     };
@@ -880,11 +951,17 @@ function applyGameState(state) {
     h3_up4_auto = (state.h3_up4_auto === 1) ? 1 : 0;
     auto8 = (state.auto8 === 1) ? 1 : 0;
     auto9 = (state.auto9 === 1) ? 1 : 0;
+    auto11 = (state.auto11 === 1) ? 1 : 0;
     h5_up_auto = (state.h5_up_auto === 1) ? 1 : 0;
 
     sk_ing = (state.sk_ing === 1) ? 1 : 0;
     sk_1_ing = (state.sk_1_ing === 1) ? 1 : 0;
     sk_1_MAX = sanitizeDecimal(state.sk_1_MAX);
+    sk_2_ing = (state.sk_2_ing === 1) ? 1 : 0;
+    sk_2_MAX = sanitizeDecimal(state.sk_2_MAX);
+    sk_3_ing = (state.sk_3_ing === 1) ? 1 : 0;
+    sk_3_MAX = sanitizeDecimal(state.sk_3_MAX);
+    sk_ing_hans();//按三种蚀刻状态重算 sk_ing
 
     h1_up1 = sanitizeDecimal(state.h1_up1);
     h1_up1_1 = sanitizeDecimal(state.h1_up1_1);
@@ -938,9 +1015,17 @@ function applyGameState(state) {
     h2_up36 = sanitizeDecimal(state.h2_up36);
     h2_up37 = sanitizeDecimal(state.h2_up37);
     h2_up38 = sanitizeDecimal(state.h2_up38);
+    h2_up39 = sanitizeDecimal(state.h2_up39);
+    h2_up40 = sanitizeDecimal(state.h2_up40);
+    h2_up41 = sanitizeDecimal(state.h2_up41);
+    h2_up42 = sanitizeDecimal(state.h2_up42);
     h2_2_ziyuan = sanitizeDecimal(state.h2_2_ziyuan);
     h2_2_up1 = sanitizeDecimal(state.h2_2_up1);
     h2_2_up2 = sanitizeDecimal(state.h2_2_up2);
+    h2_2_up3 = sanitizeDecimal(state.h2_2_up3);
+    h2_2_up4 = sanitizeDecimal(state.h2_2_up4);
+    h2_2_up5 = sanitizeDecimal(state.h2_2_up5);
+    h2_2_up6 = sanitizeDecimal(state.h2_2_up6);
     h2_re = sanitizeDecimal(state.h2_re);
 
     h3_ziyuan = sanitizeDecimal(state.h3_ziyuan);
@@ -965,6 +1050,8 @@ function applyGameState(state) {
     h3_up9q = sanitizeDecimal(state.h3_up9q);
     h3_up10 = sanitizeDecimal(state.h3_up10);
     h3_up10q = sanitizeDecimal(state.h3_up10q);
+    h3_up11 = sanitizeDecimal(state.h3_up11);
+    h3_up11q = sanitizeDecimal(state.h3_up11q);
     h3_re = sanitizeDecimal(state.h3_re);
 
     h4_ziyuan = sanitizeDecimal(state.h4_ziyuan);
@@ -980,6 +1067,8 @@ function applyGameState(state) {
     h4_up3q = sanitizeDecimal(state.h4_up3q);
     h4_up4 = sanitizeDecimal(state.h4_up4);
     h4_up4q = sanitizeDecimal(state.h4_up4q);
+    h4_up5 = sanitizeDecimal(state.h4_up5);
+    h4_up5q = sanitizeDecimal(state.h4_up5q);
     h4_re = sanitizeDecimal(state.h4_re);
 
     h5_ziyuan = sanitizeDecimal(state.h5_ziyuan);
@@ -1036,6 +1125,18 @@ function applyGameState(state) {
 
     bgIndex = (state.bgIndex >= 0 && state.bgIndex < bgColors.length) ? state.bgIndex : 0;
     applyBackground();
+
+    //核心资源条显示开关(旧存档缺少这些字段时默认全部显示)
+    res_show_Quark = (state.res_show_Quark === 0) ? 0 : 1;
+    res_show_h2_ziyuan = (state.res_show_h2_ziyuan === 0) ? 0 : 1;
+    res_show_h3_ziyuan = (state.res_show_h3_ziyuan === 0) ? 0 : 1;
+    res_show_h4_ziyuan = (state.res_show_h4_ziyuan === 0) ? 0 : 1;
+    res_show_h5_ziyuan = (state.res_show_h5_ziyuan === 0) ? 0 : 1;
+    res_show_h5_time_confetti = (state.res_show_h5_time_confetti === 0) ? 0 : 1;
+    res_show_h6_ziyuan = (state.res_show_h6_ziyuan === 0) ? 0 : 1;
+    res_show_h6_brane = (state.res_show_h6_brane === 0) ? 0 : 1;
+    res_show_cp_ds = (state.res_show_cp_ds === 0) ? 0 : 1;
+    updateUI_res_set();
 
     // 重置 JS 刷新标志
     h1_js_re = 1;
@@ -1101,6 +1202,7 @@ function importSave() {
 }
 
 //启动游戏
+initResBar();//核心资源条
 loadGame();
 h1_cut_hans();//界面切换
 UIvisible();//可见性刷新
