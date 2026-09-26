@@ -180,6 +180,11 @@ function updateUI_h6(){
     b6_1_up10.style.opacity = h6_1_up10_pd ? '1' : '0.5';
     b6_1_up10.classList.toggle('upgradable', h6_1_up10_pd);
     document.getElementById("h6_1_up10").innerHTML = "杂化弦E8XE8" + formatDecimal(h6_1_up10) + "级 基态、激发态费用*" + formatDecimal(h6_1_up10_buff) + "<br>费用:" + formatDecimal(h6_1_up10_cots) + "奇点";
+
+    //牛顿万有引力公式(第三子选项卡)、爱因斯坦场方程(第四子选项卡)
+    //用 typeof 判断:script_h6_3.js 未加载或未解析成功时只跳过这一步,不让整个刷新崩掉
+    (document.getElementById('h6_3_1').style.display !== 'none' && typeof updateUI_h6_3_1 === 'function') && updateUI_h6_3_1();
+    (document.getElementById('h6_3_2').style.display !== 'none' && typeof updateUI_h6_3_2 === 'function') && updateUI_h6_3_2();
 }
 
 //计算函数

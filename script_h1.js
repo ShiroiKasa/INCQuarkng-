@@ -1,6 +1,23 @@
+//费米子四种夸克加成(派生值)
+//粲夸克加成的 h5_quark_max 在 script_h5.js 的 h5_hans 中读取本函数算出的 h1_2_up3_buff
+function h1_2_buff_hans(){
+    //上夸克:费米子产量*(1+log10(上夸克))
+    h1_2_up1_buff = h1_2_up1.gte(1) ? new Decimal(1).plus(h1_2_up1.log(10)) : new Decimal(1);
+    //下夸克:夸克数量自身每秒自增*(1+1e-6*log10(下夸克))
+    //不再参与夸克产量,h1_2_up2_buff 现在只在 global_inc 里当自增倍率用
+    h1_2_up2_buff = h1_2_up2.gte(1) ? new Decimal(1).plus(h1_2_up2.log(10).times(1e-7)) : new Decimal(1);
+    //粲夸克:最大夸克数量*10^(0.1*log2(粲夸克))
+    h1_2_up3_buff = h1_2_up3.gte(1) ? Decimal.pow(10, h1_2_up3.log(2).times(0.1)) : new Decimal(1);
+    //奇夸克:夸克层级所有升级费用/(1+奇夸克)
+    h1_2_up4_buff = Decimal.max(1, new Decimal(1).plus(h1_2_up4));
+}
+
 //UI刷新
 //h1
 function updateUI_h1(){
+    //先算好四种夸克加成(下夸克影响本界面产量,奇夸克影响本界面费用)
+    h1_2_buff_hans();
+
     let b1_re = document.getElementById('h1_re_b');
     b1_re.style.visibility = quark_max.gte(1000) ? 'visible' : 'hidden';
     b1_re.style.opacity = Quark.gte(1000) ? '1' : '0.5';
@@ -26,33 +43,75 @@ function updateUI_h1(){
     let clickTotal = clickBase.plus(clickBonus);
     document.getElementById("Quark+").innerHTML = "夸克+" + formatDecimal(clickTotal);
 
-    //点击产量升级按钮（费用 = (等级)^2 + 1）
+    //夸克层级升级费用统一除以(1+奇夸克)
+    let h1_cost_div = h1_2_up4_buff;
+
+    //点击产量升级按钮（费用 = ((等级)^2 + 1) / (1+奇夸克)）
     let b1_1_1 = document.getElementById('h1_up1_1_button');
-    let clickCost = h1_up1_1.pow(2).plus(1);
+    let clickCost = h1_up1_1.pow(2).plus(1).div(h1_cost_div);
     b1_1_1.style.opacity = Quark.gte(clickCost) ? '1' : '0.5';
     document.getElementById("h1_up1_1_button").innerHTML = "+1点击产量" + formatDecimal(h1_up1_1) + "级 费用:" + formatDecimal(clickCost) + "夸克";
 
     //自动生成器升级按钮（费用 = 2^等级 × 10）
     let b1_2 = document.getElementById('h1_up2_button');
-    let genCost = Decimal.pow(1.2, h1_up1).times(10);
+    let genCost = Decimal.pow(1.2, h1_up1).times(10).div(h1_cost_div);
     b1_2.style.opacity = Quark.gte(genCost) ? '1' : '0.5';
     document.getElementById("h1_up2_button").innerHTML = "夸克产量+" + formatDecimal(h1_up1) + " 费用:" + formatDecimal(genCost) + "夸克";
 
     let b1_3 = document.getElementById("h1_up3_button");
-    let h1_up3_cost = Decimal.pow(1.5, h1_up3).times(100);
+    let h1_up3_cost = Decimal.pow(1.5, h1_up3).times(100).div(h1_cost_div);
     b1_3.style.opacity = Quark.gte(h1_up3_cost) ? '1' : '0.5';
     document.getElementById("h1_up3_button").innerHTML = "夸克产量*" + formatDecimal(h1_up3.plus(1)) + " 费用:" + formatDecimal(h1_up3_cost) + "夸克";
 
     let b1_4 = document.getElementById("h1_up4_button");
-    let h1_up4_cost = Decimal.pow(1e3, Decimal.pow(1.2, h1_up4));
+    let h1_up4_cost = Decimal.pow(1e3, Decimal.pow(1.2, h1_up4)).div(h1_cost_div);
     b1_4.style.opacity = Quark.gte(h1_up4_cost) ? '1' : '0.5';
     document.getElementById("h1_up4_button").innerHTML = "夸克产量^" + formatDecimal(h1_up4.div(10).plus(1)) + " 费用:" + formatDecimal(h1_up4_cost) + "夸克";
+
+    //费米子+(铑解锁)
+    let h1_up5_cost = Decimal.pow(1e10, Decimal.pow(1.3, h1_up5)).div(h1_cost_div);
+    let b1_5 = document.getElementById("h1_up5");
+    b1_5.style.opacity = Quark.gte(h1_up5_cost) ? '1' : '0.5';
+    document.getElementById("h1_up5").innerHTML = "费米子+" + formatDecimal(h1_up5) + " 费用:" + formatDecimal(h1_up5_cost) + "夸克";
+
+    //费米子界面(钯解锁)
+    document.getElementById("h1_2_fermion_txt").innerHTML = "费米子:" + formatDecimal(h1_2_fermion) + " +" + formatDecimal(h1_2_fermion_js.times(h5_time_buff)) + "/s";
+
+    //转化按钮:本次转化量不足时置灰
+    let b1_2_zhuanhua = h1_2_fermion.times(h1_2_ratio).gt(0) ? '1' : '0.5';
+    let b1_2_up1 = document.getElementById('h1_2_up1_b');
+    b1_2_up1.style.opacity = b1_2_zhuanhua;
+    b1_2_up1.innerHTML = "上夸克:" + formatDecimal(h1_2_up1) + "<br>费米子产量*" + formatDecimal(h1_2_up1_buff);
+    let b1_2_up2 = document.getElementById('h1_2_up2_b');
+    b1_2_up2.style.opacity = b1_2_zhuanhua;
+    b1_2_up2.innerHTML = "下夸克:" + formatDecimal(h1_2_up2) + "<br>夸克自增*" + formatDecimal(h1_2_up2_buff);
+    let b1_2_up3 = document.getElementById('h1_2_up3_b');
+    b1_2_up3.style.opacity = b1_2_zhuanhua;
+    b1_2_up3.innerHTML = "粲夸克:" + formatDecimal(h1_2_up3) + "<br>最大夸克数量*" + formatDecimal(h1_2_up3_buff);
+    let b1_2_up4 = document.getElementById('h1_2_up4_b');
+    b1_2_up4.style.opacity = b1_2_zhuanhua;
+    b1_2_up4.innerHTML = "奇夸克:" + formatDecimal(h1_2_up4) + "<br>夸克升级费用/" + formatDecimal(h1_2_up4_buff);
+
+    //转化比例按钮
+    let h1_2_ratio_bts = [
+        ['h1_2_ratio1_b', 0.01],
+        ['h1_2_ratio5_b', 0.05],
+        ['h1_2_ratio10_b', 0.1],
+        ['h1_2_ratio50_b', 0.5],
+        ['h1_2_ratio100_b', 1]
+    ];
+    for (let i = 0; i < h1_2_ratio_bts.length; i++){
+        document.getElementById(h1_2_ratio_bts[i][0]).style.opacity = (h1_2_ratio === h1_2_ratio_bts[i][1]) ? '1' : '0.5';
+    }
 }
 //h1
 function h1_hans(){
     if (quark_max.eq(1) && game_tc === 0){
         showModal('第一个夸克', '您获得了第一个夸克！接下来只需要想办法获取更多的夸克就好，祝您游戏愉快!', () => {game_tc = 1}, null, true);
     }
+    //费米子四种夸克加成(上夸克参与费米子产量,下夸克改为在 global_inc 里让夸克数量自增)
+    h1_2_buff_hans();
+
     //buff判断
     let cp_up1_buff = cp_up1 + 1;
 
@@ -118,6 +177,11 @@ function h1_hans(){
         Quark_js = Quark_js.times(sk_2_buff1);
     };
 
+    //弦论:牛顿万有引力公式(公式F,即h6_3_1buff)直接加成夸克秒产
+    Quark_js = Quark_js.times(h6_3_1buff);
+
+    //注:下夸克的加成已从"夸克产量"改为"夸克数量自增",见 script.js 的 global_inc
+
 
     //溢出函数
     if (Quark_js.gte(h5_quark_max)){
@@ -171,6 +235,10 @@ function h1_hans(){
     }else{
         h2_ziyuan_js = new Decimal(0);
     }
+
+    //费米子:每秒产量=max(slog₃(夸克),0)*0.1*费米子+等级,最后乘上夸克加成
+    //夸克不足1时slog₃为负,按0处理
+    h1_2_fermion_js = Decimal.max(Quark.slog(3), 0).times(0.1).times(h1_up5).times(h1_2_up1_buff);
 }
 
 //夸克+
@@ -182,7 +250,7 @@ function h1_up1_button(){
 
 //+1点击产量
 function h1_up1_1_button(){
-    let cost = h1_up1_1.pow(2).plus(1);
+    let cost = h1_up1_1.pow(2).plus(1).div(h1_2_up4_buff);
     if (Quark.gte(cost)) {
         Quark = Quark.minus(cost);
         h1_up1_1 = h1_up1_1.plus(1);
@@ -192,7 +260,7 @@ function h1_up1_1_button(){
 
 //夸克产量+
 function h1_up2_button(){
-    let cost = Decimal.pow(1.2, h1_up1).times(10);
+    let cost = Decimal.pow(1.2, h1_up1).times(10).div(h1_2_up4_buff);
     if (Quark.gte(cost)) {
         Quark = Quark.minus(cost);
         h1_up1 = h1_up1.plus(1);
@@ -202,7 +270,7 @@ function h1_up2_button(){
 }
 //夸克产量*
 function h1_up3_button(){
-    let cost = Decimal.pow(1.5, h1_up3).times(100);
+    let cost = Decimal.pow(1.5, h1_up3).times(100).div(h1_2_up4_buff);
     if (Quark.gte(cost)) {
         Quark = Quark.minus(cost);
         h1_up3 = h1_up3.plus(1);
@@ -213,13 +281,77 @@ function h1_up3_button(){
 
 //夸克产量^
 function h1_up4_button(){
-    let cost = Decimal.pow(1e3, Decimal.pow(1.2, h1_up4));
+    let cost = Decimal.pow(1e3, Decimal.pow(1.2, h1_up4)).div(h1_2_up4_buff);
     if (Quark.gte(cost)) {
         Quark = Quark.minus(cost);
         h1_up4 = h1_up4.plus(1);
         updateUI_h1();
         h1_js_re = 1;
     }
+}
+
+//费米子+(铑解锁)
+function h1_up5_button(){
+    let cost = Decimal.pow(1e10, Decimal.pow(1.3, h1_up5)).div(h1_2_up4_buff);
+    if (Quark.gte(cost)) {
+        Quark = Quark.minus(cost);
+        h1_up5 = h1_up5.plus(1);
+        updateUI_h1();
+        h1_js_re = 1;
+    }
+}
+
+//费米子转化:把当前费米子的 h1_2_ratio 比例转化为指定夸克
+function h1_2_convert(upgradeVarName){
+    let amount = h1_2_fermion.times(h1_2_ratio);
+    if (amount.lte(0)) return;
+
+    h1_2_fermion = h1_2_fermion.minus(amount);
+    switch (upgradeVarName){
+        case "h1_2_up1": h1_2_up1 = h1_2_up1.plus(amount); break;
+        case "h1_2_up2": h1_2_up2 = h1_2_up2.plus(amount); break;
+        case "h1_2_up3": h1_2_up3 = h1_2_up3.plus(amount); break;
+        case "h1_2_up4": h1_2_up4 = h1_2_up4.plus(amount); break;
+    }
+
+    h1_2_buff_hans();//立即重算四种夸克加成
+    h1_js_re = 1;//上夸克/奇夸克影响夸克层级计算(下夸克改为夸克数量自增,在 global_inc 里生效)
+    h5_js_re = 1;//粲夸克影响 h5_quark_max
+    updateUI_h1();
+}
+
+function h1_2_up1_button(){
+    h1_2_convert('h1_2_up1');
+}
+function h1_2_up2_button(){
+    h1_2_convert('h1_2_up2');
+}
+function h1_2_up3_button(){
+    h1_2_convert('h1_2_up3');
+}
+function h1_2_up4_button(){
+    h1_2_convert('h1_2_up4');
+}
+
+//转化比例切换
+function h1_2_ratio_cut(ratio){
+    h1_2_ratio = ratio;
+    updateUI_h1();
+}
+function h1_2_ratio1_button(){
+    h1_2_ratio_cut(0.01);
+}
+function h1_2_ratio5_button(){
+    h1_2_ratio_cut(0.05);
+}
+function h1_2_ratio10_button(){
+    h1_2_ratio_cut(0.1);
+}
+function h1_2_ratio50_button(){
+    h1_2_ratio_cut(0.5);
+}
+function h1_2_ratio100_button(){
+    h1_2_ratio_cut(1);
 }
 
 function h1_re_button(){
@@ -254,5 +386,17 @@ document.getElementById('h1_up1_1_button').addEventListener('click', h1_up1_1_bu
 document.getElementById('h1_up2_button').addEventListener('click', h1_up2_button);
 document.getElementById('h1_up3_button').addEventListener('click', h1_up3_button);
 document.getElementById('h1_up4_button').addEventListener('click', h1_up4_button);
+document.getElementById('h1_up5').addEventListener('click', h1_up5_button);
+
+document.getElementById('h1_2_up1_b').addEventListener('click', h1_2_up1_button);
+document.getElementById('h1_2_up2_b').addEventListener('click', h1_2_up2_button);
+document.getElementById('h1_2_up3_b').addEventListener('click', h1_2_up3_button);
+document.getElementById('h1_2_up4_b').addEventListener('click', h1_2_up4_button);
+
+document.getElementById('h1_2_ratio1_b').addEventListener('click', h1_2_ratio1_button);
+document.getElementById('h1_2_ratio5_b').addEventListener('click', h1_2_ratio5_button);
+document.getElementById('h1_2_ratio10_b').addEventListener('click', h1_2_ratio10_button);
+document.getElementById('h1_2_ratio50_b').addEventListener('click', h1_2_ratio50_button);
+document.getElementById('h1_2_ratio100_b').addEventListener('click', h1_2_ratio100_button);
 
 document.getElementById('h1_re_b').addEventListener('click', h1_re_button);

@@ -83,10 +83,24 @@ function updateUI_h5(){
 function h5_hans(){
     //弦论:弦加成必须在使用前算好(奇点弦同时影响时间碎片产量与奇点获取量)
     h6_1_hans();
+    //弦论:两套新公式的buff(牛顿F、爱因斯坦Rμν)必须在下面读取之前算好
+    //用 typeof 判断:script_h6_3.js 未加载时只跳过,不打断每帧计算
+    (typeof h6_3_1_hans === 'function') && h6_3_1_hans();
+    (typeof h6_3_2_hans === 'function') && h6_3_2_hans();
 
     let h5_time_buff_js1 = Decimal.pow(new Decimal(h5_time_confetti.plus(2).log(2)).plus(h5_up5).times(h5_up6.plus(1)),h5_up7.div(15).plus(1));
     let h5_time_buff_js2 = Decimal.max(h2_2_up1.times(10),1);
     let h5_time_buff_js = h5_time_buff_js1.times(h5_time_buff_js2);
+    if (sk_4_ing === 1){
+        //蚀刻·时间:蚀刻中游戏倍率强制为1e-10
+        //必须放在所有加成之后:爱因斯坦Rμν是多项式增长的(动辄1e10以上),
+        h5_time_buff_js = new Decimal(1e-10);
+    }else{
+        //弦论:爱因斯坦场方程(公式Rμν)加成游戏倍率
+        h5_time_buff_js = h5_time_buff_js.times(h6_3_2buff);
+        //蚀刻·时间:奖励倍率(蚀刻中不生效)
+        h5_time_buff_js = h5_time_buff_js.times(sk_4_buff);
+    }
     //F₂(纯净物):全局游戏倍率^0.1
     //基数来自 log/加法/乘法,恒为非负,故取 0.1 次方不会产生 NaN
     h2_2_up6.eq(1) && (h5_time_buff_js = h5_time_buff_js.pow(0.1));
@@ -102,7 +116,8 @@ function h5_hans(){
 
     h5_time_buff_quark = Decimal.pow(Decimal.pow(h5_up8.plus(1),h5_up9.plus(1)),Decimal.pow(h5_up10.div(5).plus(1),Decimal.pow(h5_up10.div(5).plus(1),h5_up10.div(5).plus(1))));
 
-    h5_quark_max = new Decimal(1e180).times(Decimal.pow(1e3,h5_up11)).times(Decimal.pow(4.2,h5_up12));
+    //粲夸克(费米子):最大夸克数量*10^(0.1*log2(粲夸克))
+    h5_quark_max = new Decimal(1e180).times(Decimal.pow(1e3,h5_up11)).times(Decimal.pow(4.2,h5_up12)).times(h1_2_up3_buff);
 
     //铷(奇点元素):奇点坍塌次数加成奇点获取量
     let h2_up37_buff = new Decimal(1);
@@ -113,6 +128,10 @@ function h5_hans(){
 
     //O₂(纯净物):奇点产量*2
     h2_2_up3.eq(1) && (h6_ziyuan_js = h6_ziyuan_js.times(2));
+    //弦论:爱因斯坦场方程(公式Rμν)加成奇点获取量
+    //h6_3_2buff 已是"0级=1"的净倍率,故直接相乘(与牛顿F加成夸克产量的口径一致)
+    //注:原设计为 log10(Rμν)*π,但那样0级只有0.55倍(等于减益),与"0级无加成"冲突,故改为直接相乘
+    h6_ziyuan_js = h6_ziyuan_js.times(h6_3_2buff);
 }
 
 function h5_up1_button(){

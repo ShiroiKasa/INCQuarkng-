@@ -36,10 +36,17 @@ function h2_xs_hans(){
     document.getElementById('h2_1').style.display = 'none';
     document.getElementById('h2_2').style.display = 'none';
 }
+//h1子界面切换函数(钯解锁"费米子"子选项卡)
+function h1_xs_hans(){
+    document.getElementById('h1_1').style.display = 'none';
+    document.getElementById('h1_2').style.display = 'none';
+}
 //h6子界面切换函数
 function h6_xs_hans(){
     document.getElementById('h6_1').style.display = 'none';
     document.getElementById('h6_2').style.display = 'none';
+    document.getElementById('h6_3_1').style.display = 'none';
+    document.getElementById('h6_3_2').style.display = 'none';
 }
 //主界面
 function h1_cut_hans(){
@@ -112,6 +119,16 @@ function h2_2_cut_hans(){
     document.getElementById('h2_2').style.display = 'block';
 }
 
+//h1子界面
+function h1_1_cut_hans(){
+    h1_xs_hans();
+    document.getElementById('h1_1').style.display = 'block';
+}
+function h1_2_cut_hans(){
+    h1_xs_hans();
+    document.getElementById('h1_2').style.display = 'block';
+}
+
 //h6子界面
 function h6_1_cut_hans(){
     h6_xs_hans();
@@ -120,6 +137,14 @@ function h6_1_cut_hans(){
 function h6_2_cut_hans(){
     h6_xs_hans();
     document.getElementById('h6_2').style.display = 'block';
+}
+function h6_3_1_cut_hans(){
+    h6_xs_hans();
+    document.getElementById('h6_3_1').style.display = 'block';
+}
+function h6_3_2_cut_hans(){
+    h6_xs_hans();
+    document.getElementById('h6_3_2').style.display = 'block';
 }
 
 //绑定按钮事件
@@ -137,5 +162,15 @@ document.getElementById('stat_cut').addEventListener('click', stat_cut_hans);
 document.getElementById('h2_1_cut').addEventListener('click', h2_1_cut_hans);
 document.getElementById('h2_2_cut').addEventListener('click', h2_2_cut_hans);
 
+document.getElementById('h1_1_cut').addEventListener('click', h1_1_cut_hans);
+document.getElementById('h1_2_cut').addEventListener('click', h1_2_cut_hans);
+
 document.getElementById('h6_1_cut').addEventListener('click', h6_1_cut_hans);
 document.getElementById('h6_2_cut').addEventListener('click', h6_2_cut_hans);
+//弦论新增的两个子选项卡(锝、钌解锁):元素缺失时跳过,不影响前面的绑定
+(function(){
+    let b1 = document.getElementById('h6_3_1_cut');
+    let b2 = document.getElementById('h6_3_2_cut');
+    b1 && b1.addEventListener('click', h6_3_1_cut_hans);
+    b2 && b2.addEventListener('click', h6_3_2_cut_hans);
+})();

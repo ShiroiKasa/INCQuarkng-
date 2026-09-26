@@ -2,6 +2,7 @@
 //资源项配置:id=变量名后缀(与 global_var.js 对应),name=显示名,color=层级主题色
 const res_defs = [
     { id: "Quark",            name: "夸克",     color: "#ff6600" },
+    { id: "h1_2_fermion",     name: "费米子",   color: "#ff6600" },
     { id: "h2_ziyuan",        name: "原子",     color: "#f78ae5" },
     { id: "h3_ziyuan",        name: "引力子",   color: "#65a6c9" },
     { id: "h4_ziyuan",        name: "暗物质",   color: "#2db3fb" },
@@ -56,6 +57,7 @@ function res_value_text(id){
     switch (id){
         //夸克在未解锁h5时会被钳制在1.01e308,与h1界面保持一致显示INF
         case "Quark": return (Quark.gte(1e308) && h5_re.eq(0)) ? "INF" : formatDecimalCompact(Quark);
+        case "h1_2_fermion": return formatDecimalCompact(h1_2_fermion);
         case "h2_ziyuan": return formatDecimalCompact(h2_ziyuan);
         case "h3_ziyuan": return formatDecimalCompact(h3_ziyuan);
         case "h4_ziyuan": return formatDecimalCompact(h4_ziyuan);
@@ -72,6 +74,7 @@ function res_value_text(id){
 function res_unlock(id){
     switch (id){
         case "Quark": return 1;//夸克始终解锁
+        case "h1_2_fermion": return h2_up45.gte(1) ? 1 : 0;//铑:费米子+解锁后才会有费米子
         case "h2_ziyuan": return h1_re.gte(1) ? 1 : 0;
         case "h3_ziyuan": return h2_re.gte(1) ? 1 : 0;
         case "h4_ziyuan": return h3_re.gte(1) ? 1 : 0;
@@ -88,6 +91,7 @@ function res_unlock(id){
 function res_show_read(id){
     switch (id){
         case "Quark": return res_show_Quark;
+        case "h1_2_fermion": return res_show_h1_2_fermion;
         case "h2_ziyuan": return res_show_h2_ziyuan;
         case "h3_ziyuan": return res_show_h3_ziyuan;
         case "h4_ziyuan": return res_show_h4_ziyuan;
@@ -104,6 +108,7 @@ function res_show_read(id){
 function res_show_write(id, val){
     switch (id){
         case "Quark": res_show_Quark = val; break;
+        case "h1_2_fermion": res_show_h1_2_fermion = val; break;
         case "h2_ziyuan": res_show_h2_ziyuan = val; break;
         case "h3_ziyuan": res_show_h3_ziyuan = val; break;
         case "h4_ziyuan": res_show_h4_ziyuan = val; break;

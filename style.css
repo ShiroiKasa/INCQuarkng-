@@ -204,6 +204,63 @@ button:hover {
     color: #ffffff !important;
 }
 
+/* h6_3 公式展示框(牛顿万有引力公式、爱因斯坦场方程) */
+#h6 .fx-box {
+    width: 900px;
+    max-width: 95vw;
+    box-sizing: border-box;
+    padding: 12px 20px;
+    margin: 10px 0;
+    border: 2px solid #ecbe02;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+#h6 .fx-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* 公式行:整体水平居中,分式与符号共用基线 */
+#h6 .fx-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1.4;
+}
+
+/* 分式:分子/横线/分母纵向排列 */
+#h6 .fx-frac {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+}
+
+#h6 .fx-num,
+#h6 .fx-den {
+    display: block;
+    padding: 0 8px;
+    line-height: 1.2;
+}
+
+#h6 .fx-bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #ecbe02;
+}
+
+#h6 .fx-note {
+    font-size: 14px;
+    margin-top: 8px;
+}
+
 /* 核心资源条 */
 .res-bar {
     display: flex;

@@ -163,6 +163,19 @@ function updateUI_stat(){
     document.getElementById("h4_re_stat").innerHTML = "时间扭曲次数:" + formatDecimal(h4_re);
     document.getElementById("h5_ziyuan_MAX").innerHTML = "最大时间点数量:" + formatDecimal(h5_ziyuan_max);
     document.getElementById("h5_re_stat").innerHTML = "奇点坍塌次数:" + formatDecimal(h5_re);
+
+    //A4纸统计:把最大夸克数量写成十进制需要的纸张数(每张纸4000位),每张纸5克
+    let A4_paper_count = Decimal.max(quark_max, 1).log10().div(4000);
+    let A4_paper_weight = A4_paper_count.times(5);
+    let A4_paper_weight_txt = "";
+    if (A4_paper_weight.lt(1000)){
+        A4_paper_weight_txt = formatDecimal(A4_paper_weight) + "克";
+    }else if (A4_paper_weight.lt(1e6)){
+        A4_paper_weight_txt = formatDecimal(A4_paper_weight.div(1000)) + "千克";
+    }else{
+        A4_paper_weight_txt = formatDecimal(A4_paper_weight.div(1e6)) + "吨";
+    }
+    document.getElementById("A4_paper_stat").innerHTML = "写下您拥有的夸克数量需要" + formatDecimal(A4_paper_count) + "张A4纸，这些A4纸的总重为" + A4_paper_weight_txt;
 }
 //可见性
 //总可见性
@@ -200,6 +213,30 @@ function UIvisible_h1(){
         b2_4_auto.style.display = 'none';
     }
     document.getElementById("h1_up4auto_b").innerHTML = (h1_up4_auto === 1) ? "自动:开" : "自动:关";
+
+    //铑(奇点元素):费米子+与其实自动化
+    let h1_up5_b = document.getElementById('h1_up5');
+    let b1_5_auto = document.getElementById('h1_up5auto_b');
+    if (h2_up45.gte(1)){
+        h1_up5_b.style.display = 'block';
+        b1_5_auto.style.display = 'block';
+    }else{
+        h1_up5_b.style.display = 'none';
+        b1_5_auto.style.display = 'none';
+    }
+    document.getElementById("h1_up5auto_b").innerHTML = (h1_up5_auto === 1) ? "自动:开" : "自动:关";
+
+    //钯(奇点元素):"费米子"子选项卡
+    //未解锁时不显示任何子选项卡按钮(只有一个子界面时不需要切换按钮)
+    let b1_1_cut = document.getElementById('h1_1_cut');
+    let b1_2_cut = document.getElementById('h1_2_cut');
+    if (h2_up46.gte(1)){
+        b1_1_cut.style.display = 'block';
+        b1_2_cut.style.display = 'block';
+    }else{
+        b1_1_cut.style.display = 'none';
+        b1_2_cut.style.display = 'none';
+    }
 }
 
 //h2
@@ -317,6 +354,10 @@ function UIvisible_h2(){
     h5_re.gte(1) ? b2_41_b.style.display = 'block' : b2_41_b.style.display = 'none';
     h5_re.gte(1) ? b2_42_b.style.display = 'block' : b2_42_b.style.display = 'none';
 
+    //锝、钌(奇点元素):分别解锁弦论层级的两个新子选项卡
+    //用 typeof 判断:script_h2.js 未加载或未解析成功时只跳过这一步,不让整个刷新崩掉
+    (typeof h2_3_hans === 'function') && h2_3_hans();
+
     //锆(奇点元素):解锁纯净物O₂、O₃、Ne、F₂
     let b2_1_up3_b = document.getElementById('h2_1_up3_b');
     let b2_1_up4_b = document.getElementById('h2_1_up4_b');
@@ -399,7 +440,8 @@ function UIvisible_h5(){
 }
 
 function UIvisible_h6(){
-
+    //锝、钌解锁的两个子选项卡按钮(牛顿万有引力公式、爱因斯坦场方程)
+    (typeof UIvisible_h6_3 === 'function') && UIvisible_h6_3();
 }
 
 //计算函数
@@ -407,6 +449,15 @@ function UIvisible_h6(){
 function global_inc(dt) {
     Quark = Quark.plus(Quark_js.times(dt).times(h5_time_buff));
     if (Quark.lt(0)) Quark = new Decimal(0);
+
+    //费米子:下夸克让夸克数量自身按 (1+1e-6*log10(下夸克)) 每秒自增,不再加成夸克产量
+    //指数只取 dt:自增不吃 h5_time_buff——游戏倍率动辄 1e10 以上,
+    //当指数会把"每秒×倍率"放大成倍率的次方,几秒钟就多重指数爆炸
+    h1_2_up2_buff.gt(1) && (Quark = Quark.times(Decimal.pow(h1_2_up2_buff, dt)));
+
+    //费米子(铑解锁的费米子+):与其它资源一样受游戏倍率加成
+    h1_2_fermion = h1_2_fermion.plus(h1_2_fermion_js.times(dt).times(h5_time_buff));
+    if (h1_2_fermion.lt(0)) h1_2_fermion = new Decimal(0);
 
     h2_e = h2_e.plus(h2_e_js.times(dt).times(h5_time_buff));
     h2_p = h2_p.plus(h2_p_js.times(dt).times(h5_time_buff));
@@ -492,6 +543,12 @@ function formatGameTime(totalSeconds){
 
     //分层提取各个时间单位
     const years = s.div(YEAR_SEC).floor();
+
+    //年数极大时不再拼接天/小时/分钟/秒:直接给格式化年数,避免出现超长尾数
+    if (years.gte(10000)){
+        return formatDecimal(years) + "年";
+    }
+
     let rem = s.minus(years.mul(YEAR_SEC));
 
     const days = rem.div(DAY_SEC).floor();
@@ -554,9 +611,6 @@ function startAutoProduction(){
         };
 
 
-        // 先刷新 UI
-        jiemian_re(); 
-
         // 自动化
         global_auto();
 
@@ -571,6 +625,10 @@ function startAutoProduction(){
         (h6_js_re === 1) && (h6_hans(), h6_js_re -= 1);
         cp_ds_sj();
         global_inc(dt);       // 传入 dt
+
+        // 最后刷新 UI:屏幕上的秒产与本帧实际结算用的是同一份数值
+        // 放到前面刷会出现"帧残留":界面显示的是上一帧(甚至蚀刻切换前)的产量
+        jiemian_re(); 
     }, 16);
 }
 
@@ -710,6 +768,7 @@ function getGameState() {
         h1_up2_auto: h1_up2_auto,
         h1_up3_auto: h1_up3_auto,
         h1_up4_auto: h1_up4_auto,
+        h1_up5_auto: h1_up5_auto,
         h3_up1_auto: h3_up1_auto,
         h3_up2_auto: h3_up2_auto,
         h3_up3_auto: h3_up3_auto,
@@ -726,11 +785,21 @@ function getGameState() {
         sk_2_MAX: sk_2_MAX.toString(),
         sk_3_ing: sk_3_ing,
         sk_3_MAX: sk_3_MAX.toString(),
+        sk_4_ing: sk_4_ing,
+        sk_4_MAX: sk_4_MAX.toString(),
+        sk_4_buff: sk_4_buff.toString(),
 
         h1_up1: h1_up1.toString(),
         h1_up1_1: h1_up1_1.toString(),
         h1_up3: h1_up3.toString(),
         h1_up4: h1_up4.toString(),
+        h1_up5: h1_up5.toString(),
+        h1_2_fermion: h1_2_fermion.toString(),
+        h1_2_ratio: h1_2_ratio,
+        h1_2_up1: h1_2_up1.toString(),
+        h1_2_up2: h1_2_up2.toString(),
+        h1_2_up3: h1_2_up3.toString(),
+        h1_2_up4: h1_2_up4.toString(),
         h1_re: h1_re.toString(),
 
         h2_ziyuan: h2_ziyuan.toString(),
@@ -783,6 +852,11 @@ function getGameState() {
         h2_up40: h2_up40.toString(),
         h2_up41: h2_up41.toString(),
         h2_up42: h2_up42.toString(),
+        h2_up43: h2_up43.toString(),
+        h2_up44: h2_up44.toString(),
+        h2_up45: h2_up45.toString(),
+        h2_up46: h2_up46.toString(),
+        h2_up47: h2_up47.toString(),
         h2_2_ziyuan: h2_2_ziyuan.toString(),
         h2_2_up1: h2_2_up1.toString(),
         h2_2_up2: h2_2_up2.toString(),
@@ -887,8 +961,30 @@ function getGameState() {
         h6_1_up9: h6_1_up9.toString(),
         h6_1_up10: h6_1_up10.toString(),
 
+        h6_3_1up1: h6_3_1up1.toString(),
+        h6_3_1up2: h6_3_1up2.toString(),
+        h6_3_1up3: h6_3_1up3.toString(),
+        h6_3_1up4: h6_3_1up4.toString(),
+        h6_3_1up5: h6_3_1up5.toString(),
+        h6_3_1up6: h6_3_1up6.toString(),
+        h6_3_1up7: h6_3_1up7.toString(),
+        h6_3_1up8: h6_3_1up8.toString(),
+        h6_3_1up9: h6_3_1up9.toString(),
+        h6_3_1up10: h6_3_1up10.toString(),
+        h6_3_1up11: h6_3_1up11.toString(),
+        h6_3_1up12: h6_3_1up12.toString(),
+
+        h6_3_2up1: h6_3_2up1.toString(),
+        h6_3_2up2: h6_3_2up2.toString(),
+        h6_3_2up3: h6_3_2up3.toString(),
+        h6_3_2up4: h6_3_2up4.toString(),
+        h6_3_2up5: h6_3_2up5.toString(),
+        h6_3_2up6: h6_3_2up6.toString(),
+        h6_3_2up7: h6_3_2up7.toString(),
+
         //核心资源条显示开关
         res_show_Quark: res_show_Quark,
+        res_show_h1_2_fermion: res_show_h1_2_fermion,
         res_show_h2_ziyuan: res_show_h2_ziyuan,
         res_show_h3_ziyuan: res_show_h3_ziyuan,
         res_show_h4_ziyuan: res_show_h4_ziyuan,
@@ -948,6 +1044,7 @@ function applyGameState(state) {
     h1_up2_auto = (state.h1_up2_auto === 1) ? 1 : 0;
     h1_up3_auto = (state.h1_up3_auto === 1) ? 1 : 0;
     h1_up4_auto = (state.h1_up4_auto === 1) ? 1 : 0;
+    h1_up5_auto = (state.h1_up5_auto === 1) ? 1 : 0;
     h3_up1_auto = (state.h3_up1_auto === 1) ? 1 : 0;
     h3_up2_auto = (state.h3_up2_auto === 1) ? 1 : 0;
     h3_up3_auto = (state.h3_up3_auto === 1) ? 1 : 0;
@@ -964,12 +1061,27 @@ function applyGameState(state) {
     sk_2_MAX = sanitizeDecimal(state.sk_2_MAX);
     sk_3_ing = (state.sk_3_ing === 1) ? 1 : 0;
     sk_3_MAX = sanitizeDecimal(state.sk_3_MAX);
-    sk_ing_hans();//按三种蚀刻状态重算 sk_ing
+    sk_4_ing = (state.sk_4_ing === 1) ? 1 : 0;
+    sk_4_MAX = sanitizeDecimal(state.sk_4_MAX);
+    //奖励倍率缺省为1(中性值,旧存档不影响游戏倍率)
+    sk_4_buff = sanitizeDecimal(state.sk_4_buff, 1);
+    (sk_4_buff.lt(1)) && (sk_4_buff = new Decimal(1));
+    sk_ing_hans();//按四种蚀刻状态重算 sk_ing
 
     h1_up1 = sanitizeDecimal(state.h1_up1);
     h1_up1_1 = sanitizeDecimal(state.h1_up1_1);
     h1_up3 = sanitizeDecimal(state.h1_up3);
     h1_up4 = sanitizeDecimal(state.h1_up4);
+    h1_up5 = sanitizeDecimal(state.h1_up5);
+    h1_2_fermion = sanitizeDecimal(state.h1_2_fermion);
+    h1_2_up1 = sanitizeDecimal(state.h1_2_up1);
+    h1_2_up2 = sanitizeDecimal(state.h1_2_up2);
+    h1_2_up3 = sanitizeDecimal(state.h1_2_up3);
+    h1_2_up4 = sanitizeDecimal(state.h1_2_up4);
+    //转化比例:非法值(缺失/非正数/NaN)一律回落到1%
+    h1_2_ratio = (typeof state.h1_2_ratio === 'number' && isFinite(state.h1_2_ratio) && state.h1_2_ratio > 0) ? state.h1_2_ratio : 0.01;
+    //按新数量立即重算四种夸克加成(script.js 先于 script_h1.js 解析,首次读档时该函数还不存在,跳过即可)
+    (typeof h1_2_buff_hans === 'function') && h1_2_buff_hans();
     h1_re = sanitizeDecimal(state.h1_re);
 
     h2_ziyuan = sanitizeDecimal(state.h2_ziyuan);
@@ -1022,6 +1134,11 @@ function applyGameState(state) {
     h2_up40 = sanitizeDecimal(state.h2_up40);
     h2_up41 = sanitizeDecimal(state.h2_up41);
     h2_up42 = sanitizeDecimal(state.h2_up42);
+    h2_up43 = sanitizeDecimal(state.h2_up43);
+    h2_up44 = sanitizeDecimal(state.h2_up44);
+    h2_up45 = sanitizeDecimal(state.h2_up45);
+    h2_up46 = sanitizeDecimal(state.h2_up46);
+    h2_up47 = sanitizeDecimal(state.h2_up47);
     h2_2_ziyuan = sanitizeDecimal(state.h2_2_ziyuan);
     h2_2_up1 = sanitizeDecimal(state.h2_2_up1);
     h2_2_up2 = sanitizeDecimal(state.h2_2_up2);
@@ -1126,11 +1243,35 @@ function applyGameState(state) {
     h6_1_up9 = sanitizeDecimal(state.h6_1_up9);
     h6_1_up10 = sanitizeDecimal(state.h6_1_up10);
 
+    h6_3_1up1 = sanitizeDecimal(state.h6_3_1up1);
+    h6_3_1up2 = sanitizeDecimal(state.h6_3_1up2);
+    h6_3_1up3 = sanitizeDecimal(state.h6_3_1up3);
+    h6_3_1up4 = sanitizeDecimal(state.h6_3_1up4);
+    h6_3_1up5 = sanitizeDecimal(state.h6_3_1up5);
+    h6_3_1up6 = sanitizeDecimal(state.h6_3_1up6);
+    h6_3_1up7 = sanitizeDecimal(state.h6_3_1up7);
+    h6_3_1up8 = sanitizeDecimal(state.h6_3_1up8);
+    h6_3_1up9 = sanitizeDecimal(state.h6_3_1up9);
+    h6_3_1up10 = sanitizeDecimal(state.h6_3_1up10);
+    h6_3_1up11 = sanitizeDecimal(state.h6_3_1up11);
+    h6_3_1up12 = sanitizeDecimal(state.h6_3_1up12);
+    (typeof h6_3_1_hans === 'function') && h6_3_1_hans();//按新等级立即重算牛顿buff(公式F)
+
+    h6_3_2up1 = sanitizeDecimal(state.h6_3_2up1);
+    h6_3_2up2 = sanitizeDecimal(state.h6_3_2up2);
+    h6_3_2up3 = sanitizeDecimal(state.h6_3_2up3);
+    h6_3_2up4 = sanitizeDecimal(state.h6_3_2up4);
+    h6_3_2up5 = sanitizeDecimal(state.h6_3_2up5);
+    h6_3_2up6 = sanitizeDecimal(state.h6_3_2up6);
+    h6_3_2up7 = sanitizeDecimal(state.h6_3_2up7);
+    (typeof h6_3_2_hans === 'function') && h6_3_2_hans();//按新等级立即重算爱因斯坦buff(公式Rμν)
+
     bgIndex = (state.bgIndex >= 0 && state.bgIndex < bgColors.length) ? state.bgIndex : 0;
     applyBackground();
 
     //核心资源条显示开关(旧存档缺少这些字段时默认全部显示)
     res_show_Quark = (state.res_show_Quark === 0) ? 0 : 1;
+    res_show_h1_2_fermion = (state.res_show_h1_2_fermion === 0) ? 0 : 1;
     res_show_h2_ziyuan = (state.res_show_h2_ziyuan === 0) ? 0 : 1;
     res_show_h3_ziyuan = (state.res_show_h3_ziyuan === 0) ? 0 : 1;
     res_show_h4_ziyuan = (state.res_show_h4_ziyuan === 0) ? 0 : 1;
@@ -1209,6 +1350,8 @@ initResBar();//核心资源条
 loadGame();
 h1_cut_hans();//界面切换
 UIvisible();//可见性刷新
+//注意:这里不能刷界面——script.js 在 script_h1.js~script_h6.js 之前加载,
+//此刻 updateUI_h1 等函数还不存在,刷界面会直接报错;首帧的帧末刷新会补上
 startAutoProduction();
 setInterval(saveGame, 300000);
 

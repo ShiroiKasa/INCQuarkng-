@@ -39,6 +39,9 @@ function auto11_cut(){
 function h5_up_auto_cut(){
     toggleAuto('h5_up_auto', 'h5_upauto_b');
 }
+function h1_up5_auto_cut(){
+    toggleAuto('h1_up5_auto', 'h1_up5auto_b');
+}
 //铌(奇点元素):铜~溴自动化(不消耗资源、无解锁门槛,可开关)
 const niobium_ups = ['h2_up29','h2_up30','h2_up31','h2_up32','h2_up33','h2_up34','h2_up35'];
 
@@ -53,18 +56,26 @@ function global_auto(){
     }
 
     if (h2_up8.gte(1) && Quark.gt(0)){
-        let h1_up1_max = Decimal.floor(Quark.div(10).log(1.2)).plus(1);
+        //奇夸克(费米子):夸克层级升级费用除以(1+奇夸克),可负担的等级随之提高
+        let h1_cost_quark = Quark.times(h1_2_up4_buff);
+        let h1_up1_max = Decimal.floor(h1_cost_quark.div(10).log(1.2)).plus(1);
         (h1_up2_auto === 1 && h1_up1_max.gt(h1_up1)) && (h1_up1 = h1_up1_max , h1_js_re = 1);
 
-        let h1_up3_max = Decimal.floor(Quark.div(100).log(1.5)).plus(1);
+        let h1_up3_max = Decimal.floor(h1_cost_quark.div(100).log(1.5)).plus(1);
         (h1_up3_auto === 1 && h1_up3_max.gt(h1_up3)) && (h1_up3 = h1_up3_max , h1_js_re = 1);
 
-        let h1_up4_max = Decimal.floor(new Decimal(Quark.log(1e3)).log(1.2)).plus(1);
+        let h1_up4_max = Decimal.floor(new Decimal(h1_cost_quark.log(1e3)).log(1.2)).plus(1);
         (h1_up4_auto === 1 && h1_up4_max.gt(h1_up4)) && (h1_up4 = h1_up4_max , h1_js_re = 1);
     }else if((h2_up4.gte(1))){
         (h1_up2_auto === 1) && (h1_up2_button());
         (h1_up3_auto === 1) && (h1_up3_button());
         (h1_up4_auto === 1) && (h1_up4_button());
+    }
+
+    //铑(奇点元素):费米子+自动化(消耗夸克,升级按钮路径相同)
+    if (h2_up45.gte(1) && h1_up5_auto === 1){
+        let h1_up5_cost = Decimal.pow(1e10, Decimal.pow(1.3, h1_up5)).div(h1_2_up4_buff);
+        (Quark.gte(h1_up5_cost)) && (Quark = Quark.minus(h1_up5_cost) , h1_up5 = h1_up5.plus(1) , h1_js_re = 1);
     }
 
     if (h2_up13.gte(1)){
@@ -221,3 +232,4 @@ document.getElementById('auto8_b').addEventListener('click', auto8_cut);
 document.getElementById('auto9_b').addEventListener('click', auto9_cut);
 document.getElementById('auto11_b').addEventListener('click', auto11_cut);
 document.getElementById('h5_upauto_b').addEventListener('click', h5_up_auto_cut);
+document.getElementById('h1_up5auto_b').addEventListener('click', h1_up5_auto_cut);

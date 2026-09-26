@@ -188,6 +188,25 @@ function updateUI_h2(){
     b2_42.style.opacity = (h2_up42.eq(1)) ? '1' : (h6_ziyuan.gte(1e6) ? '0.5' : '0.2');
     b2_42.classList.toggle('upgradable', h2_up42.lt(1) && h6_ziyuan.gte(1e6));
 
+    //锝、钌(奇点元素):分别解锁弦论层级"牛顿万有引力公式""爱因斯坦场方程"子选项卡
+    let b2_43 = document.getElementById('h2_up43_b');
+    b2_43.style.opacity = (h2_up43.eq(1)) ? '1' : (h6_ziyuan.gte(1e6) ? '0.5' : '0.2');
+    b2_43.classList.toggle('upgradable', h2_up43.lt(1) && h6_ziyuan.gte(1e6));
+
+    let b2_44 = document.getElementById('h2_up44_b');
+    b2_44.style.opacity = (h2_up44.eq(1)) ? '1' : (h6_ziyuan.gte(2e6) ? '0.5' : '0.2');
+    b2_44.classList.toggle('upgradable', h2_up44.lt(1) && h6_ziyuan.gte(2e6));
+
+    //铑、钯、银(奇点元素):消耗夸克,分别解锁费米子+、费米子子选项卡、蚀刻·时间
+    let b2_45 = document.getElementById('h2_up45_b');
+    b2_45.style.opacity = (h2_up45.eq(1)) ? '1' : (Quark.gte(Decimal.pow(10,1800)) ? '0.5' : '0.2');
+
+    let b2_46 = document.getElementById('h2_up46_b');
+    b2_46.style.opacity = (h2_up46.eq(1)) ? '1' : (Quark.gte(Decimal.pow(10,1950)) ? '0.5' : '0.2');
+
+    let b2_47 = document.getElementById('h2_up47_b');
+    b2_47.style.opacity = (h2_up47.eq(1)) ? '1' : (Quark.gte(Decimal.pow(10,2150)) ? '0.5' : '0.2');
+
     //纯净物
     let b2_2_1 = document.getElementById('h2_1_up1_b');
     b2_2_1.style.opacity = (h2_2_up1.eq(1)) ? '1' : (h2_2_ziyuan.gte(1) ? '0.5' : '0.2');
@@ -207,6 +226,16 @@ function updateUI_h2(){
 
     let b2_2_6 = document.getElementById('h2_1_up6_b');
     b2_2_6.style.opacity = (h2_2_up6.eq(1)) ? '1' : (h2_2_ziyuan.gte(2) ? '0.5' : '0.2');
+}
+
+//锝、钌、铑、钯、银按钮可见性(与其他奇点元素同级,奇点坍塌1次后出现)
+function h2_3_hans(){
+    let xs = h5_re.gte(1) ? 'block' : 'none';
+    document.getElementById('h2_up43_b').style.display = xs;
+    document.getElementById('h2_up44_b').style.display = xs;
+    document.getElementById('h2_up45_b').style.display = xs;
+    document.getElementById('h2_up46_b').style.display = xs;
+    document.getElementById('h2_up47_b').style.display = xs;
 }
 
 //计算函数
@@ -244,17 +273,44 @@ function h2_hans(){
 }
 
 //购买函数
-/**通用函数
+/**
+ * 通用函数:扣除资源并获得1级升级(一次性升级需点击两次确认)
  * @param {string} upgradeVarName - 全局变量名，例如 'h2_up1'
- * @param {number|Decimal} price - 购买所需原子数
+ * @param {number|Decimal} price - 购买所需资源数
  * @param {string} title - 升级名称，用于弹窗按钮显示
  * @param {string} description - 升级描述
  * @param {number} maxLevel - 最大购买次数，默认 1（一次性升级）
  * @param {string} resourceName - 消耗资源的显示名称，默认 "原子"
  * @param {string} resourceVar - 消耗资源的全局变量名，默认 "h2_ziyuan"
  */
+/**
+ * 取升级变量的当前值
+ * 全局变量用 let 声明时不会挂载到 window 上,window["h2_up1"] 会拿到 undefined,
+ * 故这里显式按变量名取值(新增升级项时在此登记)
+ * @param {string} upgradeVarName - 升级变量名(如 'h2_up1')
+ * @returns {Decimal|undefined}
+ */
+function h2_up_var(upgradeVarName){
+    switch (upgradeVarName){
+        case "h2_up10": return h2_up10;
+        case "h2_up11": return h2_up11;
+        case "h2_up12": return h2_up12;
+        case "h2_up13": return h2_up13;
+        case "h2_up14": return h2_up14;
+        case "h2_up15": return h2_up15;
+        case "h2_up16": return h2_up16;
+        case "h2_up17": return h2_up17;
+        case "h2_up43": return h2_up43;
+        case "h2_up44": return h2_up44;
+        case "h2_up45": return h2_up45;
+        case "h2_up46": return h2_up46;
+        case "h2_up47": return h2_up47;
+    }
+    return typeof window[upgradeVarName] !== 'undefined' ? window[upgradeVarName] : undefined;
+}
+
 function handleUpgrade(upgradeVarName, price, title, description, maxLevel = 1, resourceName = "原子", resourceVar = "h2_ziyuan") {
-    const upgradeVar = window[upgradeVarName];
+    const upgradeVar = h2_up_var(upgradeVarName);//全局变量用 let 声明时 window 上取不到,统一走 h2_up_var
     const resource = window[resourceVar];
 
     //已满级 → 显示“已购买”并终止，不进入二次确认
@@ -474,6 +530,32 @@ function h2_up41_button(){
 function h2_up42_button(){
     handleUpgrade('h2_up42', 1e6, '钼', '星辰层级解锁B型恒星,结构层级解锁巨星系', 1, '奇点', 'h6_ziyuan');
 }
+//锝:解锁弦论层级"牛顿万有引力公式"子选项卡
+function h2_up43_button(){
+    handleUpgrade('h2_up43', Decimal.pow(10,6), '锝', '弦论层级解锁第三子选项卡"牛顿万有引力公式"', 1, '奇点', 'h6_ziyuan');
+    (typeof UIvisible_h6_3 === 'function') && UIvisible_h6_3();
+}
+//钌:解锁弦论层级"爱因斯坦场方程"子选项卡
+function h2_up44_button(){
+    handleUpgrade('h2_up44', Decimal.pow(10,6).times(2), '钌', '弦论层级解锁第四子选项卡"爱因斯坦场方程"', 1, '奇点', 'h6_ziyuan');
+    (typeof UIvisible_h6_3 === 'function') && UIvisible_h6_3();
+}
+//铑:解锁夸克层级"费米子+"升级
+//费用 1e1800 超过 JS 数字字面量上限(1e500 即溢出为 Infinity),必须用 Decimal.pow 在 Decimal 域内构造
+function h2_up45_button(){
+    handleUpgrade('h2_up45', Decimal.pow(10,1800), '铑', '夸克层级解锁升级"费米子+"', 1, '夸克', 'Quark');
+    (typeof UIvisible_h1 === 'function') && UIvisible_h1();
+}
+//钯:解锁夸克层级"费米子"子选项卡
+function h2_up46_button(){
+    handleUpgrade('h2_up46', Decimal.pow(10,1950), '钯', '夸克层级解锁子选项卡"费米子"', 1, '夸克', 'Quark');
+    (typeof UIvisible_h1 === 'function') && UIvisible_h1();
+}
+//银:解锁蚀刻层级"蚀刻·时间"
+function h2_up47_button(){
+    handleUpgrade('h2_up47', Decimal.pow(10,2150), '银', '蚀刻层级解锁"蚀刻·时间"', 1, '夸克', 'Quark');
+    (typeof UIvisible_SK === 'function') && UIvisible_SK();
+}
 
 //纯净物
 function h2_2_up1_button(){
@@ -606,6 +688,12 @@ document.getElementById('h2_up39_b').addEventListener('click', h2_up39_button);
 document.getElementById('h2_up40_b').addEventListener('click', h2_up40_button);
 document.getElementById('h2_up41_b').addEventListener('click', h2_up41_button);
 document.getElementById('h2_up42_b').addEventListener('click', h2_up42_button);
+//锝、钌、铑、钯、银(奇点元素):元素缺失时跳过,不影响前面的绑定
+document.getElementById('h2_up43_b') && document.getElementById('h2_up43_b').addEventListener('click', h2_up43_button);
+document.getElementById('h2_up44_b') && document.getElementById('h2_up44_b').addEventListener('click', h2_up44_button);
+document.getElementById('h2_up45_b') && document.getElementById('h2_up45_b').addEventListener('click', h2_up45_button);
+document.getElementById('h2_up46_b') && document.getElementById('h2_up46_b').addEventListener('click', h2_up46_button);
+document.getElementById('h2_up47_b') && document.getElementById('h2_up47_b').addEventListener('click', h2_up47_button);
 
 document.getElementById('h2_2_re').addEventListener('click', h2_2_re_qr);
 
