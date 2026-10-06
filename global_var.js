@@ -403,3 +403,42 @@ let res_show_h5_time_confetti = 1;
 let res_show_h6_ziyuan = 1;
 let res_show_h6_brane = 1;
 let res_show_cp_ds = 1;
+
+//DLC1:修仙除邪祟
+//说明:数值全部照搬 Godot 原型(Godot_DLC_1.txt)的初始值,含其中的边界行为
+//时间基准:原型是1秒一次的Timer,script.js 的主循环用 dlc1_time_re 累加,每满1秒调用一次 dlc1_hans()
+//玩家
+let dlc1_zy = new Decimal(1);//真元
+let dlc1_zy_MAX = new Decimal(1);//真元上限
+let dlc1_xl = new Decimal(100);//血量
+let dlc1_xl_MAX = new Decimal(100);//血量上限
+let dlc1_xiuwei = new Decimal(0);//修为
+let dlc1_jd_Cob = new Decimal(1);//大境界(1凡尘/2入微/3回溯/4原初/5化神/6真仙)
+let dlc1_jd_Coi = new Decimal(1);//小境界(1~5,真仙时无限重)
+let dlc1_tupo = new Decimal(150);//突破所需修为(每tick按境界重算)
+let dlc1_ms = new Decimal(1);//免伤
+let dlc1_fsgj = new Decimal(0);//法术攻击
+let dlc1_wlgj = new Decimal(0);//物理攻击
+let dlc1_jingyan = new Decimal(0);//经验(击败邪祟持续获得)
+let dlc1_xianjue = new Decimal(0);//仙诀等级
+let dlc1_xianjue_CD = new Decimal(30);//仙诀释放冷却(秒)
+let dlc1_wuji = new Decimal(0);//武籍等级
+let dlc1_wuji_CD = new Decimal(30);//武籍释放冷却(秒)
+let dlc1_fuhuojs = new Decimal(0);//复活倒计时(秒),挑战中血量归零后置30
+let dlc1_pd = "";//当前行为:""/"聚气"/"淬体"/"挑战"
+//自动开关(沿用 script_auto.js 的 toggleAuto,必须用 var 才能挂到 window 上)
+var dlc1_xianjuems = 0;//仙诀自动(0/1)
+var dlc1_wujims = 0;//武籍自动(0/1)
+//武籍/仙诀详情的折叠状态(0=只显示"武籍·凡尘"与"？",1=展开详情)
+let dlc1_wuji_open = 0;
+let dlc1_xianjue_open = 0;
+//敌人(邪祟/劫)
+let dlc1_gw_xl = new Decimal(10000);//敌人血量
+let dlc1_gw_xl_MAX = new Decimal(10000);//敌人血量上限
+let dlc1_gw_gj = new Decimal(1000);//敌人攻击
+let dlc1_gw_jd_Cob = new Decimal(1);//敌人劫数档(1祟/2夕/3年(无尽))
+let dlc1_gw_jd_Coi = new Decimal(1);//敌人档内重数
+let dlc1_gw_ms = new Decimal(1);//敌人免伤
+//瞬时值(不存档)
+let dlc1_time_re = 0;//1秒tick累加器
+let dlc1_dmg_txt = "";//战斗伤害日志(原型只在挑战中刷新,未战斗时保留上一次)

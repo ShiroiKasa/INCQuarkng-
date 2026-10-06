@@ -336,3 +336,314 @@ button:hover {
     height: 18px;
     cursor: pointer;
 }
+
+/* ===== DLC 中枢(主界面) ===== */
+/* 与DLC1子界面同一列留白:参考图里卡片也是从左侧同一列开始的 */
+#DLC {
+    padding: 0 5%;
+    box-sizing: border-box;
+}
+
+.dlc-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.dlc-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-width: 380px;
+    background: transparent;
+    color: inherit;
+    border: 2px solid #888888;
+    border-radius: 0;
+    padding: 10px 18px;
+    font-size: 18px;
+    text-align: left;
+    cursor: pointer;
+}
+
+/* 覆盖全局 button:hover 的橙色填充,保持参考图的描边风格 */
+.dlc-card:hover:not(:disabled) {
+    background: transparent;
+    border-color: #4a6fa5;
+    color: #4a6fa5;
+}
+
+.dlc-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    flex: 0 0 64px;
+    border: 2px solid currentColor;
+    font-size: 34px;
+    font-weight: bold;
+}
+
+.dlc-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.dlc-card-title { font-size: 20px; font-weight: bold; }
+.dlc-card-note { font-size: 14px; opacity: 0.75; }
+
+.dlc-card-lock {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+/* ===== DLC1:修仙除邪祟 ===== */
+/* 整体左右留白约5%:与参考图里"返回/介绍"、血条、左侧文字都从同一列开始的排版一致 */
+#DLC_1 {
+    padding: 0 5%;
+    box-sizing: border-box;
+}
+
+.dlc1-head {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.dlc1-head .button-group2 {
+    justify-self: start;
+    margin-top: 0;
+}
+
+.dlc1-title {
+    font-size: 26px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.dlc1-btn {
+    background: transparent;
+    color: inherit;
+    border: 2px solid currentColor;
+    border-radius: 0;
+    padding: 6px 16px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.dlc1-btn:hover {
+    background: transparent;
+    border-color: #4a6fa5;
+    color: #4a6fa5;
+}
+
+.dlc1-gwbar {
+    margin: 0 0 6px;
+}
+
+.dlc1-tiaozhan {
+    justify-content: center;
+    margin-top: 6px;
+}
+
+/* 通用进度条:外层是底色,内层按百分比撑开 */
+.dlc1-bar {
+    position: relative;
+    width: 100%;
+    height: 28px;
+    background: #8b1a1a;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.dlc1-bar-fill {
+    height: 100%;
+    width: 0;
+}
+
+.dlc1-bar-txt {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 0 0 3px #000000, 0 0 3px #000000;
+    white-space: nowrap;
+}
+
+/* 敌人血条:整条是"红→绿"的血条贴图(色阶照参考图取样),血从左往右排;
+   掉血时从右端往里裁(clip-path),没血的部分只有边框、透出页面背景 */
+.dlc1-bar-gw {
+    height: 30px;
+    background: transparent;
+    border-color: currentColor;
+}
+
+.dlc1-bar-gw .dlc1-bar-fill {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: auto;
+    background: linear-gradient(90deg,
+        #cb0808 0%, #972d0b 20%, #6a4b0d 40%, #466110 60%, #2a6f12 80%, #157515 100%);
+    clip-path: inset(0 100% 0 0);
+}
+
+/* 修为:整块就是一个进度条(原型里的 XIUWEI),整块都是半透明淡蓝,修满的那段更浓 */
+.dlc1-xiuwei-bg {
+    position: relative;
+    width: 100%;
+    background: rgba(110, 175, 255, 0.13);
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.dlc1-xiuwei-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    background: rgba(110, 175, 255, 0.5);
+}
+
+/* 内容压在填充之上(同层定位元素,后出现的在上面) */
+.dlc1-xiuwei-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 128px;
+    padding: 8px 12px;
+    box-sizing: border-box;
+}
+
+/* 真元:蓝紫渐变 */
+.dlc1-bar-zy { background: #101828; }
+.dlc1-bar-zy .dlc1-bar-fill { background: linear-gradient(90deg, #3f5ec7, #a96fe0); }
+
+/* 血量:橙红渐变 */
+.dlc1-bar-xl { background: #3a1010; }
+.dlc1-bar-xl .dlc1-bar-fill { background: linear-gradient(90deg, #ff8c1a, #ff3b1a); }
+
+/* 释放冷却 */
+.dlc1-bar-cd {
+    height: 10px;
+    background: #2a2a3a;
+}
+.dlc1-bar-cd .dlc1-bar-fill { background: #ffd700; }
+
+.dlc1-body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* stretch:右列被拉到与左列等高,聚气/淬体才能靠 margin-top:auto 落到血条那一行 */
+    align-items: stretch;
+    gap: 24px;
+    margin-top: 16px;
+}
+
+.dlc1-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 左列:基础属性/战斗日志/属性/经验,最下面是修为、真元与血量条(与参考图一致) */
+.dlc1-col-left {
+    flex: 0 1 780px;
+    min-width: 340px;
+}
+
+/* 右列:武籍与仙诀的折叠入口,统一贴到画面右侧 */
+.dlc1-col-right {
+    flex: 0 1 auto;
+    align-items: flex-end;
+    margin-left: auto;
+}
+
+.dlc1-skill {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.dlc1-skill-head {
+    gap: 8px;
+    margin-top: 0;
+}
+
+.dlc1-skill-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* 展开状态:？按钮反色,提示再点一下可以收起 */
+.dlc1-skill-toggle.open {
+    background: #4a6fa5;
+    border-color: #4a6fa5;
+    color: #ffffff;
+}
+
+.dlc1-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 240px;
+    border: 2px solid #4a6fa5;
+    padding: 10px 16px;
+}
+
+.dlc1-attr {
+    min-width: 300px;
+    font-size: 17px;
+    line-height: 1.9;
+    text-align: left;
+}
+
+.dlc1-panel {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.dlc1-log,
+.dlc1-stat {
+    min-width: 300px;
+    font-size: 16px;
+    line-height: 1.8;
+    text-align: left;
+}
+
+.dlc1-xiuwei {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.dlc1-jingjie { font-size: 20px; }
+
+/* 聚气/淬体:靠 margin-top:auto 顶到右列底部,与真元/血量条同一高度 */
+.dlc1-foot {
+    display: flex;
+    justify-content: flex-end;
+    gap: 40px;
+    margin-top: auto;
+}

@@ -145,6 +145,9 @@ function jiemian_re(){
     (UI_re === "h5") && (updateUI_h5(), UIvisible_h5());//h5
     (UI_re === "h6") && (updateUI_h6(), UIvisible_h6());//h6
     (UI_re === "SK") && updateUI_SK();
+    //DLC(script_dlc.js;DLC1为 script_dlc_1.js):未加载时跳过,不打断每帧刷新
+    (UI_re === "DLC") && (typeof updateUI_DLC === 'function') && updateUI_DLC();
+    (UI_re === "DLC_1") && (typeof updateUI_DLC_1 === 'function') && updateUI_DLC_1();
 }
 //stat
 function updateUI_stat(){
@@ -291,7 +294,7 @@ function UIvisible_h2(){
     let b2_15_b = document.getElementById('h2_up15_b');
     let b2_16_b = document.getElementById('h2_up16_b');
     let b2_17_b = document.getElementById('h2_up17_b');
-    h2_re.gte(1) ? b2_9_b.style.display = 'block' : b2_10_b.style.display = 'none';
+    h2_re.gte(1) ? b2_9_b.style.display = 'block' : b2_9_b.style.display = 'none';
     h2_re.gte(1) ? b2_10_b.style.display = 'block' : b2_10_b.style.display = 'none';
     h2_re.gte(1) ? b2_11_b.style.display = 'block' : b2_11_b.style.display = 'none';
     h2_re.gte(1) ? b2_12_b.style.display = 'block' : b2_12_b.style.display = 'none';
@@ -623,6 +626,13 @@ function startAutoProduction(){
         (h4_js_re === 1) && (h4_hans(), h4_js_re -= 1);
         (h5_js_re === 1) && (h5_hans(), h5_js_re -= 1);
         (h6_js_re === 1) && (h6_hans(), h6_js_re -= 1);
+        //DLC1(修仙除邪祟):原型是1秒一次的Timer,这里用累加器忠实复现
+        //独立于主游戏进度,关掉界面也照常修行/结算
+        dlc1_time_re += dt;
+        while (dlc1_time_re >= 1){
+            dlc1_time_re -= 1;
+            (typeof dlc1_hans === 'function') && dlc1_hans();
+        }
         cp_ds_sj();
         global_inc(dt);       // 传入 dt
 
@@ -726,6 +736,10 @@ function saveGame() {
 }
 
 function sanitizeDecimal(value, defaultValue = 0){
+    //注意:new Decimal(undefined) 得到的是 0 而不是 NaN,所以必须显式判空,
+    //否则 defaultValue 对"旧存档缺少该字段"根本不生效(默认值会被静默地替换成0)
+    if (value === undefined || value === null) return new Decimal(defaultValue);
+
     // 先确保是 Decimal 对象
     let dec = value instanceof Decimal ? value : new Decimal(value);
     
@@ -981,6 +995,36 @@ function getGameState() {
         h6_3_2up5: h6_3_2up5.toString(),
         h6_3_2up6: h6_3_2up6.toString(),
         h6_3_2up7: h6_3_2up7.toString(),
+
+        //DLC1:修仙除邪祟(独立于主游戏,1秒一次结算)
+        dlc1_zy: dlc1_zy.toString(),
+        dlc1_zy_MAX: dlc1_zy_MAX.toString(),
+        dlc1_xl: dlc1_xl.toString(),
+        dlc1_xl_MAX: dlc1_xl_MAX.toString(),
+        dlc1_xiuwei: dlc1_xiuwei.toString(),
+        dlc1_jd_Cob: dlc1_jd_Cob.toString(),
+        dlc1_jd_Coi: dlc1_jd_Coi.toString(),
+        dlc1_tupo: dlc1_tupo.toString(),
+        dlc1_ms: dlc1_ms.toString(),
+        dlc1_fsgj: dlc1_fsgj.toString(),
+        dlc1_wlgj: dlc1_wlgj.toString(),
+        dlc1_jingyan: dlc1_jingyan.toString(),
+        dlc1_xianjue: dlc1_xianjue.toString(),
+        dlc1_xianjue_CD: dlc1_xianjue_CD.toString(),
+        dlc1_xianjuems: dlc1_xianjuems,
+        dlc1_wuji: dlc1_wuji.toString(),
+        dlc1_wuji_CD: dlc1_wuji_CD.toString(),
+        dlc1_wujims: dlc1_wujims,
+        dlc1_wuji_open: dlc1_wuji_open,
+        dlc1_xianjue_open: dlc1_xianjue_open,
+        dlc1_fuhuojs: dlc1_fuhuojs.toString(),
+        dlc1_pd: dlc1_pd,
+        dlc1_gw_xl: dlc1_gw_xl.toString(),
+        dlc1_gw_xl_MAX: dlc1_gw_xl_MAX.toString(),
+        dlc1_gw_gj: dlc1_gw_gj.toString(),
+        dlc1_gw_jd_Cob: dlc1_gw_jd_Cob.toString(),
+        dlc1_gw_jd_Coi: dlc1_gw_jd_Coi.toString(),
+        dlc1_gw_ms: dlc1_gw_ms.toString(),
 
         //核心资源条显示开关
         res_show_Quark: res_show_Quark,
@@ -1265,6 +1309,38 @@ function applyGameState(state) {
     h6_3_2up6 = sanitizeDecimal(state.h6_3_2up6);
     h6_3_2up7 = sanitizeDecimal(state.h6_3_2up7);
     (typeof h6_3_2_hans === 'function') && h6_3_2_hans();//按新等级立即重算爱因斯坦buff(公式Rμν)
+
+    //DLC1:修仙除邪祟(旧存档缺少这些字段时用初始值)
+    dlc1_zy = sanitizeDecimal(state.dlc1_zy, 1);
+    dlc1_zy_MAX = sanitizeDecimal(state.dlc1_zy_MAX, 1);
+    dlc1_xl = sanitizeDecimal(state.dlc1_xl, 100);
+    dlc1_xl_MAX = sanitizeDecimal(state.dlc1_xl_MAX, 100);
+    dlc1_xiuwei = sanitizeDecimal(state.dlc1_xiuwei);
+    dlc1_jd_Cob = sanitizeDecimal(state.dlc1_jd_Cob, 1);
+    dlc1_jd_Coi = sanitizeDecimal(state.dlc1_jd_Coi, 1);
+    dlc1_tupo = sanitizeDecimal(state.dlc1_tupo, 150);
+    dlc1_ms = sanitizeDecimal(state.dlc1_ms, 1);
+    dlc1_fsgj = sanitizeDecimal(state.dlc1_fsgj);
+    dlc1_wlgj = sanitizeDecimal(state.dlc1_wlgj);
+    dlc1_jingyan = sanitizeDecimal(state.dlc1_jingyan);
+    dlc1_xianjue = sanitizeDecimal(state.dlc1_xianjue);
+    dlc1_xianjue_CD = sanitizeDecimal(state.dlc1_xianjue_CD, 30);
+    dlc1_xianjuems = (state.dlc1_xianjuems === 1) ? 1 : 0;
+    dlc1_wuji = sanitizeDecimal(state.dlc1_wuji);
+    dlc1_wuji_CD = sanitizeDecimal(state.dlc1_wuji_CD, 30);
+    dlc1_wujims = (state.dlc1_wujims === 1) ? 1 : 0;
+    dlc1_wuji_open = (state.dlc1_wuji_open === 1) ? 1 : 0;
+    dlc1_xianjue_open = (state.dlc1_xianjue_open === 1) ? 1 : 0;
+    dlc1_fuhuojs = sanitizeDecimal(state.dlc1_fuhuojs);
+    dlc1_pd = (state.dlc1_pd === "聚气" || state.dlc1_pd === "淬体" || state.dlc1_pd === "挑战") ? state.dlc1_pd : "";
+    dlc1_gw_xl = sanitizeDecimal(state.dlc1_gw_xl, 10000);
+    dlc1_gw_xl_MAX = sanitizeDecimal(state.dlc1_gw_xl_MAX, 10000);
+    dlc1_gw_gj = sanitizeDecimal(state.dlc1_gw_gj, 1000);
+    dlc1_gw_jd_Cob = sanitizeDecimal(state.dlc1_gw_jd_Cob, 1);
+    dlc1_gw_jd_Coi = sanitizeDecimal(state.dlc1_gw_jd_Coi, 1);
+    dlc1_gw_ms = sanitizeDecimal(state.dlc1_gw_ms, 1);
+    //战斗日志是瞬时值(原型只在挑战中刷新),不存档,读档后回到未战斗状态
+    dlc1_dmg_txt = "";
 
     bgIndex = (state.bgIndex >= 0 && state.bgIndex < bgColors.length) ? state.bgIndex : 0;
     applyBackground();

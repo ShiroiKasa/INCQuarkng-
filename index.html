@@ -17,6 +17,7 @@
         <button id="h6_cut" style="background:#ecbe02;display: none;">弦论</button>
         <button id="SK_cut" style="background:#4e28a7;display: none;">蚀刻</button>
         <button id="cp_cut" style="background:#ffa807;">藏品</button>
+        <button id="DLC_cut" style="background:#4a6fa5;">DLC</button>
         <button id="set_cut" style="background:#50285e;">设置</button>
         <button id="stat_cut" style="background:#59849b;">统计</button>
     </div>
@@ -455,6 +456,98 @@
 
     </div>
 
+    <div id="DLC" style="display: none;">
+        <h2>DLC</h2>
+        <!-- 卡片列表由 script_dlc.js 的 dlc_defs 动态生成:新增DLC只需加一行配置 -->
+        <div id="dlc_list" class="dlc-list"></div>
+    </div>
+
+    <div id="DLC_1" style="display: none;">
+        <div class="dlc1-head">
+            <div class="button-group2">
+                <button id="DLC_1_back" class="dlc1-btn">返回</button>
+                <button id="DLC_1_intro" class="dlc1-btn">介绍</button>
+            </div>
+            <div class="dlc1-title" id="dlc1_gw_zd">祟·壹劫</div>
+            <div class="dlc1-head-pad"></div>
+        </div>
+
+        <div class="dlc1-gwbar">
+            <div class="dlc1-bar dlc1-bar-gw">
+                <div class="dlc1-bar-fill" id="dlc1_gw_fill"></div>
+                <div class="dlc1-bar-txt" id="dlc1_gw_txt">0/0</div>
+            </div>
+        </div>
+
+        <div class="button-group2 dlc1-tiaozhan">
+            <button id="dlc1_tiaozhan" class="dlc1-btn">开始挑战</button>
+        </div>
+
+        <div class="dlc1-body">
+            <div class="dlc1-col dlc1-col-left">
+                <div class="dlc1-attr" id="dlc1_gw_attr">-</div>
+                <div class="dlc1-log" id="dlc1_dmg">未进入战斗</div>
+                <div class="dlc1-stat" id="dlc1_atk">法术攻击:0<br>物理攻击:0</div>
+                <div class="dlc1-stat" id="dlc1_extra">免伤:1 伤害倍率:1</div>
+                <div class="dlc1-stat" id="dlc1_exp">经验:0</div>
+
+                <div class="dlc1-xiuwei-bg">
+                    <div class="dlc1-xiuwei-fill" id="dlc1_xiuwei_fill"></div>
+                    <div class="dlc1-xiuwei-inner">
+                        <div class="dlc1-xiuwei" id="dlc1_xiuwei_txt">0/11</div>
+                        <div class="dlc1-jingjie" id="dlc1_jingjie_txt">境界·凡尘·新月</div>
+                        <button id="dlc1_tupo" class="dlc1-btn">修行中</button>
+                    </div>
+                </div>
+
+                <div class="dlc1-bar dlc1-bar-zy">
+                    <div class="dlc1-bar-fill" id="dlc1_zy_fill"></div>
+                    <div class="dlc1-bar-txt" id="dlc1_zy_txt">真元:0/0</div>
+                </div>
+                <div class="dlc1-bar dlc1-bar-xl">
+                    <div class="dlc1-bar-fill" id="dlc1_xl_fill"></div>
+                    <div class="dlc1-bar-txt" id="dlc1_xl_txt">血量:0/0</div>
+                </div>
+            </div>
+
+            <div class="dlc1-col dlc1-col-right">
+                <div class="dlc1-skill">
+                    <div class="button-group2 dlc1-skill-head">
+                        <button id="dlc1_wuji_name_b" class="dlc1-btn dlc1-skill-name" title="点击释放武籍">武籍·凡尘</button>
+                        <button id="dlc1_wuji_open_b" class="dlc1-btn dlc1-skill-toggle" title="展开/收起详情">&#65311;</button>
+                    </div>
+                    <div class="dlc1-box dlc1-skill-body" id="dlc1_wuji_body" style="display: none;">
+                        <div class="dlc1-panel" id="dlc1_wuji_panel">-</div>
+                        <button id="dlc1_wuji_up" class="dlc1-btn">升级10经验</button>
+                        <button id="dlc1_wuji_onoff" class="dlc1-btn">自动关</button>
+                        <div class="dlc1-bar dlc1-bar-cd">
+                            <div class="dlc1-bar-fill" id="dlc1_wuji_cd"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dlc1-skill">
+                    <div class="button-group2 dlc1-skill-head">
+                        <button id="dlc1_xianjue_name_b" class="dlc1-btn dlc1-skill-name" title="点击释放仙诀">仙诀·凡尘</button>
+                        <button id="dlc1_xianjue_open_b" class="dlc1-btn dlc1-skill-toggle" title="展开/收起详情">&#65311;</button>
+                    </div>
+                    <div class="dlc1-box dlc1-skill-body" id="dlc1_xianjue_body" style="display: none;">
+                        <div class="dlc1-panel" id="dlc1_xianjue_panel">-</div>
+                        <button id="dlc1_xianjue_up" class="dlc1-btn">升级10经验</button>
+                        <button id="dlc1_xianjue_onoff" class="dlc1-btn">自动关</button>
+                        <div class="dlc1-bar dlc1-bar-cd">
+                            <div class="dlc1-bar-fill" id="dlc1_xianjue_cd"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dlc1-foot">
+                    <button id="dlc1_juqi" class="dlc1-btn">开始聚气</button>
+                    <button id="dlc1_cuiti" class="dlc1-btn">开始淬体</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="cp" style="display: none;">
         <h2>藏品(永久加成)</h2>
 
@@ -485,7 +578,7 @@
         <input type="file" id="fileInput" accept=".json,.txt" style="display:none;">
         <h2>资源条显示</h2>
         <div id="res_set_group" class="res-set-group"></div>
-        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>v5.3(web5.2.26_09_26_1)<br><br>© 2025 ShiroiKasa. All rights reserved.</p>
+        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>v5.3(web5.2.26_10_06_1)<br><br>© 2025 ShiroiKasa. All rights reserved.</p>
     </div>
 
     <div id="stat" style="display: none;">
@@ -548,6 +641,8 @@
     <script src="time_h5_bg.js"></script>
     <script src="script_h6.js"></script>
     <script src="script_h6_3.js"></script><!-- 弦论:牛顿万有引力公式与爱因斯坦场方程 -->
+    <script src="script_dlc_1.js"></script><!-- DLC1:修仙除邪祟 -->
+    <script src="script_dlc.js"></script><!-- DLC中枢(依赖DLC1的境界名等函数,故放在后面) -->
     <script src="string_theory_h6_bg.js"></script>
     <script>
         //启动自检(静默):只在新增内容真的没加载时才报错,正常启动不输出任何内容
@@ -558,7 +653,9 @@
                 ["script_h1.js", ["h1_2_convert", "h1_up5_button", "h1_2_up4_button"]],
                 ["SK.js", ["SK_4_hans"]],
                 ["script_h6_3.js", ["h6_3_1_hans", "h6_3_2_hans", "h6_3_buy", "updateUI_h6_3_1", "updateUI_h6_3_2", "UIvisible_h6_3"]],
-                ["index.html", ["h6_3_1_cut", "h6_3_2_cut", "h2_up43_b", "h2_up44_b", "h6_3_1up1", "h6_3_2up1", "h2_up45_b", "h2_up46_b", "h2_up47_b", "h1_2_cut", "h1_2_up1_b", "h1_up5", "SK_4", "A4_paper_stat"]]
+                ["script_dlc_1.js", ["dlc1_hans", "updateUI_DLC_1", "dlc1_tupo_button", "dlc1_jingjie_name", "dlc1_int_to_chinese_upper", "dlc1_juqi_button"]],
+                ["script_dlc.js", ["updateUI_DLC", "dlc_enter", "initDLC"]],
+                ["index.html", ["h6_3_1_cut", "h6_3_2_cut", "h2_up43_b", "h2_up44_b", "h6_3_1up1", "h6_3_2up1", "h2_up45_b", "h2_up46_b", "h2_up47_b", "h1_2_cut", "h1_2_up1_b", "h1_up5", "SK_4", "A4_paper_stat", "DLC_cut", "DLC_1", "dlc_list", "DLC_1_back", "DLC_1_intro", "dlc1_gw_zd", "dlc1_gw_fill", "dlc1_gw_txt", "dlc1_tiaozhan", "dlc1_gw_attr", "dlc1_dmg", "dlc1_atk", "dlc1_extra", "dlc1_exp", "dlc1_xiuwei_txt", "dlc1_xiuwei_fill", "dlc1_jingjie_txt", "dlc1_tupo", "dlc1_zy_fill", "dlc1_zy_txt", "dlc1_xl_fill", "dlc1_xl_txt", "dlc1_wuji_panel", "dlc1_wuji_up", "dlc1_wuji_onoff", "dlc1_wuji_name_b", "dlc1_wuji_open_b", "dlc1_wuji_body", "dlc1_wuji_cd", "dlc1_xianjue_panel", "dlc1_xianjue_up", "dlc1_xianjue_onoff", "dlc1_xianjue_name_b", "dlc1_xianjue_open_b", "dlc1_xianjue_body", "dlc1_xianjue_cd", "dlc1_juqi", "dlc1_cuiti"]]
             ];
             let bad = [];
             for (let i = 0;i < need.length;i++){

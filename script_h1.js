@@ -3,7 +3,7 @@
 function h1_2_buff_hans(){
     //上夸克:费米子产量*(1+log10(上夸克))
     h1_2_up1_buff = h1_2_up1.gte(1) ? new Decimal(1).plus(h1_2_up1.log(10)) : new Decimal(1);
-    //下夸克:夸克数量自身每秒自增*(1+1e-6*log10(下夸克))
+    //下夸克:夸克数量自身每秒自增*(1+1e-7*log10(下夸克))
     //不再参与夸克产量,h1_2_up2_buff 现在只在 global_inc 里当自增倍率用
     h1_2_up2_buff = h1_2_up2.gte(1) ? new Decimal(1).plus(h1_2_up2.log(10).times(1e-7)) : new Decimal(1);
     //粲夸克:最大夸克数量*10^(0.1*log2(粲夸克))
@@ -355,8 +355,6 @@ function h1_2_ratio100_button(){
 }
 
 function h1_re_button(){
-    let h2_up3_buff = new Decimal(1)
-    h2_up3.gte(1) && (h2_up3_buff = new Decimal(quark_max.log(10)));
     Quark.gte(1000) && (h2_ziyuan = h2_ziyuan.plus(h2_ziyuan_js) , h1_re_hans());
 }
 

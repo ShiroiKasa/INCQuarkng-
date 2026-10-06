@@ -1,11 +1,8 @@
 //h6_3:弦论层级的第三、第四子选项卡
 //第三子选项卡"牛顿万有引力公式"(12项升级,锝解锁):F=(G*m1*m2)/r
 //第四子选项卡"爱因斯坦场方程"(7项升级,钌解锁):Tμν*(8πG/c⁴)=Rμν-(1/2)Rgμν+Λgμν
-//两套升级均消耗奇点,可无限升级,不计入任何重置(奇点坍塌亦不清空)
 //等级n从0开始:费用公式中的n为当前等级,效果公式中的n为购买后的等级
 
-//效果公式中的指数系数(以 Godot 的 h6_3 为准)
-//up9/up10/up11 每级+0.1(说明文字为"指数+0.1"),但G实际值的指数用的是0.01,与原文件一致
 const h6_3_1_up9_exp = 0.01;//G实际值指数=1+up9*0.01
 const h6_3_1_up10_exp = 0.1;//m1实际值指数=1+up10*0.1
 const h6_3_1_up11_exp = 0.1;//m2实际值指数=1+up11*0.1
@@ -216,7 +213,7 @@ function updateUI_h6_3_1(){
         ["h6_3_1up6","m1值等级",formatDecimal(h6_3_1up6),"h6_3_1up6_costs","等级乘数+1"],
         ["h6_3_1up7","m2值等级",formatDecimal(h6_3_1up7),"h6_3_1up7_costs","等级乘数+1"],
         ["h6_3_1up8","r值等级",formatDecimal(h6_3_1up8),"h6_3_1up8_costs","等级乘数+1"],
-        ["h6_3_1up9","G值指数",formatDecimal(h6_3_1up9.times(0.1).plus(1)),"h6_3_1up9_costs","G值指数+0.1"],
+        ["h6_3_1up9","G值指数",formatDecimal(h6_3_1up9.times(0.01).plus(1)),"h6_3_1up9_costs","G值指数+0.01"],
         ["h6_3_1up10","m1值指数",formatDecimal(h6_3_1up10.times(0.1).plus(1)),"h6_3_1up10_costs","m1值指数+0.1"],
         ["h6_3_1up11","m2值指数",formatDecimal(h6_3_1up11.times(0.1).plus(1)),"h6_3_1up11_costs","m2值指数+0.1"],
         ["h6_3_1up12","r值等级指数",formatDecimal(h6_3_1up12.times(0.01).plus(1)),"h6_3_1up12_costs","r值等级指数+0.01"],

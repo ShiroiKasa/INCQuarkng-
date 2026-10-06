@@ -30,6 +30,12 @@ function xs_hans(){
     document.getElementById('cp').style.display = 'none';
     document.getElementById('set').style.display = 'none';
     document.getElementById('stat').style.display = 'none';
+    document.getElementById('DLC').style.display = 'none';
+    DLC_xs_hans();
+}
+//DLC子界面切换函数(中枢之外的DLC子界面都在这里隐藏)
+function DLC_xs_hans(){
+    document.getElementById('DLC_1').style.display = 'none';
 }
 //h2子界面切换函数
 function h2_xs_hans(){
@@ -109,6 +115,25 @@ function stat_cut_hans(){
     document.getElementById('stat').style.display = 'block';
 }
 
+//DLC中枢
+function DLC_cut_hans(){
+    xs_hans();
+    UI_re = "DLC";
+    document.getElementById('DLC').style.display = 'block';
+}
+
+//DLC1子界面(修仙除邪祟)
+function DLC_1_cut_hans(){
+    xs_hans();
+    UI_re = "DLC_1";
+    document.getElementById('DLC_1').style.display = 'block';
+}
+
+//DLC1子界面→返回中枢
+function DLC_1_back_hans(){
+    DLC_cut_hans();
+}
+
 //h2子界面
 function h2_1_cut_hans(){
     h2_xs_hans();
@@ -158,6 +183,10 @@ document.getElementById('SK_cut').addEventListener('click', SK_cut_hans);
 document.getElementById('cp_cut').addEventListener('click', cp_cut_hans);
 document.getElementById('set_cut').addEventListener('click', set_cut_hans);
 document.getElementById('stat_cut').addEventListener('click', stat_cut_hans);
+
+//DLC中枢与子界面
+document.getElementById('DLC_cut').addEventListener('click', DLC_cut_hans);
+document.getElementById('DLC_1_back').addEventListener('click', DLC_1_back_hans);
 
 document.getElementById('h2_1_cut').addEventListener('click', h2_1_cut_hans);
 document.getElementById('h2_2_cut').addEventListener('click', h2_2_cut_hans);
