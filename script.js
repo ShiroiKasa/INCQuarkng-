@@ -131,6 +131,32 @@ function formatDecimal(value){
     return decimalToString(v, 0);
 }
 
+//接近1的倍率显示:形如 1+delta 且 delta 很小时,写成 "1+1.22e-7"(调用方自己拼"*")
+//背景:下夸克的加成是 1+1e-7*log10(下夸克),永远贴近1,直接用 formatDecimal 会被 toFixed(2)
+//      抹成毫无信息的"1.00";delta 不小于0.01时仍返回原格式(如 1.05),与其它加成观感一致
+//做法:尾数直接借 decimalToString(与项目2位小数一致),把指数写进尾数的第一位
+//      (项目的写法会把前半位留0,如 7e-8 写成 "7.00e-8",这里统一成 "7.00e-7"),
+//      小数位仍保持2位,因此不会自己算 log10、也不受逐次自增的浮点噪音影响
+function formatNearOne(value){
+    let v = (value instanceof Decimal) ? value : new Decimal(value);
+    //只有在 1 右侧一点点时才特殊处理;<=1 或 delta>=0.01 一律交回原格式
+    if (v.lte(1)) return formatDecimal(v);
+    let delta = v.minus(1);
+    if (delta.gte(0.01)) return formatDecimal(v);
+
+    let parts = decimalToString(delta, 0).split("e");//形如 "7.00e-8"
+    let mantissa = parts[0];
+    let exponent = new Decimal(parts[1]);
+    //尾数进位会让 decimalToString 写出 "10.00e-9" 这类值(指数偏小),这里统一成 1.00
+    if (mantissa === "10.00") (mantissa = "1.00") , (exponent = exponent.plus(1));
+    let dot = mantissa.indexOf(".");
+    //取小数点前一位到小数点后两位("0.70"→"0.70"、"7.00"→"7.00"),指数保持不变
+    mantissa = mantissa.slice(dot - 1, dot + 3);
+    //尾数小到 0.00 时显示成 0(精度只有2位,写 0.00e-9 反而费解;下夸克实际到不了这么小)
+    (mantissa === "0.00") && (mantissa = "0");
+    return "1+" + mantissa + "e" + exponent.toString();
+}
+
 //界面更新函数
 //UI刷新
 function jiemian_re(){
@@ -453,7 +479,7 @@ function global_inc(dt) {
     Quark = Quark.plus(Quark_js.times(dt).times(h5_time_buff));
     if (Quark.lt(0)) Quark = new Decimal(0);
 
-    //费米子:下夸克让夸克数量自身按 (1+1e-6*log10(下夸克)) 每秒自增,不再加成夸克产量
+    //费米子:下夸克让夸克数量自身按 (1+1e-7*log10(下夸克)) 每秒自增,不再加成夸克产量
     //指数只取 dt:自增不吃 h5_time_buff——游戏倍率动辄 1e10 以上,
     //当指数会把"每秒×倍率"放大成倍率的次方,几秒钟就多重指数爆炸
     h1_2_up2_buff.gt(1) && (Quark = Quark.times(Decimal.pow(h1_2_up2_buff, dt)));
@@ -1017,6 +1043,8 @@ function getGameState() {
         dlc1_wujims: dlc1_wujims,
         dlc1_wuji_open: dlc1_wuji_open,
         dlc1_xianjue_open: dlc1_xianjue_open,
+        dlc1_lingdian: dlc1_lingdian.toString(),
+        dlc1_lingdian_open: dlc1_lingdian_open,
         dlc1_fuhuojs: dlc1_fuhuojs.toString(),
         dlc1_pd: dlc1_pd,
         dlc1_gw_xl: dlc1_gw_xl.toString(),
@@ -1331,6 +1359,8 @@ function applyGameState(state) {
     dlc1_wujims = (state.dlc1_wujims === 1) ? 1 : 0;
     dlc1_wuji_open = (state.dlc1_wuji_open === 1) ? 1 : 0;
     dlc1_xianjue_open = (state.dlc1_xianjue_open === 1) ? 1 : 0;
+    dlc1_lingdian = sanitizeDecimal(state.dlc1_lingdian);
+    dlc1_lingdian_open = (state.dlc1_lingdian_open === 1) ? 1 : 0;
     dlc1_fuhuojs = sanitizeDecimal(state.dlc1_fuhuojs);
     dlc1_pd = (state.dlc1_pd === "聚气" || state.dlc1_pd === "淬体" || state.dlc1_pd === "挑战") ? state.dlc1_pd : "";
     dlc1_gw_xl = sanitizeDecimal(state.dlc1_gw_xl, 10000);

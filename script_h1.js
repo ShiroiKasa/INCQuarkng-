@@ -84,7 +84,7 @@ function updateUI_h1(){
     b1_2_up1.innerHTML = "上夸克:" + formatDecimal(h1_2_up1) + "<br>费米子产量*" + formatDecimal(h1_2_up1_buff);
     let b1_2_up2 = document.getElementById('h1_2_up2_b');
     b1_2_up2.style.opacity = b1_2_zhuanhua;
-    b1_2_up2.innerHTML = "下夸克:" + formatDecimal(h1_2_up2) + "<br>夸克自增*" + formatDecimal(h1_2_up2_buff);
+    b1_2_up2.innerHTML = "下夸克:" + formatDecimal(h1_2_up2) + "<br>夸克自增*" + formatNearOne(h1_2_up2_buff);
     let b1_2_up3 = document.getElementById('h1_2_up3_b');
     b1_2_up3.style.opacity = b1_2_zhuanhua;
     b1_2_up3.innerHTML = "粲夸克:" + formatDecimal(h1_2_up3) + "<br>最大夸克数量*" + formatDecimal(h1_2_up3_buff);

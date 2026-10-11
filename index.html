@@ -513,6 +513,16 @@
             <div class="dlc1-col dlc1-col-right">
                 <div class="dlc1-skill">
                     <div class="button-group2 dlc1-skill-head">
+                        <button id="dlc1_lingdian_name_b" class="dlc1-btn dlc1-skill-name" title="灵典·境界">灵典·凡尘</button>
+                        <button id="dlc1_lingdian_open_b" class="dlc1-btn dlc1-skill-toggle" title="展开/收起详情">&#65311;</button>
+                    </div>
+                    <div class="dlc1-box dlc1-skill-body" id="dlc1_lingdian_body" style="display: none;">
+                        <div class="dlc1-panel" id="dlc1_lingdian_panel">-</div>
+                        <button id="dlc1_lingdian_up" class="dlc1-btn">升级10经验</button>
+                    </div>
+                </div>
+                <div class="dlc1-skill">
+                    <div class="button-group2 dlc1-skill-head">
                         <button id="dlc1_wuji_name_b" class="dlc1-btn dlc1-skill-name" title="点击释放武籍">武籍·凡尘</button>
                         <button id="dlc1_wuji_open_b" class="dlc1-btn dlc1-skill-toggle" title="展开/收起详情">&#65311;</button>
                     </div>
@@ -578,7 +588,7 @@
         <input type="file" id="fileInput" accept=".json,.txt" style="display:none;">
         <h2>资源条显示</h2>
         <div id="res_set_group" class="res-set-group"></div>
-        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>v5.3(web5.2.26_10_06_1)<br><br>© 2025 ShiroiKasa. All rights reserved.</p>
+        <p style="margin-top: 25px; font-size: 14px; color: #666;">by:ShiroiKasa<br>v5.3(web5.3.26_10_11_1)<br><br>© 2025 ShiroiKasa. All rights reserved.</p>
     </div>
 
     <div id="stat" style="display: none;">
@@ -655,7 +665,7 @@
                 ["script_h6_3.js", ["h6_3_1_hans", "h6_3_2_hans", "h6_3_buy", "updateUI_h6_3_1", "updateUI_h6_3_2", "UIvisible_h6_3"]],
                 ["script_dlc_1.js", ["dlc1_hans", "updateUI_DLC_1", "dlc1_tupo_button", "dlc1_jingjie_name", "dlc1_int_to_chinese_upper", "dlc1_juqi_button"]],
                 ["script_dlc.js", ["updateUI_DLC", "dlc_enter", "initDLC"]],
-                ["index.html", ["h6_3_1_cut", "h6_3_2_cut", "h2_up43_b", "h2_up44_b", "h6_3_1up1", "h6_3_2up1", "h2_up45_b", "h2_up46_b", "h2_up47_b", "h1_2_cut", "h1_2_up1_b", "h1_up5", "SK_4", "A4_paper_stat", "DLC_cut", "DLC_1", "dlc_list", "DLC_1_back", "DLC_1_intro", "dlc1_gw_zd", "dlc1_gw_fill", "dlc1_gw_txt", "dlc1_tiaozhan", "dlc1_gw_attr", "dlc1_dmg", "dlc1_atk", "dlc1_extra", "dlc1_exp", "dlc1_xiuwei_txt", "dlc1_xiuwei_fill", "dlc1_jingjie_txt", "dlc1_tupo", "dlc1_zy_fill", "dlc1_zy_txt", "dlc1_xl_fill", "dlc1_xl_txt", "dlc1_wuji_panel", "dlc1_wuji_up", "dlc1_wuji_onoff", "dlc1_wuji_name_b", "dlc1_wuji_open_b", "dlc1_wuji_body", "dlc1_wuji_cd", "dlc1_xianjue_panel", "dlc1_xianjue_up", "dlc1_xianjue_onoff", "dlc1_xianjue_name_b", "dlc1_xianjue_open_b", "dlc1_xianjue_body", "dlc1_xianjue_cd", "dlc1_juqi", "dlc1_cuiti"]]
+                ["index.html", ["h6_3_1_cut", "h6_3_2_cut", "h2_up43_b", "h2_up44_b", "h6_3_1up1", "h6_3_2up1", "h2_up45_b", "h2_up46_b", "h2_up47_b", "h1_2_cut", "h1_2_up1_b", "h1_up5", "SK_4", "A4_paper_stat", "DLC_cut", "DLC_1", "dlc_list", "DLC_1_back", "DLC_1_intro", "dlc1_gw_zd", "dlc1_gw_fill", "dlc1_gw_txt", "dlc1_tiaozhan", "dlc1_gw_attr", "dlc1_dmg", "dlc1_atk", "dlc1_extra", "dlc1_exp", "dlc1_xiuwei_txt", "dlc1_xiuwei_fill", "dlc1_jingjie_txt", "dlc1_tupo", "dlc1_zy_fill", "dlc1_zy_txt", "dlc1_xl_fill", "dlc1_xl_txt", "dlc1_wuji_panel", "dlc1_wuji_up", "dlc1_wuji_onoff", "dlc1_wuji_name_b", "dlc1_wuji_open_b", "dlc1_wuji_body", "dlc1_wuji_cd", "dlc1_lingdian_panel", "dlc1_lingdian_up", "dlc1_lingdian_name_b", "dlc1_lingdian_open_b", "dlc1_lingdian_body", "dlc1_xianjue_panel", "dlc1_xianjue_up", "dlc1_xianjue_onoff", "dlc1_xianjue_name_b", "dlc1_xianjue_open_b", "dlc1_xianjue_body", "dlc1_xianjue_cd", "dlc1_juqi", "dlc1_cuiti"]]
             ];
             let bad = [];
             for (let i = 0;i < need.length;i++){

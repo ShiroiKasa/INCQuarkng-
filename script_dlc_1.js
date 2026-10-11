@@ -127,7 +127,10 @@ function dlc1_jingjie_name(){
     return "真仙·" + dlc1_int_to_chinese_upper(dlc1_jd_Coi) + "重";
 }
 
-//仙诀名/武籍名:仙诀·凡尘 …… 仙诀·真仙
+//灵典名/仙诀名/武籍名:灵典·凡尘 …… 灵典·真仙
+function dlc1_lingdian_name(){
+    return "灵典·" + dlc1_tier_name();
+}
 function dlc1_xianjue_name(){
     return "仙诀·" + dlc1_tier_name();
 }
@@ -139,6 +142,24 @@ function dlc1_wuji_name(){
 //原型在渲染里按大境界给 xianjue_max 赋值,这里改为纯函数(可到达的状态下完全等价,且不会因没打开界面而不同步)
 function dlc1_xianjue_max_hans(){
     return dlc1_jd_Cob.lt(6) ? dlc1_jd_Cob.times(20) : new Decimal(999);
+}
+
+//灵典·境界等级上限:每个大境界5级(凡尘5/入微10/回溯15/原初20/化神25/真仙30)
+function dlc1_lingdian_max_hans(){
+    return dlc1_jd_Cob.times(5);
+}
+
+//灵典加成倍率:1+0.1*等级(聚气/淬体时真元、气血、属性攻击的增量都乘这个倍率)
+function dlc1_lingdian_buff_hans(){
+    return dlc1_lingdian.times(0.1).plus(1);
+}
+
+//灵典升级消耗经验:floor(10*1.6^等级)
+//说明:Decimal.pow(1.6,等级) 走对数路径(10级得109.95…、floor后少1点),故写成整数幂相除:
+//1.6^L = 16^L/10^L,16^L 用 dlc1_pow_int 连乘求精确值(<=12级完全精确),分子再退化为1e15量级后落到双精度
+//真值举例:L=0→10、L=5→104.8576→104、L=10→1099.5116→1099、L=30→13292279.9578→13292279
+function dlc1_lingdian_up_cost_hans(){
+    return dlc1_pow_int(16, dlc1_lingdian).times(10).div(dlc1_pow_int(10, dlc1_lingdian)).floor();
 }
 
 //邪祟名:祟·X劫 / 夕·X劫 / 年(无尽)·X劫
@@ -197,17 +218,19 @@ function dlc1_hans(){
     dlc1_jd_Cob.eq(6) && (dlc1_ms = dlc1_jd_Coi.times(8).plus(75));
 
     //修行:聚气(真元/法术攻击)与淬体(血量/物理攻击)
+    //灵典·境界:这两条修行给的真元、气血、属性攻击增量都乘 1+0.1*灵典等级(自然恢复与突破的上限加成不受影响)
+    let lingdian_buff = dlc1_lingdian_buff_hans();
     if (dlc1_pd === "聚气"){
         dlc1_xiuwei = dlc1_xiuwei.plus(1);
-        dlc1_zy_MAX = dlc1_zy_MAX.plus(10);
-        dlc1_zy = dlc1_zy.plus(10);
-        dlc1_fsgj = dlc1_fsgj.plus(1);
+        dlc1_zy_MAX = dlc1_zy_MAX.plus(new Decimal(10).times(lingdian_buff));
+        dlc1_zy = dlc1_zy.plus(new Decimal(10).times(lingdian_buff));
+        dlc1_fsgj = dlc1_fsgj.plus(lingdian_buff);
     }
     if (dlc1_pd === "淬体"){
         dlc1_xiuwei = dlc1_xiuwei.plus(1);
-        dlc1_xl_MAX = dlc1_xl_MAX.plus(10);
-        dlc1_xl = dlc1_xl.plus(10);
-        dlc1_wlgj = dlc1_wlgj.plus(1);
+        dlc1_xl_MAX = dlc1_xl_MAX.plus(new Decimal(10).times(lingdian_buff));
+        dlc1_xl = dlc1_xl.plus(new Decimal(10).times(lingdian_buff));
+        dlc1_wlgj = dlc1_wlgj.plus(lingdian_buff);
     }
 
     //挑战:与当前邪祟对拼
@@ -354,6 +377,19 @@ function updateUI_DLC_1(){
     document.getElementById("dlc1_xianjue_body").style.display = (dlc1_xianjue_open === 1) ? 'flex' : 'none';
     document.getElementById("dlc1_xianjue_open_b").classList.toggle('open', dlc1_xianjue_open === 1);
 
+    //灵典·境界面板(名字是纯展示,详情由"？"展开;升级受大境界*5的上限限制)
+    let lingdian_max = dlc1_lingdian_max_hans();
+    document.getElementById("dlc1_lingdian_name_b").innerHTML = dlc1_lingdian_name();
+    document.getElementById("dlc1_lingdian_panel").innerHTML =
+        dlc1_fmt(dlc1_lingdian) + "/" + dlc1_fmt(lingdian_max) + "级<br><br>"
+        + "修行加成倍率:" + dlc1_fmt_dec(dlc1_lingdian_buff_hans()) + "<br>"
+        + "升级消耗:" + dlc1_fmt(dlc1_lingdian_up_cost_hans()) + "经验";
+    document.getElementById("dlc1_lingdian_up").innerHTML = dlc1_lingdian.lt(lingdian_max)
+        ? ("升级" + dlc1_fmt(dlc1_lingdian_up_cost_hans()) + "经验")
+        : "已达上限";
+    document.getElementById("dlc1_lingdian_body").style.display = (dlc1_lingdian_open === 1) ? 'flex' : 'none';
+    document.getElementById("dlc1_lingdian_open_b").classList.toggle('open', dlc1_lingdian_open === 1);
+
     //武籍面板
     let wuji_can = dlc1_wuji_CD.lte(0) && dlc1_xl.gt(dlc1_wuji_cost_hans()) && dlc1_wuji.gt(0);
     document.getElementById("dlc1_wuji_name_b").innerHTML = dlc1_wuji_name();
@@ -447,6 +483,22 @@ function dlc1_wuji_button(){
     updateUI_DLC_1();
 }
 
+//按钮:灵典·境界升级(消耗经验,上限=大境界*5)
+function dlc1_lingdian_button(){
+    let cost = dlc1_lingdian_up_cost_hans();
+    if (dlc1_jingyan.gte(cost) && dlc1_lingdian.lt(dlc1_lingdian_max_hans())){
+        dlc1_jingyan = dlc1_jingyan.minus(cost);
+        dlc1_lingdian = dlc1_lingdian.plus(1);
+    }
+    updateUI_DLC_1();
+}
+
+//按钮:"？":展开/收起灵典详情
+function dlc1_lingdian_open_cut(){
+    dlc1_lingdian_open = (dlc1_lingdian_open === 1) ? 0 : 1;
+    updateUI_DLC_1();
+}
+
 //按钮:仙诀自动开关
 function dlc1_xianjue_auto_cut(){
     toggleAuto('dlc1_xianjuems', 'dlc1_xianjue_onoff', "自动中", "自动关");
@@ -500,6 +552,7 @@ function dlc1_intro_button(){
         "法术伤害倍率0.7,物理伤害倍率1",
         "经验机制:击败邪祟可持续获得经验",
         "仙诀、武籍自动机制:在真元充足且挑战状态下自动释放",
+        "灵典·境界:升级消耗10*1.6^等级经验,每级让聚气/淬体的真元、气血、属性攻击增量乘1+0.1*等级,上限随大境界每级+5",
         "突破可增加免伤、伤害倍率、真元和血量"
     ];
     showModal("修仙除邪祟 · 介绍", steps.join("<br><br>"), null, null, true);
@@ -512,6 +565,7 @@ document.getElementById('dlc1_tiaozhan').addEventListener('click', dlc1_tiaozhan
 document.getElementById('dlc1_tupo').addEventListener('click', dlc1_tupo_button);
 document.getElementById('dlc1_xianjue_up').addEventListener('click', dlc1_xianjue_button);
 document.getElementById('dlc1_wuji_up').addEventListener('click', dlc1_wuji_button);
+document.getElementById('dlc1_lingdian_up').addEventListener('click', dlc1_lingdian_button);
 document.getElementById('dlc1_xianjue_onoff').addEventListener('click', dlc1_xianjue_auto_cut);
 document.getElementById('dlc1_wuji_onoff').addEventListener('click', dlc1_wuji_auto_cut);
 //折叠入口:点名就是释放,点"？"才是展开详情
@@ -519,4 +573,5 @@ document.getElementById('dlc1_xianjue_name_b').addEventListener('click', dlc1_xi
 document.getElementById('dlc1_wuji_name_b').addEventListener('click', dlc1_wuji_fang_button);
 document.getElementById('dlc1_xianjue_open_b').addEventListener('click', dlc1_xianjue_open_cut);
 document.getElementById('dlc1_wuji_open_b').addEventListener('click', dlc1_wuji_open_cut);
+document.getElementById('dlc1_lingdian_open_b').addEventListener('click', dlc1_lingdian_open_cut);
 document.getElementById('DLC_1_intro').addEventListener('click', dlc1_intro_button);

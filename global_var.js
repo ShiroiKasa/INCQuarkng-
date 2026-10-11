@@ -70,7 +70,7 @@ let h1_2_up4 = new Decimal(0);//奇夸克
 
 //四种夸克加成(派生值,由 script_h1.js 的 h1_2_buff_hans 计算)
 let h1_2_up1_buff = new Decimal(1);//上夸克:费米子产量*(1+log10(上夸克))
-let h1_2_up2_buff = new Decimal(1);//下夸克:夸克数量自增*(1+1e-6*log10(下夸克))
+let h1_2_up2_buff = new Decimal(1);//下夸克:夸克数量自增*(1+1e-7*log10(下夸克))
 let h1_2_up3_buff = new Decimal(1);//粲夸克:最大夸克数量*10^(0.1*log2(粲夸克))
 let h1_2_up4_buff = new Decimal(1);//奇夸克:夸克层级升级费用/(1+奇夸克)
 
@@ -424,14 +424,16 @@ let dlc1_xianjue = new Decimal(0);//仙诀等级
 let dlc1_xianjue_CD = new Decimal(30);//仙诀释放冷却(秒)
 let dlc1_wuji = new Decimal(0);//武籍等级
 let dlc1_wuji_CD = new Decimal(30);//武籍释放冷却(秒)
+let dlc1_lingdian = new Decimal(0);//灵典·境界等级(提升聚气/淬体的真元、气血、属性攻击增量,上限=大境界*5)
 let dlc1_fuhuojs = new Decimal(0);//复活倒计时(秒),挑战中血量归零后置30
 let dlc1_pd = "";//当前行为:""/"聚气"/"淬体"/"挑战"
 //自动开关(沿用 script_auto.js 的 toggleAuto,必须用 var 才能挂到 window 上)
 var dlc1_xianjuems = 0;//仙诀自动(0/1)
 var dlc1_wujims = 0;//武籍自动(0/1)
-//武籍/仙诀详情的折叠状态(0=只显示"武籍·凡尘"与"？",1=展开详情)
+//武籍/仙诀/灵典详情的折叠状态(0=只显示"武籍·凡尘"与"？",1=展开详情)
 let dlc1_wuji_open = 0;
 let dlc1_xianjue_open = 0;
+let dlc1_lingdian_open = 0;
 //敌人(邪祟/劫)
 let dlc1_gw_xl = new Decimal(10000);//敌人血量
 let dlc1_gw_xl_MAX = new Decimal(10000);//敌人血量上限
