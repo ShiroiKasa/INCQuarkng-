@@ -42,6 +42,14 @@ function h5_up_auto_cut(){
 function h1_up5_auto_cut(){
     toggleAuto('h1_up5_auto', 'h1_up5auto_b');
 }
+//镉(理论元素):弦论"维度"自动化开关
+function h6_dim_auto_cut(){
+    toggleAuto('h6_dim_auto', 'h6_dim_auto_b', "维度自动:开", "维度自动:关");
+}
+//碲(理论元素):弦论"弦"自动化开关
+function h6_string_auto_cut(){
+    toggleAuto('h6_string_auto', 'h6_string_auto_b', "弦自动:开", "弦自动:关");
+}
 //铌(奇点元素):铜~溴自动化(不消耗资源、无解锁门槛,可开关)
 const niobium_ups = ['h2_up29','h2_up30','h2_up31','h2_up32','h2_up33','h2_up34','h2_up35'];
 
@@ -105,11 +113,14 @@ function global_auto(){
 
     if (h2_up22.gte(1)){
         if (h3_ziyuan.gt(0)){
-            let h3_up1_max = Decimal.floor(h3_ziyuan.log(2.33)).plus(1);
-            (h3_up3_auto === 1 && h3_up1_max.gt(h3_up1)) && (h3_up1 = h3_up1_max , h3_js_re = 1);
+            //蚀刻·星辰:质量发生器、黑洞催化器等级固定为1,自动化不再升级它们
+            if (sk_5_ing !== 1){
+                let h3_up1_max = Decimal.floor(h3_ziyuan.log(2.33)).plus(1);
+                (h3_up3_auto === 1 && h3_up1_max.gt(h3_up1)) && (h3_up1 = h3_up1_max , h3_js_re = 1);
 
-            let h3_up2_max = Decimal.floor(h3_ziyuan.log(3)).plus(1);
-            (h3_up3_auto === 1 && h3_up2_max.gt(h3_up2)) && (h3_up2 = h3_up2_max , h3_js_re = 1);
+                let h3_up2_max = Decimal.floor(h3_ziyuan.log(3)).plus(1);
+                (h3_up3_auto === 1 && h3_up2_max.gt(h3_up2)) && (h3_up2 = h3_up2_max , h3_js_re = 1);
+            }
         }
 
         if (h3_BH.gt(0)){
@@ -131,12 +142,22 @@ function global_auto(){
             let h3_up8_max = Decimal.floor(h3_BH.div(1e8).log(9)).plus(1);
             (h3_up3_auto === 1 && h3_up8_max.gt(h3_up8)) && (h3_up8 = h3_up8_max , h3_js_re = 1);
 
-            if (h2_up34.gt(0)){
+            //硒:F型、A型恒星纳入星辰自动化;碘(理论元素):全部星辰升级纳入自动化
+            if (h2_up34.gt(0) || h2_up53.gte(1)){
                 let h3_up9_max = Decimal.floor(h3_BH.div(1e16).log(11)).plus(1);
                 (h3_up3_auto === 1 && h3_up9_max.gt(h3_up9)) && (h3_up9 = h3_up9_max , h3_js_re = 1);
 
                 let h3_up10_max = Decimal.floor(h3_BH.div(1e20).log(13)).plus(1);
                 (h3_up3_auto === 1 && h3_up10_max.gt(h3_up10)) && (h3_up10 = h3_up10_max , h3_js_re = 1);
+            }
+
+            //碘(理论元素):B型、O型恒星也纳入星辰自动化
+            if (h2_up53.gte(1)){
+                let h3_up11_max = Decimal.floor(h3_BH.div(1e50).log(15)).plus(1);
+                (h3_up3_auto === 1 && h3_up11_max.gt(h3_up11)) && (h3_up11 = h3_up11_max , h3_js_re = 1);
+
+                let h3_up12_max = Decimal.floor(h3_BH.div(1e220).log(17)).plus(1);
+                (h3_up3_auto === 1 && h3_up12_max.gt(h3_up12)) && (h3_up12 = h3_up12_max , h3_js_re = 1);
             }
         }
     }
@@ -199,6 +220,18 @@ function global_auto(){
             let h4_up3_max = Decimal.min(h4_N.log(4), h4_DMH.log(4), h4_GN.log(4)).plus(1);
             h4_up3_max = Decimal.floor(h4_up3_max);
             (h4_up3.lt(h4_up3_max)) && (h4_up3 = h4_up3_max, h4_js_re = 1);
+
+            //碘(理论元素):椭圆星系、巨星系、星系群也纳入结构自动化
+            if (h2_up53.gte(1)){
+                let h4_up4_max = Decimal.floor(Decimal.min(h4_N.log(5), h4_DMH.log(5), h4_GN.log(5)).plus(1));
+                (h4_up4.lt(h4_up4_max)) && (h4_up4 = h4_up4_max, h4_js_re = 1);
+
+                let h4_up5_max = Decimal.floor(Decimal.min(h4_N.log(6), h4_DMH.log(6), h4_GN.log(6)).plus(1));
+                (h4_up5.lt(h4_up5_max)) && (h4_up5 = h4_up5_max, h4_js_re = 1);
+
+                let h4_up6_max = Decimal.floor(Decimal.min(h4_N.log(7), h4_DMH.log(7), h4_GN.log(7)).plus(1));
+                (h4_up6.lt(h4_up6_max)) && (h4_up6 = h4_up6_max, h4_js_re = 1);
+            }
         }
     }
 
@@ -218,6 +251,11 @@ function global_auto(){
         (h5_time_confetti.gte(Decimal.pow(42,h5_up11).times(1e8))) && (h5_up11 = h5_up11.plus(1) , h5_js_re = 1);
         (h5_time_confetti.gte(Decimal.pow(4.32,h5_up12).times(1e9))) && (h5_up12 = h5_up12.plus(1) , h5_js_re = 1);
     }
+
+    //镉、碲(理论元素):弦论"维度""弦"子选项卡自动化(升级不消耗资源)
+    //用 typeof 判断:script_h6.js 未加载时跳过,不打断自动化主循环
+    (typeof h6_dim_auto_hans === 'function') && h6_dim_auto_hans();
+    (typeof h6_1_auto_hans === 'function') && h6_1_auto_hans();
 }
 
 //绑定按钮事件
@@ -233,3 +271,6 @@ document.getElementById('auto9_b').addEventListener('click', auto9_cut);
 document.getElementById('auto11_b').addEventListener('click', auto11_cut);
 document.getElementById('h5_upauto_b').addEventListener('click', h5_up_auto_cut);
 document.getElementById('h1_up5auto_b').addEventListener('click', h1_up5_auto_cut);
+//镉、碲(理论元素):自动化开关(元素缺失时跳过)
+document.getElementById('h6_dim_auto_b') && document.getElementById('h6_dim_auto_b').addEventListener('click', h6_dim_auto_cut);
+document.getElementById('h6_string_auto_b') && document.getElementById('h6_string_auto_b').addEventListener('click', h6_string_auto_cut);

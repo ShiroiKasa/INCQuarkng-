@@ -261,6 +261,69 @@ button:hover {
     margin-top: 8px;
 }
 
+/* h7 理论:紫色主题(按钮与 h6 的 h6-btn 同款动态渐变边框,配色换紫) */
+.counter_h7 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 2px;
+    color: #9b7bff;
+}
+
+#h7 .h7-btn {
+    position: relative;
+    background: transparent;
+    /* 背景动画(theory_h7_bg.js)会跟随「切换背景色」换深浅配色,文字继承 body 才能两边都看得清 */
+    color: inherit;
+    border: 2px solid #9b7bff;
+    border-radius: 0;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    z-index: 1;
+    overflow: visible;
+}
+
+/* 覆盖全局橙色 hover(透明底按钮保持透明) */
+#h7 .h7-btn:hover {
+    background: transparent;
+    border-color: #c9b3ff;
+}
+
+#h7 .h7-btn::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: transparent;
+    border: 2px solid transparent;
+    border-image: linear-gradient(90deg, #c9b3ff 0%, #ffffff 25%, #c9b3ff 50%, #ffffff 75%, #c9b3ff 100%);
+    border-image-slice: 1;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#h7 .h7-btn.upgradable::before {
+    opacity: 1;
+    animation: gradientFlowH7 3s linear infinite;
+}
+
+#h7 .h7-btn.upgradable {
+    color: #9b7bff !important;
+}
+
+@keyframes gradientFlowH7 {
+    0%   { border-image: linear-gradient(0deg,   #c9b3ff 0%, #ffffff 25%, #c9b3ff 50%, #ffffff 75%, #c9b3ff 100%); border-image-slice: 1; }
+    25%  { border-image: linear-gradient(90deg,  #c9b3ff 0%, #ffffff 25%, #c9b3ff 50%, #ffffff 75%, #c9b3ff 100%); border-image-slice: 1; }
+    50%  { border-image: linear-gradient(180deg, #c9b3ff 0%, #ffffff 25%, #c9b3ff 50%, #ffffff 75%, #c9b3ff 100%); border-image-slice: 1; }
+    75%  { border-image: linear-gradient(270deg, #c9b3ff 0%, #ffffff 25%, #c9b3ff 50%, #ffffff 75%, #c9b3ff 100%); border-image-slice: 1; }
+    100% { border-image: linear-gradient(360deg, #c9b3ff 0%, #ffffff 25%, #c9b3ff 50%, #ffffff 75%, #c9b3ff 100%); border-image-slice: 1; }
+}
+
 /* 核心资源条 */
 .res-bar {
     display: flex;

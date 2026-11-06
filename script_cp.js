@@ -48,6 +48,13 @@ function updateUI_cp(){
     cp_6_b.style.opacity = (cp_ds >= cp_up6_cost) ? '1' : '0.5';
     h5_re.gte(1) ? cp_6_b.style.display = 'block' : cp_6_b.style.display = 'none';
     document.getElementById("cp_up6_b").innerHTML = "奇点*" + (cp_up6 + 1) + " 点数需达到:" + formatDecimal(cp_up6_cost);
+
+    //算子:理论重构(弦论层重置)获得的算子*(等级+1),首次理论重构后出现
+    let cp_up7_cost = Math.pow(3,cp_up7);
+    let cp_7_b = document.getElementById('cp_up7_b');
+    cp_7_b.style.opacity = (cp_ds >= cp_up7_cost) ? '1' : '0.5';
+    h6_re.gte(1) ? cp_7_b.style.display = 'block' : cp_7_b.style.display = 'none';
+    document.getElementById("cp_up7_b").innerHTML = "算子*" + (cp_up7 + 1) + " 点数需达到:" + formatDecimal(cp_up7_cost);
 }
 
 function claimUpdateReward(){
@@ -101,6 +108,13 @@ function cp_up6_button(){
         updateUI_cp();
     }
 }
+function cp_up7_button(){
+    let cost = Math.pow(3,cp_up7);
+    if (cp_ds >= cost){
+        cp_up7 += 1;
+        updateUI_cp();
+    }
+}
 document.getElementById('cp_version_b').addEventListener('click', claimUpdateReward);
 
 document.getElementById('cp_up1_b').addEventListener('click', cp_up1_button);
@@ -109,3 +123,4 @@ document.getElementById('cp_up3_b').addEventListener('click', cp_up3_button);
 document.getElementById('cp_up4_b').addEventListener('click', cp_up4_button);
 document.getElementById('cp_up5_b').addEventListener('click', cp_up5_button);
 document.getElementById('cp_up6_b').addEventListener('click', cp_up6_button);
+document.getElementById('cp_up7_b').addEventListener('click', cp_up7_button);

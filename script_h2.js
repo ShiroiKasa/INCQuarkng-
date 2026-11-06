@@ -25,27 +25,12 @@ function updateUI_h2(){
         document.getElementById("h2_2_ziyuan_txt").innerHTML = "可用纯净物:" + formatDecimal(h2_2_ziyuan) + " 化合可获得:0纯净物点数";
     }
 
-    //O₃(纯净物):每秒产出1个十维(不受游戏倍率加成)
-    if (h2_2_up4.eq(1)){
-        document.getElementById("h2_2_ziyuan_txt").innerHTML += "<br>O<sub>3</sub>:每秒产出1个十维(不受游戏倍率加成)";
-    }
-    //Ne(纯净物):夸克溢出次方+0.2(上限为1)
-    if (h2_2_up5.eq(1)){
-        document.getElementById("h2_2_ziyuan_txt").innerHTML += "<br>Ne:夸克溢出次方+0.2(上限为1)";
-    }
-    //F₂(纯净物):夸克产量*1e500,全局游戏倍率^0.1
-    //注:倍率本身用 Decimal.pow(10,500) 构造(裸字面量 1e500 会溢出成 Infinity),
-    //但 Decimal.pow 走 log/exp 会有浮点漂移,formatDecimal 会显示成 10e499,故说明文字直接写字面量
-    if (h2_2_up6.eq(1)){
-        document.getElementById("h2_2_ziyuan_txt").innerHTML += "<br>F<sub>2</sub>:夸克产量*1e500,全局游戏倍率^0.1";
-    }
-
     let h2_upe_cost = Decimal.pow(2, h2_upe).times(1000)
     let h2_upp_cost = Decimal.pow(2, h2_upp).times(1000)
     let h2_upn_cost = Decimal.pow(2, h2_upn).times(1000)
-    document.getElementById("h2_up5buff_b").innerHTML = "电子生成器" + formatDecimal(h2_upe) + "级 费用:" + formatDecimal(h2_upe_cost) +"原子<br>电子:" + formatDecimal(h2_e) + "+" + formatDecimal(h2_e_js.times(h5_time_buff)) + "/s" + " 夸克指数+" + formatDecimal(new Decimal(h2_e.plus(10).log(10)).div(10));
-    document.getElementById("h2_up6buff_b").innerHTML = "质子生成器" + formatDecimal(h2_upp) + "级 费用:" + formatDecimal(h2_upp_cost) +"原子<br>质子:" + formatDecimal(h2_p) + "+" + formatDecimal(h2_p_js.times(h5_time_buff)) + "/s" + " 原子产量*" + formatDecimal(new Decimal(h2_p.plus(10).log(10)));
-    document.getElementById("h2_up7buff_b").innerHTML = "中子生成器" + formatDecimal(h2_upn) + "级 费用:" + formatDecimal(h2_upn_cost) +"原子<br>中子:" + formatDecimal(h2_n) + "+" + formatDecimal(h2_n_js.times(h5_time_buff)) + "/s" + " 电子/质子产量*" + formatDecimal(new Decimal(h2_n.plus(10).log(10)));
+    document.getElementById("h2_up5buff_b").innerHTML = "电子生成器" + formatAmpPair(h2_upe, h7_amp3_buff, "级") + " 费用:" + formatDecimal(h2_upe_cost) +"原子<br>电子:" + formatDecimal(h2_e) + "+" + formatDecimal(h2_e_js.times(h5_time_buff)) + "/s" + " 夸克指数+" + formatDecimal(new Decimal(h2_e.plus(10).log(10)).div(10));
+    document.getElementById("h2_up6buff_b").innerHTML = "质子生成器" + formatAmpPair(h2_upp, h7_amp3_buff, "级") + " 费用:" + formatDecimal(h2_upp_cost) +"原子<br>质子:" + formatDecimal(h2_p) + "+" + formatDecimal(h2_p_js.times(h5_time_buff)) + "/s" + " 原子产量*" + formatDecimal(new Decimal(h2_p.plus(10).log(10)));
+    document.getElementById("h2_up7buff_b").innerHTML = "中子生成器" + formatAmpPair(h2_upn, h7_amp3_buff, "级") + " 费用:" + formatDecimal(h2_upn_cost) +"原子<br>中子:" + formatDecimal(h2_n) + "+" + formatDecimal(h2_n_js.times(h5_time_buff)) + "/s" + " 电子/质子产量*" + formatDecimal(new Decimal(h2_n.plus(10).log(10)));
     let b2_e_b = document.getElementById('h2_up5buff_b');
     b2_e_b.style.opacity = h2_ziyuan.gte(h2_upe_cost) ? '1' : '0.5';
     let b2_p_b = document.getElementById('h2_up6buff_b');
@@ -207,6 +192,51 @@ function updateUI_h2(){
     let b2_47 = document.getElementById('h2_up47_b');
     b2_47.style.opacity = (h2_up47.eq(1)) ? '1' : (Quark.gte(Decimal.pow(10,2150)) ? '0.5' : '0.2');
 
+    //镉、铟、锡、锑、碲(理论元素):消耗算子,首次理论重构后出现
+    let b2_48 = document.getElementById('h2_up48_b');
+    b2_48.style.opacity = (h2_up48.eq(1)) ? '1' : (h7_suanzi.gte(10) ? '0.5' : '0.2');
+    b2_48.classList.toggle('upgradable', h2_up48.lt(1) && h7_suanzi.gte(10));
+
+    let b2_49 = document.getElementById('h2_up49_b');
+    b2_49.style.opacity = (h2_up49.eq(1)) ? '1' : (h7_suanzi.gte(20) ? '0.5' : '0.2');
+    b2_49.classList.toggle('upgradable', h2_up49.lt(1) && h7_suanzi.gte(20));
+
+    let b2_50 = document.getElementById('h2_up50_b');
+    b2_50.style.opacity = (h2_up50.eq(1)) ? '1' : (h7_suanzi.gte(100) ? '0.5' : '0.2');
+    b2_50.classList.toggle('upgradable', h2_up50.lt(1) && h7_suanzi.gte(100));
+
+    let b2_51 = document.getElementById('h2_up51_b');
+    b2_51.style.opacity = (h2_up51.eq(1)) ? '1' : (h7_suanzi.gte(200) ? '0.5' : '0.2');
+    b2_51.classList.toggle('upgradable', h2_up51.lt(1) && h7_suanzi.gte(200));
+
+    let b2_52 = document.getElementById('h2_up52_b');
+    b2_52.style.opacity = (h2_up52.eq(1)) ? '1' : (h7_suanzi.gte(1000) ? '0.5' : '0.2');
+    b2_52.classList.toggle('upgradable', h2_up52.lt(1) && h7_suanzi.gte(1000));
+
+    //碘、氙、铯、钡(理论元素):消耗算子
+    let b2_53 = document.getElementById('h2_up53_b');
+    b2_53.style.opacity = (h2_up53.eq(1)) ? '1' : (h7_suanzi.gte(2000) ? '0.5' : '0.2');
+    b2_53.classList.toggle('upgradable', h2_up53.lt(1) && h7_suanzi.gte(2000));
+
+    let b2_54 = document.getElementById('h2_up54_b');
+    b2_54.style.opacity = (h2_up54.eq(1)) ? '1' : (h7_suanzi.gte(3000) ? '0.5' : '0.2');
+    b2_54.classList.toggle('upgradable', h2_up54.lt(1) && h7_suanzi.gte(3000));
+
+    let b2_55 = document.getElementById('h2_up55_b');
+    b2_55.style.opacity = (h2_up55.eq(1)) ? '1' : (h7_suanzi.gte(5000) ? '0.5' : '0.2');
+    b2_55.classList.toggle('upgradable', h2_up55.lt(1) && h7_suanzi.gte(5000));
+
+    let b2_56 = document.getElementById('h2_up56_b');
+    b2_56.style.opacity = (h2_up56.eq(1)) ? '1' : (h7_suanzi.gte(1e4) ? '0.5' : '0.2');
+    b2_56.classList.toggle('upgradable', h2_up56.lt(1) && h7_suanzi.gte(1e4));
+
+    //镧、铈(理论元素):消耗夸克,按钮样式与铑/钯/银一致(可负担时半亮,已购买全亮)
+    let b2_57 = document.getElementById('h2_up57_b');
+    b2_57.style.opacity = (h2_up57.eq(1)) ? '1' : (Quark.gte(h2_up57_cost()) ? '0.5' : '0.2');
+
+    let b2_58 = document.getElementById('h2_up58_b');
+    b2_58.style.opacity = (h2_up58.eq(1)) ? '1' : (Quark.gte(h2_up58_cost()) ? '0.5' : '0.2');
+
     //纯净物
     let b2_2_1 = document.getElementById('h2_1_up1_b');
     b2_2_1.style.opacity = (h2_2_up1.eq(1)) ? '1' : (h2_2_ziyuan.gte(1) ? '0.5' : '0.2');
@@ -229,6 +259,7 @@ function updateUI_h2(){
 }
 
 //锝、钌、铑、钯、银按钮可见性(与其他奇点元素同级,奇点坍塌1次后出现)
+//镉~碲(理论元素)在首次理论重构后出现
 function h2_3_hans(){
     let xs = h5_re.gte(1) ? 'block' : 'none';
     document.getElementById('h2_up43_b').style.display = xs;
@@ -236,24 +267,45 @@ function h2_3_hans(){
     document.getElementById('h2_up45_b').style.display = xs;
     document.getElementById('h2_up46_b').style.display = xs;
     document.getElementById('h2_up47_b').style.display = xs;
+    //镉~碲(理论元素,消耗算子):首次理论重构后才可能出现算子
+    let xs7 = h6_re.gte(1) ? 'block' : 'none';
+    document.getElementById('h2_up48_b').style.display = xs7;
+    document.getElementById('h2_up49_b').style.display = xs7;
+    document.getElementById('h2_up50_b').style.display = xs7;
+    document.getElementById('h2_up51_b').style.display = xs7;
+    document.getElementById('h2_up52_b').style.display = xs7;
+    //碘~钡(理论元素,消耗算子):与镉~碲同批出现
+    document.getElementById('h2_up53_b').style.display = xs7;
+    document.getElementById('h2_up54_b').style.display = xs7;
+    document.getElementById('h2_up55_b').style.display = xs7;
+    document.getElementById('h2_up56_b').style.display = xs7;
+    //镧、铈(理论元素,消耗夸克):接在钡后面,首次理论重构后出现
+    document.getElementById('h2_up57_b').style.display = xs7;
+    document.getElementById('h2_up58_b').style.display = xs7;
 }
 
 //计算函数
 function h2_hans(){
+    //理论:元素增幅器让"全部元素生成器等级"在计算时乘 (等级+1)
+    //只改效果,购买费用与自动购买的等级推算仍按真实等级
+    let h2_upe_eff = h2_upe.times(h7_amp3_buff);
+    let h2_upp_eff = h2_upp.times(h7_amp3_buff);
+    let h2_upn_eff = h2_upn.times(h7_amp3_buff);
+
     let h3_BH_buff2 = new Decimal(1);
     h3_BH_buff2 = (h3_BH.gte(1e4)) ? new Decimal(h3_BH.plus(1).log(10)) : new Decimal(1);
     //蚀刻·元素:对电子产量加成(蚀刻中不生效,此时sk_3_buff1=1)
-    h2_e_js = (h2_upe.times(h2_n.plus(10).log(10))).times(h3_BH_buff2).times(sk_3_buff1);
+    h2_e_js = (h2_upe_eff.times(h2_n.plus(10).log(10))).times(h3_BH_buff2).times(sk_3_buff1);
 
     let h3_mass_buff = new Decimal(1);
     h3_mass_buff = (h3_mass.gte(1e4)) ? new Decimal(h3_mass.log(9)) : new Decimal(1);
-    h2_p_js = (h2_upp.times(h2_n.plus(10).log(10))).times(h3_mass_buff);
+    h2_p_js = (h2_upp_eff.times(h2_n.plus(10).log(10))).times(h3_mass_buff);
     let h2_up10_buff = new Decimal(1);
 
     h2_up10_buff = (h2_up10.gte(1) && h2_ziyuan_max.gte(10)) ? h2_ziyuan_max.log(10) : new Decimal(1);
     let h3_BH_buff = new Decimal(1);
     h3_BH_buff = (h3_BH.gte(1)) ? new Decimal(h3_BH.plus(2333).div(2333)) : new Decimal(1);
-    h2_n_js = (h2_upn.times(h2_up10_buff).times(h3_BH_buff));
+    h2_n_js = (h2_upn_eff.times(h2_up10_buff).times(h3_BH_buff));
 
     let h2_up27_buff = new Decimal(1);
     h2_up27.gte(1) && (h2_up27_buff = Decimal.pow(Quark,0.05));
@@ -305,6 +357,17 @@ function h2_up_var(upgradeVarName){
         case "h2_up45": return h2_up45;
         case "h2_up46": return h2_up46;
         case "h2_up47": return h2_up47;
+        case "h2_up48": return h2_up48;
+        case "h2_up49": return h2_up49;
+        case "h2_up50": return h2_up50;
+        case "h2_up51": return h2_up51;
+        case "h2_up52": return h2_up52;
+        case "h2_up53": return h2_up53;
+        case "h2_up54": return h2_up54;
+        case "h2_up55": return h2_up55;
+        case "h2_up56": return h2_up56;
+        case "h2_up57": return h2_up57;
+        case "h2_up58": return h2_up58;
     }
     return typeof window[upgradeVarName] !== 'undefined' ? window[upgradeVarName] : undefined;
 }
@@ -557,6 +620,63 @@ function h2_up47_button(){
     (typeof UIvisible_SK === 'function') && UIvisible_SK();
 }
 
+//镉:弦论"维度"子选项卡自动化,且升级不消耗资源
+function h2_up48_button(){
+    handleUpgrade('h2_up48', new Decimal(10), '镉', '弦论层级"维度"子选项卡自动化且升级不消耗资源', 1, '算子', 'h7_suanzi');
+}
+//铟:理论重构次数加成算子获取,公式*lg(理论重构次数+10)
+function h2_up49_button(){
+    handleUpgrade('h2_up49', new Decimal(20), '铟', '理论重构次数加成算子获取/公式*lg(理论重构次数+10)', 1, '算子', 'h7_suanzi');
+}
+//锡:夸克微弱加成增幅器点数获取,公式*lg(lg(夸克+10)+9)
+function h2_up50_button(){
+    handleUpgrade('h2_up50', new Decimal(100), '锡', '夸克微弱加成增幅器点数获取/公式*lg(lg(夸克+10)+9)', 1, '算子', 'h7_suanzi');
+}
+//锑:无须奇点坍塌也可以获得奇点
+function h2_up51_button(){
+    handleUpgrade('h2_up51', new Decimal(200), '锑', '无须奇点坍塌也可以获得奇点', 1, '算子', 'h7_suanzi');
+}
+//碲:弦论"弦"子选项卡自动化,且升级不消耗资源
+function h2_up52_button(){
+    handleUpgrade('h2_up52', new Decimal(1000), '碲', '弦论层级"弦"子选项卡自动化且升级不消耗资源', 1, '算子', 'h7_suanzi');
+}
+//碘:解锁O型恒星、星系群,星辰与结构升级全部纳入自动化
+function h2_up53_button(){
+    handleUpgrade('h2_up53', new Decimal(2000), '碘', '星辰层级解锁O型恒星、结构层级解锁星系群，星辰与结构升级全部纳入自动化', 1, '算子', 'h7_suanzi');
+    (typeof UIvisible_h3 === 'function') && UIvisible_h3();
+    (typeof UIvisible_h4 === 'function') && UIvisible_h4();
+}
+//氙:解锁蚀刻·星辰
+function h2_up54_button(){
+    handleUpgrade('h2_up54', new Decimal(3000), '氙', '蚀刻层级解锁"蚀刻·星辰"', 1, '算子', 'h7_suanzi');
+    (typeof UIvisible_SK === 'function') && UIvisible_SK();
+}
+//铯:最大算子数量加成算子获取,公式*log7(最大算子数量)
+function h2_up55_button(){
+    handleUpgrade('h2_up55', new Decimal(5000), '铯', '最大算子数量加成算子获取/公式*log<sub>7</sub>(最大算子数量)', 1, '算子', 'h7_suanzi');
+}
+//钡:算子数量加成奇点获取,公式*((算子数量^0.5)+1)
+function h2_up56_button(){
+    handleUpgrade('h2_up56', new Decimal(1e4), '钡', '算子数量加成奇点获取/公式*((算子数量<sup>0.5</sup>)+1)', 1, '算子', 'h7_suanzi');
+}
+//镧/铈的费用:1e10500 / 1e10700夸克
+//用字符串构造,避免 Decimal.pow 的末位误差让"刚好够"的玩家显示可买但买不了
+function h2_up57_cost(){ return new Decimal("1e10500"); }
+function h2_up58_cost(){ return new Decimal("1e20000"); }
+//镧(消耗夸克):大幅优化黑洞蒸发获取暗物质的基础公式 log10(黑洞+1)→(黑洞+1)^0.1
+//只影响基础公式,其它暗物质获取加成照旧;费用1e10500夸克(显示折叠为e1.05e4)
+function h2_up57_button(){
+    handleUpgrade('h2_up57', h2_up57_cost(), '镧', '大幅优化黑洞蒸发获取暗物质公式 log<sub>10</sub>黑洞 → 黑洞<sup>0.1</sup>(只影响基础公式)', 1, '夸克', 'Quark');
+    h3_js_re = 1;
+    (typeof updateUI_h3 === 'function') && (UI_re === 'h3') && updateUI_h3();
+}
+//铈(消耗夸克):解锁顶夸克、底夸克、标量夸克;费用1e10700夸克(显示折叠为e1.07e4)
+function h2_up58_button(){
+    handleUpgrade('h2_up58', h2_up58_cost(), '铈', '解锁新的三种费米子:顶夸克、底夸克、标量夸克', 1, '夸克', 'Quark');
+    (typeof UIvisible_h1 === 'function') && UIvisible_h1();
+    (typeof updateUI_h1 === 'function') && (UI_re === 'h1') && updateUI_h1();
+}
+
 //纯净物
 function h2_2_up1_button(){
     handleUpgrade('h2_2_up1', 1, 'H<sub>2</sub>', '游戏倍率*10', 1, '纯净物点数', 'h2_2_ziyuan');
@@ -694,6 +814,20 @@ document.getElementById('h2_up44_b') && document.getElementById('h2_up44_b').add
 document.getElementById('h2_up45_b') && document.getElementById('h2_up45_b').addEventListener('click', h2_up45_button);
 document.getElementById('h2_up46_b') && document.getElementById('h2_up46_b').addEventListener('click', h2_up46_button);
 document.getElementById('h2_up47_b') && document.getElementById('h2_up47_b').addEventListener('click', h2_up47_button);
+//镉~碲(理论元素):元素缺失时跳过
+document.getElementById('h2_up48_b') && document.getElementById('h2_up48_b').addEventListener('click', h2_up48_button);
+document.getElementById('h2_up49_b') && document.getElementById('h2_up49_b').addEventListener('click', h2_up49_button);
+document.getElementById('h2_up50_b') && document.getElementById('h2_up50_b').addEventListener('click', h2_up50_button);
+document.getElementById('h2_up51_b') && document.getElementById('h2_up51_b').addEventListener('click', h2_up51_button);
+document.getElementById('h2_up52_b') && document.getElementById('h2_up52_b').addEventListener('click', h2_up52_button);
+//碘~钡(理论元素):元素缺失时跳过
+document.getElementById('h2_up53_b') && document.getElementById('h2_up53_b').addEventListener('click', h2_up53_button);
+document.getElementById('h2_up54_b') && document.getElementById('h2_up54_b').addEventListener('click', h2_up54_button);
+document.getElementById('h2_up55_b') && document.getElementById('h2_up55_b').addEventListener('click', h2_up55_button);
+document.getElementById('h2_up56_b') && document.getElementById('h2_up56_b').addEventListener('click', h2_up56_button);
+//镧、铈(理论元素,消耗夸克):元素缺失时跳过
+document.getElementById('h2_up57_b') && document.getElementById('h2_up57_b').addEventListener('click', h2_up57_button);
+document.getElementById('h2_up58_b') && document.getElementById('h2_up58_b').addEventListener('click', h2_up58_button);
 
 document.getElementById('h2_2_re').addEventListener('click', h2_2_re_qr);
 

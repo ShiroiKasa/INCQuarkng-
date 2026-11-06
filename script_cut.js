@@ -10,6 +10,8 @@ function updateUI_cut(){
     b5_cut.style.display = h4_re > 0 ? 'block' : 'none';
     let b6_cut = document.getElementById('h6_cut');
     b6_cut.style.display = h5_re > 0 ? 'block' : 'none';
+    let b7_cut = document.getElementById('h7_cut');
+    b7_cut.style.display = h6_re > 0 ? 'block' : 'none';
 
     let bSK_cut = document.getElementById('SK_cut');
     bSK_cut.style.display = h2_up24 > 0 ? 'block' : 'none';
@@ -26,6 +28,7 @@ function xs_hans(){
     document.getElementById('h4').style.display = 'none';
     document.getElementById('h5').style.display = 'none';
     document.getElementById('h6').style.display = 'none';
+    document.getElementById('h7').style.display = 'none';
     document.getElementById('SK').style.display = 'none';
     document.getElementById('cp').style.display = 'none';
     document.getElementById('set').style.display = 'none';
@@ -53,6 +56,11 @@ function h6_xs_hans(){
     document.getElementById('h6_2').style.display = 'none';
     document.getElementById('h6_3_1').style.display = 'none';
     document.getElementById('h6_3_2').style.display = 'none';
+}
+//h7子界面切换函数(函数、增幅器)
+function h7_xs_hans(){
+    document.getElementById('h7_1').style.display = 'none';
+    document.getElementById('h7_2').style.display = 'none';
 }
 //主界面
 function h1_cut_hans(){
@@ -89,6 +97,13 @@ function h6_cut_hans(){
     xs_hans();
     UI_re = "h6";
     document.getElementById('h6').style.display = 'block';
+}
+
+//理论(第七层)
+function h7_cut_hans(){
+    xs_hans();
+    UI_re = "h7";
+    document.getElementById('h7').style.display = 'block';
 }
 
 function SK_cut_hans(){
@@ -172,6 +187,16 @@ function h6_3_2_cut_hans(){
     document.getElementById('h6_3_2').style.display = 'block';
 }
 
+//h7子界面
+function h7_1_cut_hans(){
+    h7_xs_hans();
+    document.getElementById('h7_1').style.display = 'block';
+}
+function h7_2_cut_hans(){
+    h7_xs_hans();
+    document.getElementById('h7_2').style.display = 'block';
+}
+
 //绑定按钮事件
 document.getElementById('h1_cut').addEventListener('click', h1_cut_hans);
 document.getElementById('h2_cut').addEventListener('click', h2_cut_hans);
@@ -179,6 +204,7 @@ document.getElementById('h3_cut').addEventListener('click', h3_cut_hans);
 document.getElementById('h4_cut').addEventListener('click', h4_cut_hans);
 document.getElementById('h5_cut').addEventListener('click', h5_cut_hans);
 document.getElementById('h6_cut').addEventListener('click', h6_cut_hans);
+document.getElementById('h7_cut').addEventListener('click', h7_cut_hans);
 document.getElementById('SK_cut').addEventListener('click', SK_cut_hans);
 document.getElementById('cp_cut').addEventListener('click', cp_cut_hans);
 document.getElementById('set_cut').addEventListener('click', set_cut_hans);
@@ -202,4 +228,12 @@ document.getElementById('h6_2_cut').addEventListener('click', h6_2_cut_hans);
     let b2 = document.getElementById('h6_3_2_cut');
     b1 && b1.addEventListener('click', h6_3_1_cut_hans);
     b2 && b2.addEventListener('click', h6_3_2_cut_hans);
+})();
+
+//理论子选项卡(函数、增幅器)
+(function(){
+    let b1 = document.getElementById('h7_1_cut');
+    let b2 = document.getElementById('h7_2_cut');
+    b1 && b1.addEventListener('click', h7_1_cut_hans);
+    b2 && b2.addEventListener('click', h7_2_cut_hans);
 })();

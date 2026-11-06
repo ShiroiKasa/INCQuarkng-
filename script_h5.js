@@ -105,7 +105,8 @@ function h5_hans(){
     //基数来自 log/加法/乘法,恒为非负,故取 0.1 次方不会产生 NaN
     h2_2_up6.eq(1) && (h5_time_buff_js = h5_time_buff_js.pow(0.1));
     //不设下限:游戏倍率允许小于1(F₂ 会让它降到1以下,这是该纯净物的代价)
-    h5_time_buff = h5_time_buff_js;
+    //顶夸克(费米子,铈解锁):游戏倍率*max(1,lg(顶夸克)),放在所有游戏倍率加成之后
+    h5_time_buff = h5_time_buff_js.times(h1_2_up5_buff);
 
     let h3_up10_buff = new Decimal(1);
     h3_up10q.gte(1) && (h3_up10_buff = new Decimal(h3_up10q.plus(3.6).log(3.6)));
@@ -120,8 +121,9 @@ function h5_hans(){
     h5_quark_max = new Decimal(1e180).times(Decimal.pow(1e3,h5_up11)).times(Decimal.pow(4.2,h5_up12)).times(h1_2_up3_buff);
 
     //铷(奇点元素):奇点坍塌次数加成奇点获取量
+    //理论:重置次数增幅器(未购买时倍率为1)
     let h2_up37_buff = new Decimal(1);
-    h2_up37.gte(1) && (h2_up37_buff = h5_re.plus(2).log(2));
+    h2_up37.gte(1) && (h2_up37_buff = ((typeof h7_amp1_count === 'function') ? h7_amp1_count(h5_re) : h5_re).plus(2).log(2));
 
     //弦论:TypeIIB弦加成奇点获取量
     h6_ziyuan_js = (Quark.plus(1).log(10)).times(h5_time_confetti.plus(1).log(10)).div(500).times((cp_up6 + 1)).times(h6_1_ziyuan_buff).times(h2_up37_buff);
@@ -132,6 +134,8 @@ function h5_hans(){
     //h6_3_2buff 已是"0级=1"的净倍率,故直接相乘(与牛顿F加成夸克产量的口径一致)
     //注:原设计为 log10(Rμν)*π,但那样0级只有0.55倍(等于减益),与"0级无加成"冲突,故改为直接相乘
     h6_ziyuan_js = h6_ziyuan_js.times(h6_3_2buff);
+    //钡(理论元素):算子数量加成奇点获取,公式*((算子数量^0.5)+1)
+    h2_up56.gte(1) && (h6_ziyuan_js = h6_ziyuan_js.times(h7_suanzi.pow(0.5).plus(1)));
 }
 
 function h5_up1_button(){

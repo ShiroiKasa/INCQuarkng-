@@ -3,7 +3,7 @@
 const bgColors = ["#ffffff", "#1e1e2f", "#f5f0e6", "#d9e8f5","#000000"];
 let bgIndex = 0;  //当前背景索引，0=白色
 
-let version = 5.3;
+let version = 6.1;
 
 let game_tc = 0;
 
@@ -33,6 +33,7 @@ let cp_up3 = 0;
 let cp_up4 = 0;
 let cp_up5 = 0;
 let cp_up6 = 0;
+let cp_up7 = 0;//算子(理论重构获得的算子倍率=等级+1,费用3^等级)
 //auto
 var h1_up2_auto = 0;
 var h1_up3_auto = 0;
@@ -49,6 +50,8 @@ var auto8 = 0;
 var auto9 = 0;
 var auto11 = 0;//铌解锁的铜~溴自动化(0/1)
 var h5_up_auto = 0;
+var h6_dim_auto = 0;//镉解锁的弦论"维度"自动化开关(0/1)
+var h6_string_auto = 0;//碲解锁的弦论"弦"自动化开关(0/1)
 
 //h1
 let h1_js_re = 1;
@@ -67,12 +70,19 @@ let h1_2_up1 = new Decimal(0);//上夸克
 let h1_2_up2 = new Decimal(0);//下夸克
 let h1_2_up3 = new Decimal(0);//粲夸克
 let h1_2_up4 = new Decimal(0);//奇夸克
+//铈(理论元素)解锁的三种费米子
+let h1_2_up5 = new Decimal(0);//顶夸克:游戏倍率*max(1,lg(顶夸克))
+let h1_2_up6 = new Decimal(0);//底夸克:理论层级函数费用/log7(底夸克+7)
+let h1_2_up7 = new Decimal(0);//标量夸克:本列其余六种费米子加成*max(1,0.5*lg(标量夸克))
 
-//四种夸克加成(派生值,由 script_h1.js 的 h1_2_buff_hans 计算)
+//费米子加成(派生值,由 script_h1.js 的 h1_2_buff_hans 计算)
 let h1_2_up1_buff = new Decimal(1);//上夸克:费米子产量*(1+log10(上夸克))
 let h1_2_up2_buff = new Decimal(1);//下夸克:夸克数量自增*(1+1e-7*log10(下夸克))
 let h1_2_up3_buff = new Decimal(1);//粲夸克:最大夸克数量*10^(0.1*log2(粲夸克))
 let h1_2_up4_buff = new Decimal(1);//奇夸克:夸克层级升级费用/(1+奇夸克)
+let h1_2_up5_buff = new Decimal(1);//顶夸克:游戏倍率*max(1,lg(顶夸克))
+let h1_2_up6_buff = new Decimal(1);//底夸克:理论层级函数费用/log7(底夸克+7)
+let h1_2_up7_buff = new Decimal(1);//标量夸克:本列其余六种费米子加成*max(1,0.5*lg(标量夸克))
 
 let h1_re = new Decimal(0);
 
@@ -145,6 +155,19 @@ var h2_up44 = new Decimal(0);//钌:解锁弦论层级"爱因斯坦场方程"子�
 var h2_up45 = new Decimal(0);//铑:解锁夸克层级"费米子+"升级
 var h2_up46 = new Decimal(0);//钯:解锁夸克层级"费米子"子选项卡
 var h2_up47 = new Decimal(0);//银:解锁蚀刻层级"蚀刻·时间"
+//理论元素(消耗算子)
+var h2_up48 = new Decimal(0);//镉:弦论"维度"子选项卡自动化且升级不消耗资源
+var h2_up49 = new Decimal(0);//铟:理论重构次数加成算子获取(*lg(理论重构次数+10))
+var h2_up50 = new Decimal(0);//锡:夸克微弱加成增幅器点数获取(*lg(lg(夸克+10)+9))
+var h2_up51 = new Decimal(0);//锑:无须奇点坍塌也可以获得奇点
+var h2_up52 = new Decimal(0);//碲:弦论"弦"子选项卡自动化且升级不消耗资源
+var h2_up53 = new Decimal(0);//碘:解锁O型恒星、星系群,星辰与结构升级全部纳入自动化
+var h2_up54 = new Decimal(0);//氙:解锁蚀刻·星辰
+var h2_up55 = new Decimal(0);//铯:最大算子数量加成算子获取/公式*log7(最大算子数量)
+var h2_up56 = new Decimal(0);//钡:算子数量加成奇点获取/公式*((算子数量^0.5)+1)
+//消耗夸克的理论元素(首次理论重构后出现,按钮样式与铑/钯/银一致)
+var h2_up57 = new Decimal(0);//镧:大幅优化黑洞蒸发获取暗物质公式 log10(黑洞+1)→(黑洞+1)^0.1
+var h2_up58 = new Decimal(0);//铈:解锁顶夸克、底夸克、标量夸克
 
 var h2_2_ziyuan = new Decimal(0);
 
@@ -205,6 +228,12 @@ let h3_up11q = new Decimal(0);
 let h3_up11q_js = new Decimal(0);
 let h3_up11_buff = new Decimal(1);//加成A型恒星产量与膜产量
 
+//O型恒星(碘解锁)
+let h3_up12 = new Decimal(0);
+let h3_up12q = new Decimal(0);
+let h3_up12q_js = new Decimal(0);
+let h3_up12_buff = new Decimal(1);//加成B型恒星产量与暗物质产量
+
 let h3_re = new Decimal(0);
 
 //h4
@@ -233,6 +262,11 @@ let h4_up4_js = new Decimal(0);
 let h4_up5 = new Decimal(0);
 let h4_up5q = new Decimal(0);
 let h4_up5_js = new Decimal(0);
+
+//星系群(碘解锁):产量受游戏倍率加成
+let h4_up6 = new Decimal(0);
+let h4_up6q = new Decimal(0);
+let h4_up6_js = new Decimal(0);
 
 let h4_re = new Decimal(0);
 
@@ -367,8 +401,48 @@ let h6_3_2_js4 = new Decimal(0);//部分4=(up6+1)*(up7+1)
 let h6_3_2_raw = new Decimal(1);//原始公式值=(部分1/部分2)*部分3+部分4(0级=1)
 let h6_3_2buff = new Decimal(1);//生效倍率,下限1(0级=1=无加成,与牛顿F的0级口径一致)
 
+//h6:理论重构次数(理论重构是弦论层的重置,按钮/结算在 script_h6.js:h6_re_button/h6_re_hans)
+let h6_re = new Decimal(0);//理论重构次数
+
+//h7:理论(第七层级,弦论之上)
+//入口:弦论页的"理论重构"按钮(script_h6.js,蚀刻·时间中夸克达到1e2400解锁)
+//理论重构本身是弦论层的重置,见 script_h6.js 的 h6_re_button/h6_re_hans;本层只放算子/函数/增幅器
+//算子用 var 声明:元素升级的 handleUpgrade 通过 window[resourceVar] 读写资源,
+//let 声明的顶层变量不会挂到 window 上,会让"消耗算子"的元素读不到资源
+var h7_suanzi = new Decimal(0);//算子(当前剩余,函数升级消耗它)
+var h7_suanzi_max = new Decimal(0);//最大算子数量(铯:加成算子获取)
+let h7_amp = new Decimal(0);//增幅器点数
+let h7_amp_js = new Decimal(0);//增幅器点数每秒产量(=当前剩余算子,锡购买后按夸克微弱放大)
+
+//函数选项卡:五个数学函数,等级0=未购买(数值1),第1级从"大于1的第一项"起算
+let h7_fun1 = new Decimal(0);//F(n):斐波那契数列 2,3,5,8,13... 费用1.2^等级
+let h7_fun2 = new Decimal(0);//a_n:中心二项系数 2,6,20,70,252... 费用10*1.5^等级
+let h7_fun3 = new Decimal(0);//n!:阶乘 2,6,24,120... 费用100*2.3^等级
+let h7_fun4 = new Decimal(0);//(2n-1)!!:配对数 3,15,105,945... 费用1e3*3.6^等级
+let h7_fun5 = new Decimal(0);//n^n:双指数 4,27,256,3125... 费用1e5*(4+0.3*等级)^等级
+
+//函数数值(派生值,由 h7_hans 计算)
+let h7_fun1_v = new Decimal(1);
+let h7_fun2_v = new Decimal(1);
+let h7_fun3_v = new Decimal(1);
+let h7_fun4_v = new Decimal(1);
+let h7_fun5_v = new Decimal(1);
+let h7_fun_buff = new Decimal(1);//对夸克的总加成=五个函数数值相乘
+
+//增幅器选项卡:消耗增幅器点数,分别放大四类等级
+let h7_amp1 = new Decimal(0);//重置次数增幅器:全部层级重置次数*(1+等级^2),费用9^等级
+let h7_amp2 = new Decimal(0);//夸克增幅器:全部夸克升级等级*(0.1*等级+1),费用10*11^等级
+let h7_amp3 = new Decimal(0);//元素增幅器:全部元素生成器等级*(等级+1),费用100*14^等级
+let h7_amp4 = new Decimal(0);//星辰增幅器:全部星辰升级等级*(0.2*等级+1),费用1e3*18^等级
+
+//增幅器倍率(派生值,由 h7_hans 计算)
+let h7_amp1_buff = new Decimal(1);
+let h7_amp2_buff = new Decimal(1);
+let h7_amp3_buff = new Decimal(1);
+let h7_amp4_buff = new Decimal(1);
+
 //SK
-//三种蚀刻互相独立,可以同时进行;sk_ing=任意一种进行中
+//五种蚀刻互相独立,可以同时进行;sk_ing=任意一种进行中
 let sk_ing = 0;
 let sk_1_ing = 0;
 let sk_2_ing = 0;
@@ -377,11 +451,7 @@ let sk_3_ing = 0;
 let sk_1_MAX = new Decimal(0);
 let sk_1_buff1 = new Decimal(1);
 let sk_1_buff2 = new Decimal(1);
-
-//蚀刻·时间(银解锁):蚀刻中游戏倍率固定为0.001,奖励倍率=log10(蚀刻中最大夸克数量)
-let sk_4_ing = 0;
-let sk_4_MAX = new Decimal(0);
-let sk_4_buff = new Decimal(1);
+let sk_1_buff_cap = Decimal.pow(10,6000);//蚀刻·夸克加成软上限:超过 1e6000 的部分按 lg 压缩
 
 //蚀刻·夸克II
 let sk_2_MAX = new Decimal(0);//蚀刻中的最大夸克数量
@@ -390,6 +460,26 @@ let sk_2_buff1 = new Decimal(1);//对夸克产量加成(蚀刻中不生效)
 //蚀刻·元素
 let sk_3_MAX = new Decimal(0);//蚀刻中的最大夸克数量
 let sk_3_buff1 = new Decimal(1);//对电子产量加成(蚀刻中不生效)=(蚀刻中最大夸克数量)^0.1
+let sk_3_buff_cap = Decimal.pow(10,600);//蚀刻·元素加成软上限:超过 1e600 的部分按 lg 压缩
+
+//蚀刻·时间(银解锁):蚀刻中游戏倍率固定为0.001,奖励倍率=log10(蚀刻中最大夸克数量)
+let sk_4_ing = 0;
+let sk_4_MAX = new Decimal(0);
+let sk_4_buff = new Decimal(1);
+
+//蚀刻·星辰(氙解锁):开始时理论重构,质量发生器与黑洞催化器等级固定为1
+//蚀刻中的最大可获得暗物质数量(初始1,不是debuff);对黑洞产量加成(蚀刻中不生效)
+let sk_5_ing = 0;
+let sk_5_MAX = new Decimal(1);
+let sk_5_buff1 = new Decimal(1);
+
+//蚀刻背景:本次蚀刻开始时的 game_time(现实秒),0=从没开始过
+//背景纹样用 game_time - sk_X_start 当生长时长,存档后刷新、切走再切回都能接着长
+let sk_1_start = 0;
+let sk_2_start = 0;
+let sk_3_start = 0;
+let sk_4_start = 0;
+let sk_5_start = 0;
 
 //核心资源条(顶部资源摘要条)
 //显示开关:1=显示,0=隐藏,默认全部显示
@@ -402,6 +492,8 @@ let res_show_h5_ziyuan = 1;
 let res_show_h5_time_confetti = 1;
 let res_show_h6_ziyuan = 1;
 let res_show_h6_brane = 1;
+let res_show_h7_suanzi = 1;
+let res_show_h7_amp = 1;
 let res_show_cp_ds = 1;
 
 //DLC1:修仙除邪祟

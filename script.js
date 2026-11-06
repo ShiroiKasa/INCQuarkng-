@@ -98,6 +98,10 @@ function showSequenceModal(steps, title, onComplete) {
 //它们内部用 decimalPlaces() 把指数按 places+1 位有效数字四舍五入(1187→1190、1198→1200),
 //数值过1e1000后显示值会凭空大10~1000倍,故指数一律自己用 floor(log10) 精确取
 //多重指数(ee...):最高一层的指数同样要精确,内层按同一规则递归(内层尾数已无意义)
+//显示折叠:指数(floor(log10))到 1e4 起,指数本身也写成科学计数法——
+//  1e12345 → e1.23e4;再往上一层由 layer>1 分支补 "e",
+//  所以 10^(1e10000) → ee1.00e4(资源条 trim 后为 ee1e4),更高层同理
+//  只影响显示,不改数值/判定/存档
 //trim=1:去掉尾数末尾多余的0(供核心资源条的紧凑显示使用)
 function decimalToString(v, trim){
     if(v.layer > 1){
@@ -107,6 +111,11 @@ function decimalToString(v, trim){
     let mantissa = v.div(Decimal.pow(10, exponent));
     //尾数进位:浮点误差会让尾数凑到9.999…(如 Decimal.pow(10,1187)),toFixed(2) 会输出10.00
     mantissa.gte(9.995) && (mantissa = mantissa.div(10) , exponent = exponent.plus(1));
+    //显示折叠:指数到 1e4(数值 1e10000)起写成 e 的指数形式,如 1e12345 → e1.23e4
+    //放在进位之后,避免 9.999…e9999 进位成 1e10000 时漏折
+    if(exponent.gte(10000)){
+        return "e" + decimalToString(exponent, trim);
+    }
     let mantissaStr = mantissa.toFixed(2);
     (trim === 1) && (mantissaStr = mantissaStr.replace(/0+$/,'').replace(/\.$/,''));
     return mantissaStr + "e" + exponent.toString();
@@ -157,6 +166,16 @@ function formatNearOne(value){
     return "1+" + mantissa + "e" + exponent.toString();
 }
 
+//理论·增幅器:把"真实值"和"参与计算的值"一起写出来,如 10.00级(计算50.00级)
+//buff 是增幅器倍率(未购买=1);真实值为0时,0×任何倍率还是0,只显示真实值
+//unit 是单位后缀(如"级"、"次");map 可选,用于把等级换算成界面上的数值(如 产量*倍率=等级+1)
+function formatAmpPair(real, buff, unit, map){
+    let f = (typeof map === 'function') ? map : function(v){ return v; };
+    let base = formatDecimal(f(real)) + unit;
+    let on = real.gt(0) && buff && buff.gt(1);
+    return on ? base + "(计算" + formatDecimal(f(real.times(buff))) + unit + ")" : base;
+}
+
 //界面更新函数
 //UI刷新
 function jiemian_re(){
@@ -170,6 +189,7 @@ function jiemian_re(){
     (UI_re === "h4") && (updateUI_h4(), UIvisible_h4());//h4
     (UI_re === "h5") && (updateUI_h5(), UIvisible_h5());//h5
     (UI_re === "h6") && (updateUI_h6(), UIvisible_h6());//h6
+    (UI_re === "h7") && (typeof updateUI_h7 === 'function') && updateUI_h7();//h7(script_h7.js)
     (UI_re === "SK") && updateUI_SK();
     //DLC(script_dlc.js;DLC1为 script_dlc_1.js):未加载时跳过,不打断每帧刷新
     (UI_re === "DLC") && (typeof updateUI_DLC === 'function') && updateUI_DLC();
@@ -183,15 +203,20 @@ function updateUI_stat(){
     document.getElementById("Game_time").innerHTML = "实际游戏时间:" + formatGameTime(game_time);
     document.getElementById("Game_time_bl").innerHTML = "游戏内时间:" + formatGameTime(game_time_bl);
     document.getElementById("Quarks_MAX").innerHTML = "最大夸克数量:" + formatDecimal(quark_max);
-    document.getElementById("h1_re_stat").innerHTML = "夸克禁闭次数:" + formatDecimal(h1_re);
+    //理论·重置次数增幅器:计算时次数×倍率,统计页同时给出计算值
+    document.getElementById("h1_re_stat").innerHTML = "夸克禁闭次数:" + formatAmpPair(h1_re, h7_amp1_buff, "次");
     document.getElementById("h2_ziyuan_MAX").innerHTML = "最大原子数量:" + formatDecimal(h2_ziyuan_max);
-    document.getElementById("h2_re_stat").innerHTML = "引力激发次数:" + formatDecimal(h2_re);
+    document.getElementById("h2_re_stat").innerHTML = "引力激发次数:" + formatAmpPair(h2_re, h7_amp1_buff, "次");
     document.getElementById("h3_ziyuan_MAX").innerHTML = "最大引力子数量:" + formatDecimal(h3_ziyuan_max);
-    document.getElementById("h3_re_stat").innerHTML = "黑洞蒸发次数:" + formatDecimal(h3_re);
+    document.getElementById("h3_re_stat").innerHTML = "黑洞蒸发次数:" + formatAmpPair(h3_re, h7_amp1_buff, "次");
     document.getElementById("h4_ziyuan_MAX").innerHTML = "最大暗物质数量:" + formatDecimal(h4_ziyuan_max);
-    document.getElementById("h4_re_stat").innerHTML = "时间扭曲次数:" + formatDecimal(h4_re);
+    document.getElementById("h4_re_stat").innerHTML = "时间扭曲次数:" + formatAmpPair(h4_re, h7_amp1_buff, "次");
     document.getElementById("h5_ziyuan_MAX").innerHTML = "最大时间点数量:" + formatDecimal(h5_ziyuan_max);
-    document.getElementById("h5_re_stat").innerHTML = "奇点坍塌次数:" + formatDecimal(h5_re);
+    document.getElementById("h5_re_stat").innerHTML = "奇点坍塌次数:" + formatAmpPair(h5_re, h7_amp1_buff, "次");
+    //h6_re(理论重构次数)不在重置次数增幅器的范围内,按真实次数显示
+    document.getElementById("h6_ziyuan_MAX").innerHTML = "最大奇点数量:" + formatDecimal(h6_ziyuan_max);
+    document.getElementById("h6_re_stat").innerHTML = "理论重构次数:" + formatDecimal(h6_re);
+    document.getElementById("h7_suanzi_MAX_stat").innerHTML = "最大算子数量:" + formatDecimal(h7_suanzi_max);
 
     //A4纸统计:把最大夸克数量写成十进制需要的纸张数(每张纸4000位),每张纸5克
     let A4_paper_count = Decimal.max(quark_max, 1).log10().div(4000);
@@ -265,6 +290,20 @@ function UIvisible_h1(){
     }else{
         b1_1_cut.style.display = 'none';
         b1_2_cut.style.display = 'none';
+    }
+
+    //铈(理论元素):费米子子选项卡新增顶/底/标量夸克
+    let b1_2_up5 = document.getElementById('h1_2_up5_b');
+    let b1_2_up6 = document.getElementById('h1_2_up6_b');
+    let b1_2_up7 = document.getElementById('h1_2_up7_b');
+    if (h2_up58.gte(1)){
+        b1_2_up5.style.display = 'block';
+        b1_2_up6.style.display = 'block';
+        b1_2_up7.style.display = 'block';
+    }else{
+        b1_2_up5.style.display = 'none';
+        b1_2_up6.style.display = 'none';
+        b1_2_up7.style.display = 'none';
     }
 }
 
@@ -425,6 +464,10 @@ function UIvisible_h3(){
     //钼(奇点元素):B型恒星
     let b3_11_b = document.getElementById('h3_up11_b');
     h2_up42.gte(1) ? b3_11_b.style.display = 'block' : b3_11_b.style.display = 'none';
+
+    //碘(理论元素):O型恒星
+    let b3_12_b = document.getElementById('h3_up12_b');
+    h2_up53.gte(1) ? b3_12_b.style.display = 'block' : b3_12_b.style.display = 'none';
 }
 
 //h4
@@ -443,6 +486,10 @@ function UIvisible_h4(){
     //钼(奇点元素):巨星系
     let b4_5_b = document.getElementById('h4_up5');
     h2_up42.gte(1) ? b4_5_b.style.display = 'block' : b4_5_b.style.display = 'none';
+
+    //碘(理论元素):星系群
+    let b4_6_b = document.getElementById('h4_up6');
+    h2_up53.gte(1) ? b4_6_b.style.display = 'block' : b4_6_b.style.display = 'none';
 }
 
 //h5
@@ -469,6 +516,19 @@ function UIvisible_h5(){
 }
 
 function UIvisible_h6(){
+    //理论重构(弦论层重置):蚀刻·时间中夸克达到1e2400后显示
+    //门槛1e2400超出JS数字字面量范围,用字符串交给Decimal解析
+    let b6_re_b = document.getElementById('h6_re_b');
+    sk_4_MAX.gte(new Decimal("1e2400")) ? b6_re_b.style.display = 'block' : b6_re_b.style.display = 'none';
+
+    //镉、碲(理论元素):弦论"维度""弦"子选项卡自动化开关
+    let b6_dim_auto_b = document.getElementById('h6_dim_auto_b');
+    let b6_string_auto_b = document.getElementById('h6_string_auto_b');
+    h2_up48.gte(1) ? b6_dim_auto_b.style.display = 'block' : b6_dim_auto_b.style.display = 'none';
+    h2_up52.gte(1) ? b6_string_auto_b.style.display = 'block' : b6_string_auto_b.style.display = 'none';
+    b6_dim_auto_b.innerHTML = (h6_dim_auto === 1) ? "维度自动:开" : "维度自动:关";
+    b6_string_auto_b.innerHTML = (h6_string_auto === 1) ? "弦自动:开" : "弦自动:关";
+
     //锝、钌解锁的两个子选项卡按钮(牛顿万有引力公式、爱因斯坦场方程)
     (typeof UIvisible_h6_3 === 'function') && UIvisible_h6_3();
 }
@@ -505,6 +565,10 @@ function global_inc(dt) {
         if (h4_ziyuan.lt(0)) h4_ziyuan = new Decimal(0);
     }
 
+    //锑(理论元素):无须奇点坍塌也可以获得奇点
+    //与锶("无需时间扭曲也可以获得时间点")同口径:按坍塌获取量的10倍持续累积,不受游戏倍率加成
+    h2_up51.gte(1) && (h6_ziyuan = Decimal.max(h6_ziyuan.plus(h6_ziyuan_js.times(10).times(dt)), 0));
+
     //锶(奇点元素):无需时间扭曲也可以获得时间点,不受游戏倍率加成
     h2_up38.gte(1) && (h5_ziyuan = h5_ziyuan.plus(h5_ziyuan_js.times(10).times(dt)));
 
@@ -521,6 +585,7 @@ function global_inc(dt) {
     h3_up9q = h3_up9q.plus(h3_up9q_js.times(dt).times(h5_time_buff));
     h3_up10q = h3_up10q.plus(h3_up10q_js.times(dt).times(h5_time_buff));
     h3_up11q = h3_up11q.plus(h3_up11q_js.times(dt).times(h5_time_buff));
+    h3_up12q = h3_up12q.plus(h3_up12q_js.times(dt).times(h5_time_buff));
 
     h4_up1q = h4_up1q.plus(h4_up1_js.times(dt).times(h5_time_buff));
     h4_up2q = h4_up2q.plus(h4_up2_js.times(dt).times(h5_time_buff));
@@ -528,6 +593,8 @@ function global_inc(dt) {
     h4_up4q = h4_up4q.plus(h4_up4_js.times(dt).times(h5_time_buff));
     //巨星系产量不受游戏倍率加成
     h4_up5q = h4_up5q.plus(h4_up5_js.times(dt));
+    //星系群产量不受游戏倍率加成
+    h4_up6q = h4_up6q.plus(h4_up6_js.times(dt));
 
     h6_brane = Decimal.max(h6_brane.plus(h6_brane_js.times(dt).times(h5_time_buff)), 0);
     h6_up1q = Decimal.max(h6_up1q.plus(h6_up1q_js.times(dt).times(h5_time_buff)), 0);
@@ -543,6 +610,12 @@ function global_inc(dt) {
     h2_2_up4.eq(1) && (h6_up10q = h6_up10q.plus(dt));
 
     h5_time_confetti = h5_time_confetti.plus(h5_time_confetti_js.times(dt));//时间碎片本身，切记不要“临时起意”加上h5_time_buff
+
+    //理论:增幅器点数每秒+当前剩余算子数量
+    //锡(理论元素):夸克微弱加成增幅器点数获取(*lg(lg(夸克+10)+9))
+    //不受游戏倍率加成:游戏倍率属于时间层级的机制,理论在弦论之上
+    h7_amp_js = (typeof h7_amp_gain === 'function') ? h7_amp_gain() : h7_suanzi;
+    h7_amp = h7_amp.plus(h7_amp_js.times(dt));
 }
 //统计
 function stat_hans(dt){
@@ -556,6 +629,8 @@ function stat_hans(dt){
     h4_ziyuan.gte(h4_ziyuan_max) && (h4_ziyuan_max = h4_ziyuan , h4_js_re = 1);
     h5_ziyuan.gte(h5_ziyuan_max) && (h5_ziyuan_max = h5_ziyuan , h5_js_re = 1);
     h6_ziyuan.gte(h6_ziyuan_max) && (h6_ziyuan_max = h6_ziyuan , h6_js_re = 1);
+    //铯(理论元素):记录最大算子数量(算子获取的加成依据)
+    h7_suanzi.gte(h7_suanzi_max) && (h7_suanzi_max = h7_suanzi);
 }
 function formatGameTime(totalSeconds){
     //统一转换为 Decimal 实例，支持 number / string / Decimal 输入
@@ -705,6 +780,8 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
             else if (UI_re === "h3") updateUI_h3();
             else if (UI_re === "h4") updateUI_h4();
             else if (UI_re === "h5") updateUI_h5();
+            else if (UI_re === "h6") updateUI_h6();
+            else if (UI_re === "h7") (typeof updateUI_h7 === 'function') && updateUI_h7();
             else if (UI_re === "cp") updateUI_cp();
             else if (UI_re === "stat") updateUI_stat();
 
@@ -785,6 +862,11 @@ function sanitizeDecimal(value, defaultValue = 0){
     return dec;
 }
 
+//蚀刻背景的开始时间:只认正数;旧存档没这个字段就当没开始过(进行中的蚀刻由 sk_start_hans 补当前时间)
+function sanitizeSkStart(value){
+    return (typeof value === 'number' && isFinite(value) && value > 0) ? value : 0;
+}
+
 // 获取当前游戏状态（所有变量）
 function getGameState() {
     return {
@@ -804,6 +886,7 @@ function getGameState() {
         cp_up4: cp_up4,
         cp_up5: cp_up5,
         cp_up6: cp_up6,
+        cp_up7: cp_up7,
 
         h1_up2_auto: h1_up2_auto,
         h1_up3_auto: h1_up3_auto,
@@ -817,17 +900,27 @@ function getGameState() {
         auto9: auto9,
         auto11: auto11,
         h5_up_auto: h5_up_auto,
+        h6_dim_auto: h6_dim_auto,
+        h6_string_auto: h6_string_auto,
 
         sk_ing: sk_ing,
         sk_1_ing: sk_1_ing,
         sk_1_MAX: sk_1_MAX.toString(),
+        sk_1_start: sk_1_start,
         sk_2_ing: sk_2_ing,
         sk_2_MAX: sk_2_MAX.toString(),
+        sk_2_start: sk_2_start,
         sk_3_ing: sk_3_ing,
         sk_3_MAX: sk_3_MAX.toString(),
+        sk_3_start: sk_3_start,
         sk_4_ing: sk_4_ing,
         sk_4_MAX: sk_4_MAX.toString(),
         sk_4_buff: sk_4_buff.toString(),
+        sk_4_start: sk_4_start,
+        sk_5_ing: sk_5_ing,
+        sk_5_MAX: sk_5_MAX.toString(),
+        sk_5_buff1: sk_5_buff1.toString(),
+        sk_5_start: sk_5_start,
 
         h1_up1: h1_up1.toString(),
         h1_up1_1: h1_up1_1.toString(),
@@ -840,6 +933,9 @@ function getGameState() {
         h1_2_up2: h1_2_up2.toString(),
         h1_2_up3: h1_2_up3.toString(),
         h1_2_up4: h1_2_up4.toString(),
+        h1_2_up5: h1_2_up5.toString(),
+        h1_2_up6: h1_2_up6.toString(),
+        h1_2_up7: h1_2_up7.toString(),
         h1_re: h1_re.toString(),
 
         h2_ziyuan: h2_ziyuan.toString(),
@@ -897,6 +993,17 @@ function getGameState() {
         h2_up45: h2_up45.toString(),
         h2_up46: h2_up46.toString(),
         h2_up47: h2_up47.toString(),
+        h2_up48: h2_up48.toString(),
+        h2_up49: h2_up49.toString(),
+        h2_up50: h2_up50.toString(),
+        h2_up51: h2_up51.toString(),
+        h2_up52: h2_up52.toString(),
+        h2_up53: h2_up53.toString(),
+        h2_up54: h2_up54.toString(),
+        h2_up55: h2_up55.toString(),
+        h2_up56: h2_up56.toString(),
+        h2_up57: h2_up57.toString(),
+        h2_up58: h2_up58.toString(),
         h2_2_ziyuan: h2_2_ziyuan.toString(),
         h2_2_up1: h2_2_up1.toString(),
         h2_2_up2: h2_2_up2.toString(),
@@ -930,6 +1037,8 @@ function getGameState() {
         h3_up10q: h3_up10q.toString(),
         h3_up11: h3_up11.toString(),
         h3_up11q: h3_up11q.toString(),
+        h3_up12: h3_up12.toString(),
+        h3_up12q: h3_up12q.toString(),
         h3_re: h3_re.toString(),
 
         h4_ziyuan: h4_ziyuan.toString(),
@@ -947,6 +1056,8 @@ function getGameState() {
         h4_up4q: h4_up4q.toString(),
         h4_up5: h4_up5.toString(),
         h4_up5q: h4_up5q.toString(),
+        h4_up6: h4_up6.toString(),
+        h4_up6q: h4_up6q.toString(),
         h4_re: h4_re.toString(),
 
         h5_ziyuan: h5_ziyuan.toString(),
@@ -1022,6 +1133,23 @@ function getGameState() {
         h6_3_2up6: h6_3_2up6.toString(),
         h6_3_2up7: h6_3_2up7.toString(),
 
+        //h6:理论重构次数(理论重构是弦论层的重置,见 script_h6.js)
+        h6_re: h6_re.toString(),
+
+        //h7:理论(算子/增幅器点数/五个函数/四类增幅器)
+        h7_suanzi: h7_suanzi.toString(),
+        h7_suanzi_max: h7_suanzi_max.toString(),
+        h7_amp: h7_amp.toString(),
+        h7_fun1: h7_fun1.toString(),
+        h7_fun2: h7_fun2.toString(),
+        h7_fun3: h7_fun3.toString(),
+        h7_fun4: h7_fun4.toString(),
+        h7_fun5: h7_fun5.toString(),
+        h7_amp1: h7_amp1.toString(),
+        h7_amp2: h7_amp2.toString(),
+        h7_amp3: h7_amp3.toString(),
+        h7_amp4: h7_amp4.toString(),
+
         //DLC1:修仙除邪祟(独立于主游戏,1秒一次结算)
         dlc1_zy: dlc1_zy.toString(),
         dlc1_zy_MAX: dlc1_zy_MAX.toString(),
@@ -1064,6 +1192,8 @@ function getGameState() {
         res_show_h5_time_confetti: res_show_h5_time_confetti,
         res_show_h6_ziyuan: res_show_h6_ziyuan,
         res_show_h6_brane: res_show_h6_brane,
+        res_show_h7_suanzi: res_show_h7_suanzi,
+        res_show_h7_amp: res_show_h7_amp,
         res_show_cp_ds: res_show_cp_ds,
 
         bgIndex: bgIndex,
@@ -1112,6 +1242,7 @@ function applyGameState(state) {
     cp_up4 = state.cp_up4 !== undefined && !isNaN(state.cp_up4) ? state.cp_up4 : 0;
     cp_up5 = state.cp_up5 !== undefined && !isNaN(state.cp_up5) ? state.cp_up5 : 0;
     cp_up6 = state.cp_up6 !== undefined && !isNaN(state.cp_up6) ? state.cp_up6 : 0;
+    cp_up7 = state.cp_up7 !== undefined && !isNaN(state.cp_up7) ? state.cp_up7 : 0;
 
     h1_up2_auto = (state.h1_up2_auto === 1) ? 1 : 0;
     h1_up3_auto = (state.h1_up3_auto === 1) ? 1 : 0;
@@ -1125,20 +1256,33 @@ function applyGameState(state) {
     auto9 = (state.auto9 === 1) ? 1 : 0;
     auto11 = (state.auto11 === 1) ? 1 : 0;
     h5_up_auto = (state.h5_up_auto === 1) ? 1 : 0;
+    h6_dim_auto = (state.h6_dim_auto === 1) ? 1 : 0;
+    h6_string_auto = (state.h6_string_auto === 1) ? 1 : 0;
 
     sk_ing = (state.sk_ing === 1) ? 1 : 0;
     sk_1_ing = (state.sk_1_ing === 1) ? 1 : 0;
     sk_1_MAX = sanitizeDecimal(state.sk_1_MAX);
+    sk_1_start = sanitizeSkStart(state.sk_1_start);
     sk_2_ing = (state.sk_2_ing === 1) ? 1 : 0;
     sk_2_MAX = sanitizeDecimal(state.sk_2_MAX);
+    sk_2_start = sanitizeSkStart(state.sk_2_start);
     sk_3_ing = (state.sk_3_ing === 1) ? 1 : 0;
     sk_3_MAX = sanitizeDecimal(state.sk_3_MAX);
+    sk_3_start = sanitizeSkStart(state.sk_3_start);
     sk_4_ing = (state.sk_4_ing === 1) ? 1 : 0;
     sk_4_MAX = sanitizeDecimal(state.sk_4_MAX);
+    sk_4_start = sanitizeSkStart(state.sk_4_start);
     //奖励倍率缺省为1(中性值,旧存档不影响游戏倍率)
     sk_4_buff = sanitizeDecimal(state.sk_4_buff, 1);
     (sk_4_buff.lt(1)) && (sk_4_buff = new Decimal(1));
-    sk_ing_hans();//按四种蚀刻状态重算 sk_ing
+    //蚀刻·星辰:最大可获得暗物质数量与黑洞产量加成的缺省值都是1(不是debuff)
+    sk_5_ing = (state.sk_5_ing === 1) ? 1 : 0;
+    sk_5_MAX = sanitizeDecimal(state.sk_5_MAX, 1);
+    (sk_5_MAX.lt(1)) && (sk_5_MAX = new Decimal(1));
+    sk_5_buff1 = sanitizeDecimal(state.sk_5_buff1, 1);
+    (sk_5_buff1.lt(1)) && (sk_5_buff1 = new Decimal(1));
+    sk_5_start = sanitizeSkStart(state.sk_5_start);
+    sk_ing_hans();//按五种蚀刻状态重算 sk_ing
 
     h1_up1 = sanitizeDecimal(state.h1_up1);
     h1_up1_1 = sanitizeDecimal(state.h1_up1_1);
@@ -1150,6 +1294,9 @@ function applyGameState(state) {
     h1_2_up2 = sanitizeDecimal(state.h1_2_up2);
     h1_2_up3 = sanitizeDecimal(state.h1_2_up3);
     h1_2_up4 = sanitizeDecimal(state.h1_2_up4);
+    h1_2_up5 = sanitizeDecimal(state.h1_2_up5);
+    h1_2_up6 = sanitizeDecimal(state.h1_2_up6);
+    h1_2_up7 = sanitizeDecimal(state.h1_2_up7);
     //转化比例:非法值(缺失/非正数/NaN)一律回落到1%
     h1_2_ratio = (typeof state.h1_2_ratio === 'number' && isFinite(state.h1_2_ratio) && state.h1_2_ratio > 0) ? state.h1_2_ratio : 0.01;
     //按新数量立即重算四种夸克加成(script.js 先于 script_h1.js 解析,首次读档时该函数还不存在,跳过即可)
@@ -1211,6 +1358,17 @@ function applyGameState(state) {
     h2_up45 = sanitizeDecimal(state.h2_up45);
     h2_up46 = sanitizeDecimal(state.h2_up46);
     h2_up47 = sanitizeDecimal(state.h2_up47);
+    h2_up48 = sanitizeDecimal(state.h2_up48);
+    h2_up49 = sanitizeDecimal(state.h2_up49);
+    h2_up50 = sanitizeDecimal(state.h2_up50);
+    h2_up51 = sanitizeDecimal(state.h2_up51);
+    h2_up52 = sanitizeDecimal(state.h2_up52);
+    h2_up53 = sanitizeDecimal(state.h2_up53);
+    h2_up54 = sanitizeDecimal(state.h2_up54);
+    h2_up55 = sanitizeDecimal(state.h2_up55);
+    h2_up56 = sanitizeDecimal(state.h2_up56);
+    h2_up57 = sanitizeDecimal(state.h2_up57);
+    h2_up58 = sanitizeDecimal(state.h2_up58);
     h2_2_ziyuan = sanitizeDecimal(state.h2_2_ziyuan);
     h2_2_up1 = sanitizeDecimal(state.h2_2_up1);
     h2_2_up2 = sanitizeDecimal(state.h2_2_up2);
@@ -1244,6 +1402,8 @@ function applyGameState(state) {
     h3_up10q = sanitizeDecimal(state.h3_up10q);
     h3_up11 = sanitizeDecimal(state.h3_up11);
     h3_up11q = sanitizeDecimal(state.h3_up11q);
+    h3_up12 = sanitizeDecimal(state.h3_up12);
+    h3_up12q = sanitizeDecimal(state.h3_up12q);
     h3_re = sanitizeDecimal(state.h3_re);
 
     h4_ziyuan = sanitizeDecimal(state.h4_ziyuan);
@@ -1261,6 +1421,8 @@ function applyGameState(state) {
     h4_up4q = sanitizeDecimal(state.h4_up4q);
     h4_up5 = sanitizeDecimal(state.h4_up5);
     h4_up5q = sanitizeDecimal(state.h4_up5q);
+    h4_up6 = sanitizeDecimal(state.h4_up6);
+    h4_up6q = sanitizeDecimal(state.h4_up6q);
     h4_re = sanitizeDecimal(state.h4_re);
 
     h5_ziyuan = sanitizeDecimal(state.h5_ziyuan);
@@ -1338,6 +1500,28 @@ function applyGameState(state) {
     h6_3_2up7 = sanitizeDecimal(state.h6_3_2up7);
     (typeof h6_3_2_hans === 'function') && h6_3_2_hans();//按新等级立即重算爱因斯坦buff(公式Rμν)
 
+    //h6:理论重构次数(理论重构是弦论层的重置;旧存档把该字段写成 h7_re,这里兼容读取)
+    h6_re = sanitizeDecimal(state.h6_re !== undefined ? state.h6_re : state.h7_re);
+
+    //h7:理论(旧存档缺少这些字段时为0=未购买)
+    h7_suanzi = sanitizeDecimal(state.h7_suanzi);
+    h7_suanzi_max = sanitizeDecimal(state.h7_suanzi_max);
+    //读取的算子可能比记录的最大值更大(旧存档没有该字段),补齐
+    h7_suanzi.gte(h7_suanzi_max) && (h7_suanzi_max = h7_suanzi);
+    h7_amp = sanitizeDecimal(state.h7_amp);
+    h7_fun1 = sanitizeDecimal(state.h7_fun1);
+    h7_fun2 = sanitizeDecimal(state.h7_fun2);
+    h7_fun3 = sanitizeDecimal(state.h7_fun3);
+    h7_fun4 = sanitizeDecimal(state.h7_fun4);
+    h7_fun5 = sanitizeDecimal(state.h7_fun5);
+    h7_amp1 = sanitizeDecimal(state.h7_amp1);
+    h7_amp2 = sanitizeDecimal(state.h7_amp2);
+    h7_amp3 = sanitizeDecimal(state.h7_amp3);
+    h7_amp4 = sanitizeDecimal(state.h7_amp4);
+    //按新等级立即重算函数数值与增幅器倍率
+    //(script.js 先于 script_h7.js 解析,首次读档时该函数还不存在,由 script_h7.js 末尾补算)
+    (typeof h7_hans === 'function') && h7_hans();
+
     //DLC1:修仙除邪祟(旧存档缺少这些字段时用初始值)
     dlc1_zy = sanitizeDecimal(state.dlc1_zy, 1);
     dlc1_zy_MAX = sanitizeDecimal(state.dlc1_zy_MAX, 1);
@@ -1385,6 +1569,8 @@ function applyGameState(state) {
     res_show_h5_time_confetti = (state.res_show_h5_time_confetti === 0) ? 0 : 1;
     res_show_h6_ziyuan = (state.res_show_h6_ziyuan === 0) ? 0 : 1;
     res_show_h6_brane = (state.res_show_h6_brane === 0) ? 0 : 1;
+    res_show_h7_suanzi = (state.res_show_h7_suanzi === 0) ? 0 : 1;
+    res_show_h7_amp = (state.res_show_h7_amp === 0) ? 0 : 1;
     res_show_cp_ds = (state.res_show_cp_ds === 0) ? 0 : 1;
     updateUI_res_set();
 

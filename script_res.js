@@ -10,6 +10,8 @@ const res_defs = [
     { id: "h5_time_confetti", name: "时间碎片", color: "#edc1fb" },
     { id: "h6_ziyuan",        name: "奇点",     color: "#ecbe02" },
     { id: "h6_brane",         name: "膜",       color: "#ecbe02" },
+    { id: "h7_suanzi",        name: "算子",     color: "#9b7bff" },
+    { id: "h7_amp",           name: "增幅器点数", color: "#9b7bff" },
     { id: "cp_ds",            name: "藏品点数", color: "#ffa807" },
 ];
 
@@ -65,6 +67,8 @@ function res_value_text(id){
         case "h5_time_confetti": return formatDecimalCompact(h5_time_confetti);
         case "h6_ziyuan": return formatDecimalCompact(h6_ziyuan);
         case "h6_brane": return formatDecimalCompact(h6_brane);
+        case "h7_suanzi": return formatDecimalCompact(h7_suanzi);
+        case "h7_amp": return formatDecimalCompact(h7_amp);
         case "cp_ds": return formatDecimalCompact(cp_ds);
     }
     return "0";
@@ -82,6 +86,9 @@ function res_unlock(id){
         case "h5_time_confetti": return h4_re.gte(1) ? 1 : 0;
         case "h6_ziyuan": return h5_re.gte(1) ? 1 : 0;
         case "h6_brane": return h5_re.gte(1) ? 1 : 0;
+        //理论:首次理论重构后才有算子与增幅器点数
+        case "h7_suanzi": return h6_re.gte(1) ? 1 : 0;
+        case "h7_amp": return h6_re.gte(1) ? 1 : 0;
         case "cp_ds": return 1;//藏品点数始终解锁
     }
     return 0;
@@ -99,6 +106,8 @@ function res_show_read(id){
         case "h5_time_confetti": return res_show_h5_time_confetti;
         case "h6_ziyuan": return res_show_h6_ziyuan;
         case "h6_brane": return res_show_h6_brane;
+        case "h7_suanzi": return res_show_h7_suanzi;
+        case "h7_amp": return res_show_h7_amp;
         case "cp_ds": return res_show_cp_ds;
     }
     return 0;
@@ -116,6 +125,8 @@ function res_show_write(id, val){
         case "h5_time_confetti": res_show_h5_time_confetti = val; break;
         case "h6_ziyuan": res_show_h6_ziyuan = val; break;
         case "h6_brane": res_show_h6_brane = val; break;
+        case "h7_suanzi": res_show_h7_suanzi = val; break;
+        case "h7_amp": res_show_h7_amp = val; break;
         case "cp_ds": res_show_cp_ds = val; break;
     }
 }

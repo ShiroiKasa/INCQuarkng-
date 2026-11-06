@@ -1,15 +1,25 @@
-//费米子四种夸克加成(派生值)
+//费米子加成(派生值)
 //粲夸克加成的 h5_quark_max 在 script_h5.js 的 h5_hans 中读取本函数算出的 h1_2_up3_buff
+//铈解锁的三种费米子:顶/底/标量;标量会把本列其余六种费米子的加成再乘一次
+//效果不足1时按1处理,低数量不会变成减益
 function h1_2_buff_hans(){
+    //标量夸克:效果=max(1,0.5*lg(标量夸克)),只作用于本列其它六种费米子,不加成自己
+    h1_2_up7_buff = h1_2_up7.gte(1) ? Decimal.max(1, h1_2_up7.log(10).times(0.5)) : new Decimal(1);
+
     //上夸克:费米子产量*(1+log10(上夸克))
-    h1_2_up1_buff = h1_2_up1.gte(1) ? new Decimal(1).plus(h1_2_up1.log(10)) : new Decimal(1);
+    h1_2_up1_buff = (h1_2_up1.gte(1) ? new Decimal(1).plus(h1_2_up1.log(10)) : new Decimal(1)).times(h1_2_up7_buff);
     //下夸克:夸克数量自身每秒自增*(1+1e-7*log10(下夸克))
     //不再参与夸克产量,h1_2_up2_buff 现在只在 global_inc 里当自增倍率用
-    h1_2_up2_buff = h1_2_up2.gte(1) ? new Decimal(1).plus(h1_2_up2.log(10).times(1e-7)) : new Decimal(1);
+    //标量夸克只放大增量部分(1e-7*log10),基础1不乘,否则会把"每秒自增"放大成"每秒乘N倍"
+    h1_2_up2_buff = h1_2_up2.gte(1) ? new Decimal(1).plus(h1_2_up2.log(10).times(1e-7).times(h1_2_up7_buff)) : new Decimal(1);
     //粲夸克:最大夸克数量*10^(0.1*log2(粲夸克))
-    h1_2_up3_buff = h1_2_up3.gte(1) ? Decimal.pow(10, h1_2_up3.log(2).times(0.1)) : new Decimal(1);
+    h1_2_up3_buff = (h1_2_up3.gte(1) ? Decimal.pow(10, h1_2_up3.log(2).times(0.1)) : new Decimal(1)).times(h1_2_up7_buff);
     //奇夸克:夸克层级所有升级费用/(1+奇夸克)
-    h1_2_up4_buff = Decimal.max(1, new Decimal(1).plus(h1_2_up4));
+    h1_2_up4_buff = Decimal.max(1, new Decimal(1).plus(h1_2_up4)).times(h1_2_up7_buff);
+    //顶夸克(铈解锁):游戏倍率*max(1,lg(顶夸克))
+    h1_2_up5_buff = (h1_2_up5.gte(1) ? Decimal.max(1, h1_2_up5.log(10)) : new Decimal(1)).times(h1_2_up7_buff);
+    //底夸克(铈解锁):理论层级函数费用/log7(底夸克+7),数量为0时log7(7)=1(无影响)
+    h1_2_up6_buff = h1_2_up6.plus(7).log(7).times(h1_2_up7_buff);
 }
 
 //UI刷新
@@ -38,8 +48,9 @@ function updateUI_h1(){
     }
 
     //点击按钮文字
+    //理论:夸克增幅器同样放大"点击产量"升级的等级
     let clickBase = new Decimal(1);
-    let clickBonus = h1_up1_1;
+    let clickBonus = h1_up1_1.times(h7_amp2_buff);
     let clickTotal = clickBase.plus(clickBonus);
     document.getElementById("Quark+").innerHTML = "夸克+" + formatDecimal(clickTotal);
 
@@ -50,29 +61,29 @@ function updateUI_h1(){
     let b1_1_1 = document.getElementById('h1_up1_1_button');
     let clickCost = h1_up1_1.pow(2).plus(1).div(h1_cost_div);
     b1_1_1.style.opacity = Quark.gte(clickCost) ? '1' : '0.5';
-    document.getElementById("h1_up1_1_button").innerHTML = "+1点击产量" + formatDecimal(h1_up1_1) + "级 费用:" + formatDecimal(clickCost) + "夸克";
+    document.getElementById("h1_up1_1_button").innerHTML = "+1点击产量" + formatAmpPair(h1_up1_1, h7_amp2_buff, "级") + " 费用:" + formatDecimal(clickCost) + "夸克";
 
     //自动生成器升级按钮（费用 = 2^等级 × 10）
     let b1_2 = document.getElementById('h1_up2_button');
     let genCost = Decimal.pow(1.2, h1_up1).times(10).div(h1_cost_div);
     b1_2.style.opacity = Quark.gte(genCost) ? '1' : '0.5';
-    document.getElementById("h1_up2_button").innerHTML = "夸克产量+" + formatDecimal(h1_up1) + " 费用:" + formatDecimal(genCost) + "夸克";
+    document.getElementById("h1_up2_button").innerHTML = "夸克产量+" + formatAmpPair(h1_up1, h7_amp2_buff, "") + " 费用:" + formatDecimal(genCost) + "夸克";
 
     let b1_3 = document.getElementById("h1_up3_button");
     let h1_up3_cost = Decimal.pow(1.5, h1_up3).times(100).div(h1_cost_div);
     b1_3.style.opacity = Quark.gte(h1_up3_cost) ? '1' : '0.5';
-    document.getElementById("h1_up3_button").innerHTML = "夸克产量*" + formatDecimal(h1_up3.plus(1)) + " 费用:" + formatDecimal(h1_up3_cost) + "夸克";
+    document.getElementById("h1_up3_button").innerHTML = "夸克产量*" + formatAmpPair(h1_up3, h7_amp2_buff, "", function(v){ return v.plus(1); }) + " 费用:" + formatDecimal(h1_up3_cost) + "夸克";
 
     let b1_4 = document.getElementById("h1_up4_button");
     let h1_up4_cost = Decimal.pow(1e3, Decimal.pow(1.2, h1_up4)).div(h1_cost_div);
     b1_4.style.opacity = Quark.gte(h1_up4_cost) ? '1' : '0.5';
-    document.getElementById("h1_up4_button").innerHTML = "夸克产量^" + formatDecimal(h1_up4.div(10).plus(1)) + " 费用:" + formatDecimal(h1_up4_cost) + "夸克";
+    document.getElementById("h1_up4_button").innerHTML = "夸克产量^" + formatAmpPair(h1_up4, h7_amp2_buff, "", function(v){ return v.div(10).plus(1); }) + " 费用:" + formatDecimal(h1_up4_cost) + "夸克";
 
     //费米子+(铑解锁)
     let h1_up5_cost = Decimal.pow(1e10, Decimal.pow(1.3, h1_up5)).div(h1_cost_div);
     let b1_5 = document.getElementById("h1_up5");
     b1_5.style.opacity = Quark.gte(h1_up5_cost) ? '1' : '0.5';
-    document.getElementById("h1_up5").innerHTML = "费米子+" + formatDecimal(h1_up5) + " 费用:" + formatDecimal(h1_up5_cost) + "夸克";
+    document.getElementById("h1_up5").innerHTML = "费米子+" + formatAmpPair(h1_up5, h7_amp2_buff, "") + " 费用:" + formatDecimal(h1_up5_cost) + "夸克";
 
     //费米子界面(钯解锁)
     document.getElementById("h1_2_fermion_txt").innerHTML = "费米子:" + formatDecimal(h1_2_fermion) + " +" + formatDecimal(h1_2_fermion_js.times(h5_time_buff)) + "/s";
@@ -91,6 +102,17 @@ function updateUI_h1(){
     let b1_2_up4 = document.getElementById('h1_2_up4_b');
     b1_2_up4.style.opacity = b1_2_zhuanhua;
     b1_2_up4.innerHTML = "奇夸克:" + formatDecimal(h1_2_up4) + "<br>夸克升级费用/" + formatDecimal(h1_2_up4_buff);
+
+    //铈(理论元素)解锁的三种费米子:只显示效果的具体数值,不显示公式
+    let b1_2_up5 = document.getElementById('h1_2_up5_b');
+    b1_2_up5.style.opacity = b1_2_zhuanhua;
+    b1_2_up5.innerHTML = "顶夸克:" + formatDecimal(h1_2_up5) + "<br>游戏倍率*" + formatDecimal(h1_2_up5_buff);
+    let b1_2_up6 = document.getElementById('h1_2_up6_b');
+    b1_2_up6.style.opacity = b1_2_zhuanhua;
+    b1_2_up6.innerHTML = "底夸克:" + formatDecimal(h1_2_up6) + "<br>理论函数费用/" + formatDecimal(h1_2_up6_buff);
+    let b1_2_up7 = document.getElementById('h1_2_up7_b');
+    b1_2_up7.style.opacity = b1_2_zhuanhua;
+    b1_2_up7.innerHTML = "标量夸克:" + formatDecimal(h1_2_up7) + "<br>本列费米子加成*" + formatDecimal(h1_2_up7_buff);
 
     //转化比例按钮
     let h1_2_ratio_bts = [
@@ -116,7 +138,8 @@ function h1_hans(){
     let cp_up1_buff = cp_up1 + 1;
 
     let h2_up1_buff = new Decimal(1)
-    h2_up1.gte(1) && (h2_up1_buff = h1_re);
+    //理论:重置次数增幅器把"重置次数"在参与计算时整体放大(未购买时倍率为1)
+    h2_up1.gte(1) && (h2_up1_buff = (typeof h7_amp1_count === 'function') ? h7_amp1_count(h1_re) : h1_re);
     let h2_up2_buff = new Decimal(1)
     //quark_max为0时log10为NaN(铌自动化会在没有夸克时直接买下氦),按1算
     h2_up2.gte(1) && (h2_up2_buff = Decimal.max(quark_max,1).log(10));
@@ -130,7 +153,14 @@ function h1_hans(){
     h2_up21.gte(1) && (h2_up21_buff = Decimal.max(Decimal.pow(h4_ziyuan, 3), 1));
 
     //正式计算
-    Quark_h1_js = Decimal.pow(h1_up1.times(h1_up3.plus(1)),h1_up4.div(10).plus(1));
+    //理论:夸克增幅器让"全部夸克升级等级"在计算时乘 (0.1*等级+1)
+    //只改效果,不改购买费用与自动购买的等级推算(费用仍按真实等级)
+    let h1_lv_buff = h7_amp2_buff;
+    let h1_up1_eff = h1_up1.times(h1_lv_buff);
+    let h1_up3_eff = h1_up3.times(h1_lv_buff);
+    let h1_up4_eff = h1_up4.times(h1_lv_buff);
+    let h1_up5_eff = h1_up5.times(h1_lv_buff);
+    Quark_h1_js = Decimal.pow(h1_up1_eff.times(h1_up3_eff.plus(1)),h1_up4_eff.div(10).plus(1));
     if (h2_up26.eq(1)){
         Quark_h2_buff1 = new Decimal(((h2_ziyuan.plus(1)).log(1.0001))).plus(1);
     }else{
@@ -180,6 +210,9 @@ function h1_hans(){
     //弦论:牛顿万有引力公式(公式F,即h6_3_1buff)直接加成夸克秒产
     Quark_js = Quark_js.times(h6_3_1buff);
 
+    //理论:五个函数的数值相乘,全部乘在夸克秒产上
+    Quark_js = Quark_js.times(h7_fun_buff);
+
     //注:下夸克的加成已从"夸克产量"改为"夸克数量自增",见 script.js 的 global_inc
 
 
@@ -219,7 +252,8 @@ function h1_hans(){
     //quark_max为0时log10为NaN(铌自动化会在没有夸克时直接买下锂),按1算
     h2_up3.gte(1) && (h2_up3_buff = Decimal.max(quark_max,1).log(10));
     let h2_up11_buff = new Decimal(1);
-    h2_up11.gte(1) && (h2_up11_buff = new Decimal(h2_re.pow(0.5)));
+    //理论:重置次数增幅器(未购买时倍率为1)
+    h2_up11.gte(1) && (h2_up11_buff = new Decimal(((typeof h7_amp1_count === 'function') ? h7_amp1_count(h2_re) : h2_re).pow(0.5)));
 
     let h4_up2_buff = new Decimal(1);
     h4_up2q.gte(1) && (h4_up2_buff = h4_up2q);
@@ -238,12 +272,13 @@ function h1_hans(){
 
     //费米子:每秒产量=max(slog₃(夸克),0)*0.1*费米子+等级,最后乘上夸克加成
     //夸克不足1时slog₃为负,按0处理
-    h1_2_fermion_js = Decimal.max(Quark.slog(3), 0).times(0.1).times(h1_up5).times(h1_2_up1_buff);
+    h1_2_fermion_js = Decimal.max(Quark.slog(3), 0).times(0.1).times(h1_up5_eff).times(h1_2_up1_buff);
 }
 
 //夸克+
 function h1_up1_button(){
-    let gain = new Decimal(1).plus(h1_up1_1);
+    //理论:夸克增幅器放大点击产量升级的等级
+    let gain = new Decimal(1).plus(h1_up1_1.times(h7_amp2_buff));
     Quark = Quark.plus(gain);
     updateUI_h1();
 }
@@ -312,11 +347,14 @@ function h1_2_convert(upgradeVarName){
         case "h1_2_up2": h1_2_up2 = h1_2_up2.plus(amount); break;
         case "h1_2_up3": h1_2_up3 = h1_2_up3.plus(amount); break;
         case "h1_2_up4": h1_2_up4 = h1_2_up4.plus(amount); break;
+        case "h1_2_up5": h1_2_up5 = h1_2_up5.plus(amount); break;
+        case "h1_2_up6": h1_2_up6 = h1_2_up6.plus(amount); break;
+        case "h1_2_up7": h1_2_up7 = h1_2_up7.plus(amount); break;
     }
 
-    h1_2_buff_hans();//立即重算四种夸克加成
+    h1_2_buff_hans();//立即重算费米子加成
     h1_js_re = 1;//上夸克/奇夸克影响夸克层级计算(下夸克改为夸克数量自增,在 global_inc 里生效)
-    h5_js_re = 1;//粲夸克影响 h5_quark_max
+    h5_js_re = 1;//粲夸克影响 h5_quark_max;顶夸克影响游戏倍率
     updateUI_h1();
 }
 
@@ -331,6 +369,16 @@ function h1_2_up3_button(){
 }
 function h1_2_up4_button(){
     h1_2_convert('h1_2_up4');
+}
+//铈解锁的三种费米子
+function h1_2_up5_button(){
+    h1_2_convert('h1_2_up5');
+}
+function h1_2_up6_button(){
+    h1_2_convert('h1_2_up6');
+}
+function h1_2_up7_button(){
+    h1_2_convert('h1_2_up7');
 }
 
 //转化比例切换
@@ -390,6 +438,10 @@ document.getElementById('h1_2_up1_b').addEventListener('click', h1_2_up1_button)
 document.getElementById('h1_2_up2_b').addEventListener('click', h1_2_up2_button);
 document.getElementById('h1_2_up3_b').addEventListener('click', h1_2_up3_button);
 document.getElementById('h1_2_up4_b').addEventListener('click', h1_2_up4_button);
+//铈解锁的三种费米子:元素缺失时跳过,不影响前面的绑定
+document.getElementById('h1_2_up5_b') && document.getElementById('h1_2_up5_b').addEventListener('click', h1_2_up5_button);
+document.getElementById('h1_2_up6_b') && document.getElementById('h1_2_up6_b').addEventListener('click', h1_2_up6_button);
+document.getElementById('h1_2_up7_b') && document.getElementById('h1_2_up7_b').addEventListener('click', h1_2_up7_button);
 
 document.getElementById('h1_2_ratio1_b').addEventListener('click', h1_2_ratio1_button);
 document.getElementById('h1_2_ratio5_b').addEventListener('click', h1_2_ratio5_button);

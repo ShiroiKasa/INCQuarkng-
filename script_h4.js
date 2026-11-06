@@ -54,6 +54,12 @@ function updateUI_h4(){
     b4_up5_b.style.opacity = (h4_N.gte(h4_up5_cots) && h4_DMH.gte(h4_up5_cots) && h4_GN.gte(h4_up5_cots)) ? '1' : '0.5';
     document.getElementById("h4_up5").innerHTML = "巨星系" + formatDecimal(h4_up5) + " 数量:" + formatDecimal(h4_up5q) + "+" + formatDecimal(h4_up5_js) + "/s 费用:" + formatDecimal(h4_up5_cots) + "<br>星系 对时间点加成:" + formatDecimal(h4_up5q.plus(1));
 
+    let h4_up6_cots = new Decimal.pow(7,h4_up6).plus(290);
+    let b4_up6_b = document.getElementById('h4_up6');
+    b4_up6_b.style.opacity = (h4_N.gte(h4_up6_cots) && h4_DMH.gte(h4_up6_cots) && h4_GN.gte(h4_up6_cots)) ? '1' : '0.5';
+    //星系群对巨星系产量的加成不写入UI,这里只写对增幅器点数的加成
+    document.getElementById("h4_up6").innerHTML = "星系群" + formatDecimal(h4_up6) + " 数量:" + formatDecimal(h4_up6q) + "+" + formatDecimal(h4_up6_js) + "/s 费用:" + formatDecimal(h4_up6_cots) + "<br>星系 对增幅器点数加成:" + formatDecimal(h4_up6q.plus(1));
+
 }
 
 function h4_hans(){
@@ -65,13 +71,16 @@ function h4_hans(){
 
     h4_up4_js = new Decimal.pow(1.16,h4_up4).minus(1).times(10).times(h4_up5q.plus(1));
 
-    //巨星系产量(不受游戏倍率加成)
-    h4_up5_js = new Decimal.pow(1.17,h4_up5).minus(1).times(10);
+    //星系群(碘解锁):产量受游戏倍率加成,在 global_inc 里乘 h5_time_buff
+    h4_up6_js = new Decimal.pow(1.18,h4_up6).minus(1).times(10);
+
+    //星系群:对巨星系产量加成(不写入UI),buff=星系群数量+1
+    h4_up5_js = new Decimal.pow(1.17,h4_up5).minus(1).times(10).times(h4_up6q.plus(1));
 
     let h2_up32_buff = new Decimal(1);
-    h2_up32.gte(1) && (h2_up32_buff = h4_re.plus(2).log(2));
+    //理论:重置次数增幅器(未购买时倍率为1)
+    h2_up32.gte(1) && (h2_up32_buff = ((typeof h7_amp1_count === 'function') ? h7_amp1_count(h4_re) : h4_re).plus(2).log(2));
 
-    //巨星系:对时间点产量加成
     h5_ziyuan_js = Decimal.min(h4_N, Decimal.min(h4_DMH, h4_GN)).times(Quark.plus(1).log(10)).div(7000).times((cp_up5 + 1)).times(h2_up32_buff).times(Decimal.max(h2_2_up2.times(2),1)).times(h4_up5q.plus(1));
 }
 
@@ -153,6 +162,17 @@ function h4_up5_button(){
     }
 }
 
+function h4_up6_button(){
+    let cost = new Decimal.pow(7,h4_up6).plus(290);
+    if (h4_N.gte(cost) && h4_DMH.gte(cost) && h4_GN.gte(cost)){
+        h4_up6 = h4_up6.plus(1);
+        h4_N = h4_N.minus(cost);
+        h4_DMH = h4_DMH.minus(cost);
+        h4_GN = h4_GN.minus(cost);
+        updateUI_h4();
+    }
+}
+
 function h4_re_button(){
     let h4_re_pd = Decimal.min(h4_N, Decimal.min(h4_DMH, h4_GN));
     h4_re_pd.gte(42) && (h5_ziyuan = h5_ziyuan.plus(h5_ziyuan_js) , h4_re_hans());
@@ -203,5 +223,6 @@ document.getElementById('h4_up2').addEventListener('click', h4_up2_button);
 document.getElementById('h4_up3').addEventListener('click', h4_up3_button);
 document.getElementById('h4_up4').addEventListener('click', h4_up4_button);
 document.getElementById('h4_up5').addEventListener('click', h4_up5_button);
+document.getElementById('h4_up6').addEventListener('click', h4_up6_button);
 
 document.getElementById('h4_re_b').addEventListener('click', h4_re_button);
