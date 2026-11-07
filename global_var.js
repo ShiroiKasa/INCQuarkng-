@@ -3,6 +3,11 @@
 const bgColors = ["#ffffff", "#1e1e2f", "#f5f0e6", "#d9e8f5","#000000"];
 let bgIndex = 0;  //当前背景索引，0=白色
 
+//自动保存时间(毫秒,0=从不):可选从不/30秒/5分钟/30分钟/2小时,默认5分钟(沿用旧版固定的300秒)
+const save_interval_list = [0, 30000, 300000, 1800000, 7200000];
+let save_interval = 300000;
+let save_timer = null;//自动保存计时器(从不时为空)
+
 let version = 6.1;
 
 let game_tc = 0;

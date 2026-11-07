@@ -400,6 +400,42 @@ button:hover {
     cursor: pointer;
 }
 
+/* 设置页的"自动保存时间"一行 */
+.save-set-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px 16px;
+    margin-top: 20px;
+}
+
+.save-set-title {
+    font-size: 20px;
+    font-weight: bold;
+    padding-left: 10px;
+    border-left: 5px solid #e9b1ff;   /* 与设置按钮同色的小标题色条 */
+}
+
+.save-set-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* 档位按钮:常态浅紫,选中态加深并描边,便于一眼看出当前档位 */
+.save-set-btn {
+    background-color: #e9b1ff;
+    font-size: 18px;
+    padding: 8px 16px;
+}
+
+.save-set-btn.active {
+    background-color: #b26bd6;
+    outline: 3px solid #50285e;
+}
+
 /* ===== DLC 中枢(主界面) ===== */
 /* 与DLC1子界面同一列留白:参考图里卡片也是从左侧同一列开始的 */
 #DLC {

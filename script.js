@@ -771,6 +771,7 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
                 autoInterval = null;
             }
             startAutoProduction();
+            applySaveInterval();//导入存档后按新档位重置自动保存
 
             // 刷新 UI
             UIvisible();
@@ -829,6 +830,52 @@ function switchBackground(){
 
 //绑定按钮事件
 document.getElementById('bgColorBtn').addEventListener('click', switchBackground);
+
+
+//自动保存时间
+//只接受列表里的档位,存档被改坏/旧存档没有该字段时回落到默认5分钟
+function sanitizeSaveInterval(value){
+    return (save_interval_list.indexOf(value) >= 0) ? value : 300000;
+}
+
+//按当前档位重建计时器:0=从不,清掉计时器后完全不再自动存档
+function applySaveInterval(){
+    if (save_timer) {
+        clearInterval(save_timer);
+        save_timer = null;
+    }
+    if (save_interval > 0) {
+        save_timer = setInterval(saveGame, save_interval);
+    }
+    updateUI_save_set();
+}
+
+//刷新选中态:当前档位加深并描边
+function updateUI_save_set(){
+    const btns = document.querySelectorAll('.save-set-btn');
+    for (let i = 0; i < btns.length; i++){
+        const ms = parseInt(btns[i].dataset.saveMs, 10);
+        btns[i].classList.toggle('active', ms === save_interval);
+    }
+}
+
+//切换档位:立即生效,并马上写一次存档,刷新后仍是这个档位
+function setSaveInterval(ms){
+    save_interval = sanitizeSaveInterval(ms);
+    applySaveInterval();
+    saveGame();
+}
+
+//绑定五个档位按钮
+//(设置页在 script.js 之前解析,这里运行时按钮已存在)
+(function bindSaveSetButtons(){
+    const btns = document.querySelectorAll('.save-set-btn');
+    for (let i = 0; i < btns.length; i++){
+        btns[i].addEventListener('click', function(){
+            setSaveInterval(parseInt(this.dataset.saveMs, 10));
+        });
+    }
+})();
 
 
 //存档
@@ -1197,6 +1244,9 @@ function getGameState() {
         res_show_cp_ds: res_show_cp_ds,
 
         bgIndex: bgIndex,
+
+        //自动保存时间(毫秒,0=从不)
+        save_interval: save_interval,
     };
 }
 
@@ -1559,6 +1609,9 @@ function applyGameState(state) {
     bgIndex = (state.bgIndex >= 0 && state.bgIndex < bgColors.length) ? state.bgIndex : 0;
     applyBackground();
 
+    //自动保存时间(旧存档没有该字段时沿用默认5分钟)
+    save_interval = sanitizeSaveInterval(state.save_interval);
+
     //核心资源条显示开关(旧存档缺少这些字段时默认全部显示)
     res_show_Quark = (state.res_show_Quark === 0) ? 0 : 1;
     res_show_h1_2_fermion = (state.res_show_h1_2_fermion === 0) ? 0 : 1;
@@ -1624,6 +1677,7 @@ function importSave() {
             autoInterval = null;
         }
         startAutoProduction();
+        applySaveInterval();//导入存档后按新档位重置自动保存
 
         // 刷新当前界面
         UIvisible();
@@ -1645,8 +1699,9 @@ UIvisible();//可见性刷新
 //注意:这里不能刷界面——script.js 在 script_h1.js~script_h6.js 之前加载,
 //此刻 updateUI_h1 等函数还不存在,刷界面会直接报错;首帧的帧末刷新会补上
 startAutoProduction();
-setInterval(saveGame, 300000);
+applySaveInterval();//按存档里的档位启动自动保存(默认5分钟)
 
 window.addEventListener('beforeunload', () => {
     if (autoInterval) clearInterval(autoInterval);
+    if (save_timer) clearInterval(save_timer);
 });
